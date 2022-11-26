@@ -13,8 +13,8 @@ namespace BirthdayTekken.Services
                     Id = 1,
                     Name = "Piotr",
                     Surname = "Wiśniewski",
-                    FavoriteChamp = "Jhin",
-                    TimesChampion = 1
+                    Champion = Enums.Champion.ANNA,
+                    TournamentsWon = 1
                 }
             };
         public List<Participants> GetAll()
@@ -43,8 +43,13 @@ namespace BirthdayTekken.Services
             var participant = GetById(model.Id);
             participant.Name = model.Name;
             participant.Surname = model.Surname;
-            participant.FavoriteChamp = model.FavoriteChamp;
-            participant.TimesChampion = model.TimesChampion;
+            participant.Champion = model.Champion;
+            participant.TournamentsWon = model.TournamentsWon;
+        }
+        public void Delete(int id)
+        {
+            var participant = GetById(id);
+            _participants.Remove(participant);
         }
 
     }

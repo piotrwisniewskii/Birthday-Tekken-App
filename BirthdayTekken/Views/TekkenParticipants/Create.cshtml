@@ -1,4 +1,5 @@
-﻿@model BirthdayTekken.Models.Participants
+﻿@using BirthdayTekken.Enums
+@model BirthdayTekken.Models.Participants
 
 @{
     ViewData["Title"] = "Create";
@@ -23,14 +24,15 @@
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FavoriteChamp" class="control-label"></label>
-                <input asp-for="FavoriteChamp" class="form-control" />
-                <span asp-validation-for="FavoriteChamp" class="text-danger"></span>
-            </div>
+                <label asp-for="Champion" class="control-label"></label>
+                <select asp-for="Champion" asp-items="Html.GetEnumSelectList<Champion>()" class="form-control">
+                    <option selected="selected" value="">Choose your champion!</option>
+                    </select>
+                <span asp-validation-for="Champion" class="text-danger"></span>
             <div class="form-group">
-                <label asp-for="TimesChampion" class="control-label"></label>
-                <input asp-for="TimesChampion" class="form-control" />
-                <span asp-validation-for="TimesChampion" class="text-danger"></span>
+                <label asp-for="TournamentsWon" class="control-label"></label>
+                <input asp-for="TournamentsWon" class="form-control" />
+                <span asp-validation-for="TournamentsWon" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
