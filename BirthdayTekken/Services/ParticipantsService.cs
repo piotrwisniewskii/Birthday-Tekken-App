@@ -1,35 +1,23 @@
 ﻿using BirthdayTekken.Models;
+using BirthdayTekken.Repository;
 
 namespace BirthdayTekken.Services
 {
-    public class ParticipantsService
+    public class ParticipantsService : IParticipantsService
     {
-        private static int _idCounter = 2;
-        private static List<Participants> _participants =
-            new List<Participants>
-            {
-                new Participants
-                {
-                    Id = 1,
-                    Name = "Piotr",
-                    Surname = "Wiśniewski",
-                    Champion = Enums.Champion.ANNA,
-                    TournamentsWon = 1
-                }
-            };
-        public List<Participants> GetAll()
+        private IParticipantsRepository _participantsRepository;
+        public List<Participants> GetAllParticipants()
         {
-            return _participants;
+            return new List<Participants>(_participantsRepository.GetAll());
         }
 
         public Participants GetById(int id)
         {
-            return _participants.FirstOrDefault(p => p.Id == id);
+            return _participantsRepository.GetAll().FirstOrDefault(p => p.Id == id);
         }
         public void Create(Participants participant)
         {
-            participant.Id = GetNextId();
-            _participants.Add(participant);
+            _participantsRepository.Create(participant);
         }
 
         private int GetNextId()
