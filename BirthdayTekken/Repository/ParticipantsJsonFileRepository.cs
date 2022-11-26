@@ -22,11 +22,24 @@ namespace BirthdayTekken.Repository
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var participants = GetParticipantsList();
+            var participantsToDelete = participants.First(p => p.Id == id);
+            participants.Remove(participantsToDelete);
+            string participantsJson = JsonSerializer.Serialize(participants);
+            File.WriteAllText(_filename, participantsJson);
+
         }
         public void Update(Participants participant)
         {
-            throw new NotImplementedException();
+            var participants = GetParticipantsList();
+            var participantsToUpdate = participants.First(p => p.Id == participant.Id);
+            participantsToUpdate.Name = participant.Name;
+            participantsToUpdate.Surname = participant.Surname;
+            participantsToUpdate.Champion = participant.Champion;
+            participantsToUpdate.TournamentsWon = participant.TournamentsWon;
+
+            string participantsJson = JsonSerializer.Serialize(participants);
+            File.WriteAllText(_filename, participantsJson);
         }
 
         public ReadOnlyCollection<Participants> GetAll()

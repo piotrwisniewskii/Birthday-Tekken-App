@@ -1,11 +1,14 @@
 using BirthdayTekken.Repository;
+using BirthdayTekken.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IParticipantsRepository, ParticipantsJsonFileRepository>();
+builder.Services.AddTransient<IParticipantsService,ParticipantsService>();
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

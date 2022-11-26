@@ -1,11 +1,19 @@
 ﻿using BirthdayTekken.Models;
 using BirthdayTekken.Repository;
-
+using BirthdayTekken.Services;
+using System.Collections.ObjectModel;
+using BirthdayTekken.Enums;
 namespace BirthdayTekken.Services
 {
     public class ParticipantsService : IParticipantsService
     {
+
         private IParticipantsRepository _participantsRepository;
+        public ParticipantsService(IParticipantsRepository participantsRepository)
+        {
+            _participantsRepository = participantsRepository;
+        }
+
         public List<Participants> GetAllParticipants()
         {
             return new List<Participants>(_participantsRepository.GetAll());
@@ -20,24 +28,14 @@ namespace BirthdayTekken.Services
             _participantsRepository.Create(participant);
         }
 
-        private int GetNextId()
-        {
-            _idCounter++;
-            return _idCounter;
-        }
 
-        public void Update(Participants model)
+         public void Update(Participants model)
         {
-            var participant = GetById(model.Id);
-            participant.Name = model.Name;
-            participant.Surname = model.Surname;
-            participant.Champion = model.Champion;
-            participant.TournamentsWon = model.TournamentsWon;
+            _participantsRepository.Update(model);
         }
         public void Delete(int id)
         {
-            var participant = GetById(id);
-            _participants.Remove(participant);
+            _participantsRepository.Delete(id);
         }
 
     }

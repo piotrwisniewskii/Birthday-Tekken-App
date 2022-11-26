@@ -7,22 +7,22 @@ namespace BirthdayTekken.Controllers
 {
     public class TekkenParticipantsController : Controller
     {
-        private ParticipantsService _participantSerive;
-        public TekkenParticipantsController()
+        private IParticipantsService _participantService;
+        public TekkenParticipantsController(IParticipantsService participantsService)
         {
-            _participantSerive = new ParticipantsService();
+            _participantService = participantsService;
         }
         // GET: HomeController1
         public ActionResult Index()
         {
-            var model = _participantSerive.GetAll();
+            var model = _participantService.GetAllParticipants();
             return View(model);
         }
 
         // GET: HomeController1/Details/5
         public ActionResult Details(int id)
         {
-            var model = _participantSerive.GetById(id);
+            var model = _participantService.GetById(id);
             return View(model);
         }
 
@@ -39,7 +39,7 @@ namespace BirthdayTekken.Controllers
         {
             try
             {
-                _participantSerive.Create(participant);
+                _participantService.Create(participant);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -51,7 +51,7 @@ namespace BirthdayTekken.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = _participantSerive.GetById(id);
+            var model = _participantService.GetById(id);
             return View(model);
         }
 
@@ -62,8 +62,8 @@ namespace BirthdayTekken.Controllers
         {
             try
             {
-                _participantSerive.Update(participant);
-                return RedirectToAction(nameof(Index));
+                _participantService.Update(participant);
+                return RedirectToAction(nameof(Details), participant);
             }
             catch
             {
@@ -74,7 +74,7 @@ namespace BirthdayTekken.Controllers
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = _participantSerive.GetById(id);
+            var model = _participantService.GetById(id);
             return View(model);
         }
 
@@ -85,7 +85,7 @@ namespace BirthdayTekken.Controllers
         {
             try
             {
-                _participantSerive.Delete(model.Id);
+                _participantService.Delete(model.Id);
                 return RedirectToAction(nameof(Index));
             }
             catch
