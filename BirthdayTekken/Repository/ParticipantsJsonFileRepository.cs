@@ -16,8 +16,8 @@ namespace BirthdayTekken.Repository
             var highestId = participants.Any() ? participants.Max(p => p.Id) : 0;
             participant.Id = highestId + 1;
             participants.Add(participant);
-            string participantsJson = JsonSerializer.Serialize(participants);
-            File.WriteAllText(_filename, participantsJson);
+            SaveToFile(participants);
+
         }
 
         public void Delete(int id)
@@ -25,8 +25,7 @@ namespace BirthdayTekken.Repository
             var participants = GetParticipantsList();
             var participantsToDelete = participants.First(p => p.Id == id);
             participants.Remove(participantsToDelete);
-            string participantsJson = JsonSerializer.Serialize(participants);
-            File.WriteAllText(_filename, participantsJson);
+            SaveToFile(participants);
 
         }
         public void Update(Participants participant)
@@ -37,9 +36,8 @@ namespace BirthdayTekken.Repository
             participantsToUpdate.Surname = participant.Surname;
             participantsToUpdate.Champion = participant.Champion;
             participantsToUpdate.TournamentsWon = participant.TournamentsWon;
+            SaveToFile(participants);
 
-            string participantsJson = JsonSerializer.Serialize(participants);
-            File.WriteAllText(_filename, participantsJson);
         }
 
         public ReadOnlyCollection<Participants> GetAll()
@@ -59,6 +57,12 @@ namespace BirthdayTekken.Repository
             {
                 return new List<Participants>();
             }
+        }
+
+        public void SaveToFile(List<Participants> participants)
+        {
+            string participantJson = JsonSerializer.Serialize(participants);
+            File.WriteAllText(_filename, participantJson);
         }
     }
 }
