@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IParticipantsRepository, ParticipantsJsonFileRepository>();
-builder.Services.AddTransient<IParticipantsService,ParticipantsService>();
+builder.Services.AddTransient<IParticipantsService, ParticipantsService>();
+builder.Services.AddTransient<ITournamentRepository, TournamentRepository>();
 var app = builder.Build();
 
 
