@@ -6,7 +6,7 @@ namespace BirthdayTekken.Services
     {
         public List<Tournament> GetAll();
         public Tournament GetById(int id);
-        public void Create(Tournament participant);
+        public void Create(Tournament participant, Participants winner);
         public void Update(Tournament model);
         public void Delete(int id);
     }

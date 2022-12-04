@@ -8,7 +8,7 @@ namespace BirthdayTekken.Repository
     {
         private const string _filename = "tournamentTekken.json";
 
-        public void Create(Tournament tournament)
+        public void Create(Tournament tournament, Participants winner)
         {
             var tournaments = GetTournamentList();
             var highestId = tournaments.Any() ? tournaments.Max(p => p.Id) : 0;

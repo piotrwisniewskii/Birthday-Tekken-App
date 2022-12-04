@@ -38,11 +38,11 @@ namespace BirthdayTekken.Controllers
         // POST: TournamentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Tournament tournament)
+        public ActionResult Create(Tournament tournament, Participants winner)
         {
             try
             {
-                _tournamentService.Create(tournament);
+                _tournamentService.Create(tournament,winner);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -92,5 +92,7 @@ namespace BirthdayTekken.Controllers
                 return View();
             }
         }
+
+        
     }
 }
