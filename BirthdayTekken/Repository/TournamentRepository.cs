@@ -10,7 +10,12 @@ namespace BirthdayTekken.Repository
 
         public void Create(Tournament tournament)
         {
-            throw new NotImplementedException();
+            var tournaments = GetTournamentList();
+            var highestId = tournaments.Any() ? tournaments.Max(p => p.Id) : 0;
+            tournament.Id = highestId + 1;
+            tournaments.Add(tournament);
+            SaveToFile(tournaments);
+
         }
 
         public void Delete(int id)

@@ -10,9 +10,9 @@ namespace BirthdayTekken.Services
         {
             _tournamentRepository = tournamentRepository;
         }
-        public void Create(Tournament participant)
+        public void Create(Tournament tournament)
         {
-            throw new NotImplementedException();
+            _tournamentRepository.Create(tournament);
         }
 
         public void Delete(int id)

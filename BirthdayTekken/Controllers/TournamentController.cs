@@ -1,4 +1,5 @@
-﻿using BirthdayTekken.Repository;
+﻿using BirthdayTekken.Models;
+using BirthdayTekken.Repository;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,8 @@ namespace BirthdayTekken.Controllers
         // GET: TournamentController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var model = _tournamentService.GetAll().First(t=>t.Id == id);
+            return View(model);
         }
 
         // GET: TournamentController/Create
@@ -36,10 +38,11 @@ namespace BirthdayTekken.Controllers
         // POST: TournamentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Tournament tournament)
         {
             try
             {
+                _tournamentService.Create(tournament);
                 return RedirectToAction(nameof(Index));
             }
             catch
