@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BirthdayTekken.Controllers
 {
+    [Route("participants")]
     public class TekkenParticipantsController : Controller
     {
         private IParticipantsService _participantService;
@@ -12,7 +13,9 @@ namespace BirthdayTekken.Controllers
         {
             _participantService = participantsService;
         }
+      
         // GET: HomeController1
+        [Route("")]
         public ActionResult Index()
         {
             var model = _participantService.GetAllParticipants();
@@ -20,13 +23,16 @@ namespace BirthdayTekken.Controllers
         }
 
         // GET: HomeController1/Details/5
+        [Route("details/{id:int}")]
         public ActionResult Details(int id)
         {
             var model = _participantService.GetById(id);
             return View(model);
         }
 
+        [HttpGet]
         // GET: HomeController1/Create
+        [Route("create")]
         public ActionResult Create()
         {
             return View();
@@ -35,6 +41,9 @@ namespace BirthdayTekken.Controllers
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("create")]
+
+
         public ActionResult Create(Participants participant)
         {
             try
@@ -49,6 +58,7 @@ namespace BirthdayTekken.Controllers
         }
 
         // GET: HomeController1/Edit/5
+        [Route("edit/{id:int}")]
         public ActionResult Edit(int id)
         {
             var model = _participantService.GetById(id);
@@ -58,6 +68,7 @@ namespace BirthdayTekken.Controllers
         // POST: HomeController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("edit/{id:int}")]
         public ActionResult Edit(Participants participant)
         {
             try
@@ -72,6 +83,7 @@ namespace BirthdayTekken.Controllers
         }
 
         // GET: HomeController1/Delete/5
+        [Route("delete/{id:int}")]
         public ActionResult Delete(int id)
         {
             var model = _participantService.GetById(id);
@@ -81,6 +93,7 @@ namespace BirthdayTekken.Controllers
         // POST: HomeController1/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("delete/{id:int}")]
         public ActionResult Delete(Participants model)
         {
             try
