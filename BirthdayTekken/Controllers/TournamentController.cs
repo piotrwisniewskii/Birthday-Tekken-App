@@ -1,4 +1,5 @@
 ﻿using BirthdayTekken.Repository;
+using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Packaging.Rules;
@@ -8,15 +9,15 @@ namespace BirthdayTekken.Controllers
 {
     public class TournamentController : Controller
     {
-        private ITournamentRepository _tournamentRepository;
-        public TournamentController(ITournamentRepository tournamentRepository)
+        private ITournamentService _tournamentService;
+        public TournamentController(ITournamentService tournamentRepository)
         {
-            _tournamentRepository = tournamentRepository;
+            _tournamentService = tournamentRepository;
         }
         // GET: TournamentController
         public ActionResult Index()
         {
-            var model = _tournamentRepository.GetAll();
+            var model = _tournamentService.GetAll();
             return View(model);
         }
 

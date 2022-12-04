@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IParticipantsRepository, ParticipantsJsonFileRepository>();
 builder.Services.AddTransient<IParticipantsService, ParticipantsService>();
-//builder.Services.AddTransient<ITournamentRepository, TournamentRepository>();
+builder.Services.AddTransient<ITournamentRepository, TournamentRepository>();
+builder.Services.AddTransient<ITournamentService, TournamentService>();
 var app = builder.Build();
 
 

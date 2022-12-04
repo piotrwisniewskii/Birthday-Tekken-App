@@ -6,11 +6,6 @@ namespace BirthdayTekken.Repository
 {
     public class TournamentRepository : ITournamentRepository
     {
-        private ITournamentRepository _tournamentRepository;
-        public TournamentRepository(ITournamentRepository tournamentRepository)
-        {
-            _tournamentRepository = tournamentRepository;
-        }
         private const string _filename = "tournamentTekken.json";
 
         public void Create(Tournament tournament)
