@@ -42,6 +42,7 @@ namespace BirthdayTekken.Controllers
         {
             try
             {
+                
                 _tournamentService.Create(tournament,winner);
                 return RedirectToAction(nameof(Index));
             }
