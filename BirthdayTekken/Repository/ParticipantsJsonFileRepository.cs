@@ -64,5 +64,10 @@ namespace BirthdayTekken.Repository
             string participantJson = JsonSerializer.Serialize(participants);
             File.WriteAllText(_filename, participantJson);
         }
+
+        public Participants GetById(int id)
+        {
+            return GetAll().Where(p => p.Id == id).Single();
+        }
     }
 }

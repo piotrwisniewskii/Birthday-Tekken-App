@@ -1,4 +1,4 @@
-﻿@model BirthdayTekken.Models.Tournament
+﻿@model BirthdayTekken.Models.TournamentViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,19 +13,21 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TournamentDate" class="control-label"></label>
-                <input asp-for="TournamentDate" class="form-control" />
-                <span asp-validation-for="TournamentDate" class="text-danger"></span>
+                <label asp-for="TournamentModel.TournamentDate" class="control-label"></label>
+                <input asp-for="TournamentModel.TournamentDate" class="form-control" />
+                <span asp-validation-for="TournamentModel.TournamentDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PlayersNumber" class="control-label"></label>
-                <input asp-for="PlayersNumber" class="form-control" />
-                <span asp-validation-for="PlayersNumber" class="text-danger"></span>
+                <label asp-for="TournamentModel.PlayersNumber" class="control-label"></label>
+                <input asp-for="TournamentModel.PlayersNumber" class="form-control" />
+                <span asp-validation-for="TournamentModel.PlayersNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Winner" class="control-label"></label>
-                <input asp-for="Winner" class="form-control" />
-                <span asp-validation-for="Winner" class="text-danger"></span>
+                <label asp-for="TournamentModel.WinnerId" class="control-label"></label>
+                <select asp-for="TournamentModel.WinnerId" asp-items="@(new SelectList(Model.Participants, nameof(Participants.Id), nameof(Participants.Surname)))">
+                    <option selected="selected" value="">Choose your champion!</option>
+                    </select>
+                <span asp-validation-for="TournamentModel.WinnerId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -10,6 +10,7 @@ namespace BirthdayTekken.Repository
         public void Create(Participants participant);
         public void Update(Participants participant);
         public void Delete(int id);
+        public Participants GetById(int id);
 
     }
 }

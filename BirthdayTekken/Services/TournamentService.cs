@@ -1,5 +1,6 @@
 ﻿using BirthdayTekken.Models;
 using BirthdayTekken.Repository;
+using System.Reflection;
 
 namespace BirthdayTekken.Services
 {
@@ -10,14 +11,16 @@ namespace BirthdayTekken.Services
         {
             _tournamentRepository = tournamentRepository;
         }
-        public void Create(Tournament tournament, Participants winner)
+        // walidacja participant Id
+        public void Create(Tournament tournament)
         {
-            _tournamentRepository.Create(tournament,winner);
+            _tournamentRepository.Create(tournament);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _tournamentRepository.Delete(id);
+
         }
 
         public List<Tournament> GetAll()

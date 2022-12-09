@@ -4,6 +4,7 @@ using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Packaging.Rules;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace BirthdayTekken.Controllers
@@ -11,9 +12,11 @@ namespace BirthdayTekken.Controllers
     public class TournamentController : Controller
     {
         private ITournamentService _tournamentService;
-        public TournamentController(ITournamentService tournamentRepository)
+        private IParticipantsService _participantsService;
+        public TournamentController(ITournamentService tournamentRepository, IParticipantsService participantsService)
         {
             _tournamentService = tournamentRepository;
+            _participantsService = participantsService;
         }
         // GET: TournamentController
         public ActionResult Index()
@@ -32,18 +35,18 @@ namespace BirthdayTekken.Controllers
         // GET: TournamentController/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new TournamentViewModel{Participants = _participantsService.GetAllParticipants()});
         }
 
         // POST: TournamentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Tournament tournament, Participants winner)
+        public ActionResult Create(TournamentViewModel vm)
         {
             try
             {
                 
-                _tournamentService.Create(tournament,winner);
+                _tournamentService.Create(vm.TournamentModel);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -74,7 +77,7 @@ namespace BirthdayTekken.Controllers
         }
 
         // GET: TournamentController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete()
         {
             return View();
         }
@@ -82,10 +85,11 @@ namespace BirthdayTekken.Controllers
         // POST: TournamentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
+                _tournamentService.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

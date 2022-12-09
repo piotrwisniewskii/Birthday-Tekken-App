@@ -9,22 +9,20 @@ namespace BirthdayTekken.Repository
         private const string _filename = "tournamentTekken.json";
         private const string _participants = "birthdayTekken.json";
 
-        public void Create(Tournament tournament, Participants winner)
+        public void Create(Tournament tournament)
         {
-           var participantsList = _participants.ToList();
-            var participants = GetParticipantsList();
             var tournaments = GetTournamentList();
             var highestId = tournaments.Any() ? tournaments.Max(p => p.Id) : 0;
-            tournament.Id = highestId + 1;
-            tournament.Winner = participantsList; // jak tu dodać wybór z listy participantów ??
             tournaments.Add(tournament);
             SaveToFile(tournaments);
-
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var tournaments = GetTournamentList();
+            var tournamentToDelete = tournaments.First(p => p.Id == id);
+            tournaments.Remove(tournamentToDelete);
+            SaveToFile(tournaments);
         }
 
         public ReadOnlyCollection<Tournament> GetAll()

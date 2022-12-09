@@ -5,8 +5,7 @@
         public int Id { get; set; }
         public DateTime TournamentDate { get; set; }
 
-        public Participants Winner { get; set; }
-
+        public int WinnerId { get; set; }
         public int PlayersNumber { get; set; }
     }
 }

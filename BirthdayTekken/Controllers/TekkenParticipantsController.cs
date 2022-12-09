@@ -13,7 +13,7 @@ namespace BirthdayTekken.Controllers
         {
             _participantService = participantsService;
         }
-      
+
         // GET: HomeController1
         [Route("")]
         public ActionResult Index()
@@ -106,29 +106,31 @@ namespace BirthdayTekken.Controllers
                 return View();
             }
         }
-
-        public ActionResult Randomize()
-        {
-            var model = _participantService.GetAllParticipants();
-            var random = new Random();
-            var randomized = random.Next(model.Count);
-            return View(randomized);
-        }
-
-        // POST: TournamentController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Randomize(Tournament tournament)
-        {
-            try
-            {
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
+
+//        public ActionResult Randomize()
+//        {
+//            var model = _participantService.GetAllParticipants();
+//            var random = new Random();
+//            var randomized = random.Next(model.Count);
+//            return View(randomized);
+//        }
+
+//        // POST: TournamentController/Create
+//        [HttpPost]
+//        [ValidateAntiForgeryToken]
+//        public ActionResult Randomize(Tournament tournament)
+//        {
+//            try
+//            {
+
+//                return RedirectToAction(nameof(Index));
+//            }
+//            catch
+//            {
+//                return View();
+//            }
+//        }
+//    }
+//}
