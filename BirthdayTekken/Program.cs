@@ -2,6 +2,7 @@ using BirthdayTekken.Data;
 using BirthdayTekken.Repository;
 using BirthdayTekken.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +13,10 @@ builder.Services.AddDbContext<AppDbContext>(
     options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IParticipantRepository, ParticipantJsonFileRepository>();
-builder.Services.AddTransient<IParticipantService, ParticipantService>();
-builder.Services.AddTransient<ITournamentRepository, TournamentRepository>();
-builder.Services.AddTransient<ITournamentService, TournamentService>();
+//builder.Services.AddTransient<IParticipantRepository, ParticipantJsonFileRepository>();
+//builder.Services.AddTransient<IParticipantService, ParticipantService>();
+//builder.Services.AddTransient<ITournamentRepository, TournamentRepository>();
+//builder.Services.AddTransient<ITournamentService, TournamentService>();
 var app = builder.Build();
 
 
@@ -28,6 +29,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -38,4 +41,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+
+AppDbInitializer.Seed(app);
 app.Run();

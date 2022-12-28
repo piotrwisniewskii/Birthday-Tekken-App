@@ -6,6 +6,7 @@ namespace BirthdayTekken.Models
     public class Participant
     {
         public int Id { get; set; }
+        public string ProfilePictureURL { get; set; }
         [Required(ErrorMessage = "Please provide Name")]
         [StringLength(25)]
         public string Name { get; set; }

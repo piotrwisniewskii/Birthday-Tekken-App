@@ -10,11 +10,29 @@ namespace BirthdayTekken.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Participants",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProfilePictureURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Champion = table.Column<int>(type: "int", nullable: false),
+                    TournamentsWon = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Participants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tournaments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TournamentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WinnerId = table.Column<int>(type: "int", nullable: false),
                     PlayersNumber = table.Column<int>(type: "int", nullable: false)
@@ -22,28 +40,6 @@ namespace BirthdayTekken.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tournaments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Participants",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    Champion = table.Column<int>(type: "int", nullable: false),
-                    TournamentsWon = table.Column<int>(type: "int", nullable: false),
-                    TournamentId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Participants", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Participants_Tournaments_TournamentId",
-                        column: x => x.TournamentId,
-                        principalTable: "Tournaments",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -73,11 +69,6 @@ namespace BirthdayTekken.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Participant_Tournaments_TournamentId",
                 table: "Participant_Tournaments",
-                column: "TournamentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Participants_TournamentId",
-                table: "Participants",
                 column: "TournamentId");
         }
 
