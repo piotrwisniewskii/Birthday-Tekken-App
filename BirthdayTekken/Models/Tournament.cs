@@ -10,6 +10,7 @@ namespace BirthdayTekken.Models
         [Display(Name = "Winner")]
         public int WinnerId { get; set; }
         public int PlayersNumber { get; set; }
+        public List<Participant> Participants { get; set; }
 
 
 

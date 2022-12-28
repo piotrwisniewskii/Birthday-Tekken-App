@@ -1,13 +1,16 @@
 using BirthdayTekken.Data;
 using BirthdayTekken.Repository;
 using BirthdayTekken.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 //Dbcontext configuration
-builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddDbContext<AppDbContext>(
+    options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IParticipantRepository, ParticipantJsonFileRepository>();
 builder.Services.AddTransient<IParticipantService, ParticipantService>();
