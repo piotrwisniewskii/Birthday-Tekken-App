@@ -1,108 +1,110 @@
-﻿using BirthdayTekken.Models;
+﻿using BirthdayTekken.Data;
+using BirthdayTekken.Models;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayTekken.Controllers
 {
     [Route("participants")]
     public class TekkenParticipantsController : Controller
     {
-        private IParticipantService _participantService;
-        public TekkenParticipantsController(IParticipantService participantsService)
+        private readonly AppDbContext _context;
+        public TekkenParticipantsController(AppDbContext context)
         {
-            _participantService = participantsService;
+            _context = context;
         }
 
         // GET: HomeController1
         [Route("")]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var model = _participantService.GetAllParticipants();
+            var model = await _context.Participants.ToListAsync();
             return View(model);
         }
 
-        // GET: HomeController1/Details/5
-        [Route("details/{id:int}")]
-        public ActionResult Details(int id)
-        {
-            var model = _participantService.GetById(id);
-            return View(model);
-        }
+        //// GET: HomeController1/Details/5
+        //[Route("details/{id:int}")]
+        //public ActionResult Details(int id)
+        //{
+        //    var model = _participantService.GetById(id);
+        //    return View(model);
+        //}
 
-        [HttpGet]
-        // GET: HomeController1/Create
-        [Route("create")]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //// GET: HomeController1/Create
+        //[Route("create")]
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: HomeController1/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("create")]
-        public ActionResult Create(Participant participant)
-        {
-            try
-            {
-                _participantService.Create(participant);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// POST: HomeController1/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Route("create")]
+        //public ActionResult Create(Participant participant)
+        //{
+        //    try
+        //    {
+        //        _participantService.Create(participant);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        // GET: HomeController1/Edit/5
-        [Route("edit/{id:int}")]
-        public ActionResult Edit(int id)
-        {
-            var model = _participantService.GetById(id);
-            return View(model);
-        }
+        //// GET: HomeController1/Edit/5
+        //[Route("edit/{id:int}")]
+        //public ActionResult Edit(int id)
+        //{
+        //    var model = _participantService.GetById(id);
+        //    return View(model);
+        //}
 
-        // POST: HomeController1/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("edit/{id:int}")]
-        public ActionResult Edit(Participant participant)
-        {
-            try
-            {
-                _participantService.Update(participant);
-                return RedirectToAction(nameof(Details), participant);
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// POST: HomeController1/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Route("edit/{id:int}")]
+        //public ActionResult Edit(Participant participant)
+        //{
+        //    try
+        //    {
+        //        _participantService.Update(participant);
+        //        return RedirectToAction(nameof(Details), participant);
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        // GET: HomeController1/Delete/5
-        [Route("delete/{id:int}")]
-        public ActionResult Delete(int id)
-        {
-            var model = _participantService.GetById(id);
-            return View(model);
-        }
+        //// GET: HomeController1/Delete/5
+        //[Route("delete/{id:int}")]
+        //public ActionResult Delete(int id)
+        //{
+        //    var model = _participantService.GetById(id);
+        //    return View(model);
+        //}
 
-        // POST: HomeController1/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("delete/{id:int}")]
-        public ActionResult Delete(Participant model)
-        {
-            try
-            {
-                _participantService.Delete(model.Id);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// POST: HomeController1/Delete/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Route("delete/{id:int}")]
+        //public ActionResult Delete(Participant model)
+        //{
+        //    try
+        //    {
+        //        _participantService.Delete(model.Id);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }

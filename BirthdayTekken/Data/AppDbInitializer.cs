@@ -30,7 +30,7 @@ namespace BirthdayTekken.Data
                         },
                          new Participant()
                         {
-                            ProfilePictureURL = "https://scontent.fpoz4-1.fna.fbcdn.net/v/t39.30808-6/317092652_6019952008063791_4790077157218633592_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=dbeb18&_nc_ohc=N4kpUaICxcQAX-uLZ0w&tn=6QNwtw5lZpqp66CL&_nc_ht=scontent.fpoz4-1.fna&oh=00_AfCghPU2QI3cx14B6gX3A94GrAT3OhWgwXxTVv9OrB0vDQ&oe=63B0E51E",
+                            ProfilePictureURL = "https://scontent.fpoz4-1.fna.fbcdn.net/v/t39.30808-6/316964349_6019952181397107_981474565724572958_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=dbeb18&_nc_ohc=lLUaOzwJ0NEAX_TgH02&_nc_oc=AQmxqpOp-WGugHgmBX2SiVMDQAaO2Zw06RB-75YMByytNHGn3bWYiM6sVF9WYeYNsEI&_nc_ht=scontent.fpoz4-1.fna&oh=00_AfDHyMulkwcdeefcV7-L4XYKbD-dLqNzTKiiFqbM03yBQQ&oe=63B104CE",
                             Name = "Marta",
                             Surname = "Tomczak",
                             Champion = Champion.PANDA,
@@ -52,7 +52,7 @@ namespace BirthdayTekken.Data
                             Champion = Champion.BRYAN,
                             TournamentsWon = 1,
                         },
-                    });
+                    }) ;
                     context.SaveChanges();
                 }
 

@@ -1,57 +1,51 @@
-﻿@model IEnumerable<BirthdayTekken.Models.Participant>
+﻿@model IEnumerable<Participant>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List of Actors";
 }
 
-<h1>Participants</h1>
+<div class ="row">
+    <div class="col-md-8 offset-md-2">
+        <table class="table">
+            <thead>
+                 <tr>
+                     <th><label asp-for="First().ProfilePictureURL"></label></th>
+                     <th><label asp-for="First().Name"></label></th>
+                     <th><label asp-for="First().Surname"></label></th>
+                     <th><label asp-for="First().Champion"></label></th>
+                     <th><label asp-for="First().TournamentsWon"></label></th>
+                     <th>Actions</th>
+                 </tr>
+            </thead>
+        <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td @*class="allign-middle"*@>
+                         <img class="rounded-circle" src="@item.ProfilePictureURL" alt="@item.Name" style="max-width: 150px">
+                    </td>
+                    <td @*class="allign-middle"*@>
+                            @item.Name
+                    </td>
+                    <td class="allign-middle">
+                            @item.Surname
+                    </td>
+                    <td class="allign-middle">
+                            @item.Champion
+                    </td>
+                    <td class="allign-middle">
+                            @item.TournamentsWon
+                    </td>
+                    <td class="allign middle">
+                        <a class="btn btn-outline-primary text-black" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
+                        <a class="btn btn-outline-info text-black" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details</a> |
+                        <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a> 
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <label asp-for="First().Name"></label>
-            </th>
-            <th>
-                  <label asp-for="First().Surname"></label>
-
-            </th>
-            <th>
-                  <label asp-for="First().Champion"></label>
-
-            </th>
-            <th>
-                  <label asp-for="First().TournamentsWon"></label>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.Surname
-                </td>
-                <td>
-                    @item.Champion
-                </td>
-                <td>
-                    @item.TournamentsWon
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> 
-
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    </td>
+                     
+               </tr>
+                }
+         </tbody>
+        </table>
+    </div>
+</div>
