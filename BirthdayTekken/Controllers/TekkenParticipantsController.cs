@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayTekken.Controllers
 {
-    [Route("participants")]
     public class TekkenParticipantsController : Controller
     {
         private readonly AppDbContext _context;
@@ -17,7 +16,7 @@ namespace BirthdayTekken.Controllers
         }
 
         // GET: HomeController1
-        [Route("")]
+
         public async Task<ActionResult> Index()
         {
             var model = await _context.Participants.ToListAsync();

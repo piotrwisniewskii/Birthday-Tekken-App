@@ -1,51 +1,46 @@
 ﻿@model IEnumerable<Participant>
 
 @{
-    ViewData["Title"] = "List of Actors";
+    ViewData["Title"] = "List of Participants";
 }
 
-<div class ="row">
-    <div class="col-md-8 offset-md-2">
-        <table class="table">
-            <thead>
-                 <tr>
-                     <th><label asp-for="First().ProfilePictureURL"></label></th>
-                     <th><label asp-for="First().Name"></label></th>
-                     <th><label asp-for="First().Surname"></label></th>
-                     <th><label asp-for="First().Champion"></label></th>
-                     <th><label asp-for="First().TournamentsWon"></label></th>
-                     <th>Actions</th>
-                 </tr>
-            </thead>
-        <tbody>
-                @foreach (var item in Model)
-                {
-                <tr>
-                    <td @*class="allign-middle"*@>
-                         <img class="rounded-circle" src="@item.ProfilePictureURL" alt="@item.Name" style="max-width: 150px">
-                    </td>
-                    <td @*class="allign-middle"*@>
-                            @item.Name
-                    </td>
-                    <td class="allign-middle">
-                            @item.Surname
-                    </td>
-                    <td class="allign-middle">
-                            @item.Champion
-                    </td>
-                    <td class="allign-middle">
-                            @item.TournamentsWon
-                    </td>
-                    <td class="allign middle">
-                        <a class="btn btn-outline-primary text-black" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
-                        <a class="btn btn-outline-info text-black" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details</a> |
-                        <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a> 
-
-                    </td>
-                     
-               </tr>
-                }
-         </tbody>
-        </table>
-    </div>
+<div class="row">
+    @foreach (var item in Model)
+    {
+                <div class="col-md-4 col-xs-6 border-primary mb-3">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-header text-white bg-info">
+                                    <p class="card-text">
+                                        <h5 class="card-title">
+                                    @item.Name
+                                            <a class="text-white float-right"><i class="bi bi-pencil-square"></i></a>
+                                        </h5>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="@item.ProfilePictureURL" width="100%" alt="@item.Name">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <p class="card-text"><b>Name</b>@item.Name</p>
+                                            <p class="card-text"><b>Surname: </b>@item.Surname</p>
+                                            <p class="card-text"><b>Favorite Champion: </b>@item.Champion</p>
+                                            <p class="card-text"><b>Tournaments Won: </b>@item.TournamentsWon</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card-footer ">
+                                    <p class="card-text">
+                                        <a class="btn btn-outline-primary float-right"><i class="bi bi-eye-fill"></i> Show Details</a>
+                                @*<a class="btn btn-success text-white"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>*@
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    }
 </div>
