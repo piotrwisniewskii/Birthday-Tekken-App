@@ -7,9 +7,14 @@ namespace BirthdayTekken.Models
     {
         public int Id { get; set; }
         public DateTime TournamentDate { get; set; }
-
         [Display(Name = "Winner")]
         public int WinnerId { get; set; }
         public int PlayersNumber { get; set; }
+
+
+
+
+        //Relationships
+        public List<Participant_Tournament> Participant_Tournaments { get; set; }
     }
 }

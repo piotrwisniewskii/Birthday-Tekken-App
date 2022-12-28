@@ -49,22 +49,22 @@ namespace BirthdayTekken.Repository
             }
         }
 
-        public ReadOnlyCollection<Participants> GetAllParticipants()
+        public ReadOnlyCollection<Participant> GetAllParticipants()
         {
-            return new ReadOnlyCollection<Participants>(GetParticipantsList());
+            return new ReadOnlyCollection<Participant>(GetParticipantsList());
         }
 
-        private List<Participants> GetParticipantsList()
+        private List<Participant> GetParticipantsList()
         {
             string jsonReadText = File.ReadAllText(_participants);
             if (jsonReadText != null && jsonReadText.Length > 0)
             {
-                var players = JsonSerializer.Deserialize<List<Participants>>(jsonReadText);
+                var players = JsonSerializer.Deserialize<List<Participant>>(jsonReadText);
                 return players;
             }
             else
             {
-                return new List<Participants>();
+                return new List<Participant>();
             }
         }
 

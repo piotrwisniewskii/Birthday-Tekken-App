@@ -6,11 +6,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Collections;
 namespace BirthdayTekken.Repository
 {
-    public class ParticipantsJsonFileRepository : IParticipantsRepository
+    public class ParticipantJsonFileRepository : IParticipantRepository
     {
         private const string _filename = "birthdayTekken.json";
 
-        public void Create(Participants participant)
+        public void Create(Participant participant)
         {
             var participants = GetParticipantsList();
             var highestId = participants.Any() ? participants.Max(p => p.Id) : 0;
@@ -28,7 +28,7 @@ namespace BirthdayTekken.Repository
             SaveToFile(participants);
 
         }
-        public void Update(Participants participant)
+        public void Update(Participant participant)
         {
             var participants = GetParticipantsList();
             var participantsToUpdate = participants.First(p => p.Id == participant.Id);
@@ -40,32 +40,32 @@ namespace BirthdayTekken.Repository
 
         }
 
-        public ReadOnlyCollection<Participants> GetAll()
+        public ReadOnlyCollection<Participant> GetAll()
         {
-            return new ReadOnlyCollection<Participants>(GetParticipantsList());
+            return new ReadOnlyCollection<Participant>(GetParticipantsList());
         }
 
-        private List<Participants> GetParticipantsList()
+        private List<Participant> GetParticipantsList()
         {
             string jsonReadText = File.ReadAllText(_filename);
             if (jsonReadText != null && jsonReadText.Length > 0)
             {
-                var players = JsonSerializer.Deserialize<List<Participants>>(jsonReadText);
+                var players = JsonSerializer.Deserialize<List<Participant>>(jsonReadText);
                 return players;
             }
             else
             {
-                return new List<Participants>();
+                return new List<Participant>();
             }
         }
 
-        public void SaveToFile(List<Participants> participants)
+        public void SaveToFile(List<Participant> participants)
         {
             string participantJson = JsonSerializer.Serialize(participants);
             File.WriteAllText(_filename, participantJson);
         }
 
-        public Participants GetById(int id)
+        public Participant GetById(int id)
         {
             return GetAll().Where(p => p.Id == id).Single();
         }

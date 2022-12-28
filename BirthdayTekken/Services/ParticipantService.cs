@@ -5,31 +5,31 @@ using System.Collections.ObjectModel;
 using BirthdayTekken.Enums;
 namespace BirthdayTekken.Services
 {
-    public class ParticipantsService : IParticipantsService
+    public class ParticipantService : IParticipantService
     {
 
-        private IParticipantsRepository _participantsRepository;
-        public ParticipantsService(IParticipantsRepository participantsRepository)
+        private IParticipantRepository _participantsRepository;
+        public ParticipantService(IParticipantRepository participantsRepository)
         {
             _participantsRepository = participantsRepository;
         }
 
-        public List<Participants> GetAllParticipants()
+        public List<Participant> GetAllParticipants()
         {
-            return new List<Participants>(_participantsRepository.GetAll());
+            return new List<Participant>(_participantsRepository.GetAll());
         }
 
-        public Participants GetById(int id)
+        public Participant GetById(int id)
         {
             return _participantsRepository.GetAll().FirstOrDefault(p => p.Id == id);
         }
-        public void Create(Participants participant)
+        public void Create(Participant participant)
         {
             _participantsRepository.Create(participant);
         }
 
 
-         public void Update(Participants model)
+         public void Update(Participant model)
         {
             _participantsRepository.Update(model);
         }

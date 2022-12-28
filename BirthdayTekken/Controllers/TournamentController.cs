@@ -12,8 +12,8 @@ namespace BirthdayTekken.Controllers
     public class TournamentController : Controller
     {
         private ITournamentService _tournamentService;
-        private IParticipantsService _participantsService;
-        public TournamentController(ITournamentService tournamentRepository, IParticipantsService participantsService)
+        private IParticipantService _participantsService;
+        public TournamentController(ITournamentService tournamentRepository, IParticipantService participantsService)
         {
             _tournamentService = tournamentRepository;
             _participantsService = participantsService;

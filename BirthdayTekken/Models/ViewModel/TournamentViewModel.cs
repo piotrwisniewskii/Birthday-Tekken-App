@@ -3,7 +3,7 @@ namespace BirthdayTekken.Models.ViewModel
 {
     public class TournamentViewModel
     {
-        public List<Participants> Participants { get; set; }
+        public List<Participant> Participants { get; set; }
         public Tournament TournamentModel { get; set; }
     }
 }

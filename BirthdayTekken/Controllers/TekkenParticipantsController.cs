@@ -8,8 +8,8 @@ namespace BirthdayTekken.Controllers
     [Route("participants")]
     public class TekkenParticipantsController : Controller
     {
-        private IParticipantsService _participantService;
-        public TekkenParticipantsController(IParticipantsService participantsService)
+        private IParticipantService _participantService;
+        public TekkenParticipantsController(IParticipantService participantsService)
         {
             _participantService = participantsService;
         }
@@ -42,7 +42,7 @@ namespace BirthdayTekken.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("create")]
-        public ActionResult Create(Participants participant)
+        public ActionResult Create(Participant participant)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace BirthdayTekken.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("edit/{id:int}")]
-        public ActionResult Edit(Participants participant)
+        public ActionResult Edit(Participant participant)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace BirthdayTekken.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("delete/{id:int}")]
-        public ActionResult Delete(Participants model)
+        public ActionResult Delete(Participant model)
         {
             try
             {

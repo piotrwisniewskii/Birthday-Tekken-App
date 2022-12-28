@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BirthdayTekken.Models
 {
-    public class Participants
+    public class Participant
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Please provide Name")]
@@ -15,5 +15,8 @@ namespace BirthdayTekken.Models
         public Champion Champion { get; set; }
         [Range(0, 100, ErrorMessage = "Please provide value from 1 to 100")]
         public int TournamentsWon { get; set; }
+
+        //RelationShips
+        public List<Participant_Tournament> Participant_Tournaments { get; set; }
     }
 }
