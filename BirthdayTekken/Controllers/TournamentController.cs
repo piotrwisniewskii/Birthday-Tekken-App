@@ -1,4 +1,4 @@
-﻿using BirthdayTekken.Models;
+﻿using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Repository;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
@@ -96,8 +96,6 @@ namespace BirthdayTekken.Controllers
             {
                 return View();
             }
-        }
-
-        
+        }  
     }
 }

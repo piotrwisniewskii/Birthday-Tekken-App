@@ -1,4 +1,5 @@
-﻿@model BirthdayTekken.Models.TournamentViewModel
+﻿@using BirthdayTekken.Models.ViewModel
+@model TournamentViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -25,7 +26,7 @@
             <div class="form-group">
                 <label asp-for="TournamentModel.WinnerId" class="control-label"></label>
                 <select asp-for="TournamentModel.WinnerId" asp-items="@(new SelectList(Model.Participants, nameof(Participants.Id), nameof(Participants.Surname)))">
-                    <option selected="selected" value="">Choose your champion!</option>
+                    <option selected="selected" value="">Choose Tournament winner</option>
                     </select>
                 <span asp-validation-for="TournamentModel.WinnerId" class="text-danger"></span>
             </div>

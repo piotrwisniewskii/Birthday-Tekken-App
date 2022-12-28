@@ -42,8 +42,6 @@ namespace BirthdayTekken.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("create")]
-
-
         public ActionResult Create(Participants participant)
         {
             try
@@ -108,29 +106,3 @@ namespace BirthdayTekken.Controllers
         }
     }
 }
-
-//        public ActionResult Randomize()
-//        {
-//            var model = _participantService.GetAllParticipants();
-//            var random = new Random();
-//            var randomized = random.Next(model.Count);
-//            return View(randomized);
-//        }
-
-//        // POST: TournamentController/Create
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Randomize(Tournament tournament)
-//        {
-//            try
-//            {
-
-//                return RedirectToAction(nameof(Index));
-//            }
-//            catch
-//            {
-//                return View();
-//            }
-//        }
-//    }
-//}

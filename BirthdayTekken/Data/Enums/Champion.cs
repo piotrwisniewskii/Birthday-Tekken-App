@@ -20,6 +20,7 @@
         OGRE,
         PANDA,
         TRUE_OGRE,
-        XIAOYU
+        XIAOYU,
+        DR_BOSCONOVITCH
     }
 }
