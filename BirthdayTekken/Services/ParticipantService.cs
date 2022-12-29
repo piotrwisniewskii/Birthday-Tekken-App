@@ -3,41 +3,53 @@ using BirthdayTekken.Repository;
 using BirthdayTekken.Services;
 using System.Collections.ObjectModel;
 using BirthdayTekken.Enums;
+using BirthdayTekken.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace BirthdayTekken.Services
 {
     public class ParticipantService : IParticipantService
     {
 
-        private IParticipantRepository _participantsRepository;
-        public ParticipantService(IParticipantRepository participantsRepository)
+        private readonly AppDbContext _context;
+
+        public ParticipantService(AppDbContext context)
         {
-            _participantsRepository = participantsRepository;
+            _context = context;
         }
 
-        public List<Participant> GetAllParticipants()
+        public void Create(Participant participant)
         {
-            return new List<Participant>(_participantsRepository.GetAll());
+            participant = new Participant()
+            {
+                ProfilePictureURL = participant.ProfilePictureURL,
+                Name = participant.Name,
+                Surname = participant.Surname,
+                Champion = participant.Champion
+            };
+            
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Participant>> GetAllAsync()
+        {
+            var result = await _context.Participants.ToListAsync();
+            return result;
         }
 
         public Participant GetById(int id)
         {
-            return _participantsRepository.GetAll().FirstOrDefault(p => p.Id == id);
-        }
-        public void Create(Participant participant)
-        {
-            _participantsRepository.Create(participant);
+            throw new NotImplementedException();
         }
 
-
-         public void Update(Participant model)
+        public void Update(int id, Participant model)
         {
-            _participantsRepository.Update(model);
+            throw new NotImplementedException();
         }
-        public void Delete(int id)
-        {
-            _participantsRepository.Delete(id);
-        }
-
     }
 
 

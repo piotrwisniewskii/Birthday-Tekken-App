@@ -9,17 +9,17 @@ namespace BirthdayTekken.Controllers
 {
     public class TekkenParticipantsController : Controller
     {
-        private readonly AppDbContext _context;
-        public TekkenParticipantsController(AppDbContext context)
+        private readonly IParticipantService _service;
+        public TekkenParticipantsController(IParticipantService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: HomeController1
 
         public async Task<ActionResult> Index()
         {
-            var model = await _context.Participants.ToListAsync();
+            var model = await _service.GetAllAsync();
             return View(model);
         }
 
@@ -31,23 +31,21 @@ namespace BirthdayTekken.Controllers
         //    return View(model);
         //}
 
-        //[HttpGet]
-        //// GET: HomeController1/Create
-        //[Route("create")]
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        // GET: HomeController1/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: HomeController1/Create
+        // POST: HomeController1/Create
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //[Route("create")]
         //public ActionResult Create(Participant participant)
         //{
         //    try
         //    {
-        //        _participantService.Create(participant);
+        //        _service.Create(participant);
         //        return RedirectToAction(nameof(Index));
         //    }
         //    catch

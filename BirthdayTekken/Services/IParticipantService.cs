@@ -4,10 +4,10 @@ namespace BirthdayTekken.Services
 {
     public interface IParticipantService
     {
-        public List<Participant> GetAllParticipants();
-        public Participant GetById(int id);
-        public void Create(Participant participant);
-        public void Update(Participant model);
-        public void Delete(int id);
+         Task <IEnumerable<Participant>> GetAllAsync();
+         Participant GetById(int id);
+         void Create(Participant participant);
+         void Update(int id, Participant model);
+         void Delete(int id);
     }
 }
