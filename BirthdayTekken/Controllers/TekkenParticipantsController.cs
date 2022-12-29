@@ -15,8 +15,6 @@ namespace BirthdayTekken.Controllers
             _service = service;
         }
 
-        // GET: HomeController1
-
         public async Task<ActionResult> Index()
         {
             var model = await _service.GetAllAsync();
@@ -31,9 +29,8 @@ namespace BirthdayTekken.Controllers
         //    return View(model);
         //}
 
-        [HttpGet]
         // GET: HomeController1/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
