@@ -35,21 +35,20 @@ namespace BirthdayTekken.Controllers
             return View();
         }
 
-        // POST: HomeController1/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(Participant participant)
-        //{
-        //    try
-        //    {
-        //        _service.Create(participant);
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        //POST: HomeController1/Create
+
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind("ProfilePictureURL", "Name", "Surname","Champion")]Participant participant)
+        {
+            if (!ModelState.IsValid)
+            {
+            return View(participant);
+            }
+
+            _service.Add(participant);
+            return RedirectToAction(nameof(Index));
+        }
 
         //// GET: HomeController1/Edit/5
         //[Route("edit/{id:int}")]

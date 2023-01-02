@@ -6,7 +6,7 @@ namespace BirthdayTekken.Services
     {
          Task <IEnumerable<Participant>> GetAllAsync();
          Participant GetById(int id);
-         void Create(Participant participant);
+         void Add(Participant participant);
          void Update(int id, Participant model);
          void Delete(int id);
     }

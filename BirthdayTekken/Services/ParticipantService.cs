@@ -18,16 +18,10 @@ namespace BirthdayTekken.Services
             _context = context;
         }
 
-        public void Create(Participant participant)
+        public void Add(Participant participant)
         {
-            participant = new Participant()
-            {
-                ProfilePictureURL = participant.ProfilePictureURL,
-                Name = participant.Name,
-                Surname = participant.Surname,
-                Champion = participant.Champion
-            };
-            
+            _context.Participants.Add(participant);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
