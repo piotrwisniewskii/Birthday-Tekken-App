@@ -23,6 +23,7 @@ namespace BirthdayTekken.Models
         [Required(ErrorMessage = "Please provide Tournaments won")]
         public int TournamentsWon { get; set; }
         //RelationShips
+        #nullable disable
         public List<Participant_Tournament> Participant_Tournaments { get; set; }
 
     }
