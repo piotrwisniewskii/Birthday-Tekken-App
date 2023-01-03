@@ -1,4 +1,5 @@
 ﻿using BirthdayTekken.Enums;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace BirthdayTekken.Models
@@ -22,8 +23,11 @@ namespace BirthdayTekken.Models
         [Range(0, 100, ErrorMessage = "Please provide value from 1 to 100")]
         [Required(ErrorMessage = "Please provide Tournaments won")]
         public int TournamentsWon { get; set; }
+
+
         //RelationShips
-        #nullable disable
+        //#nullable disable
+        [ValidateNever]
         public List<Participant_Tournament> Participant_Tournaments { get; set; }
 
     }

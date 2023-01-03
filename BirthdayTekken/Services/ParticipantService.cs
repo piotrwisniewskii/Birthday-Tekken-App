@@ -18,10 +18,10 @@ namespace BirthdayTekken.Services
             _context = context;
         }
 
-        public void Add(Participant participant)
+        public async Task AddAsync(Participant participant)
         {
-            _context.Participants.Add(participant);
-            _context.SaveChanges();
+            await _context.Participants.AddAsync(participant);
+            await _context.SaveChangesAsync();
         }
 
         public void Delete(int id)
@@ -35,9 +35,10 @@ namespace BirthdayTekken.Services
             return result;
         }
 
-        public Participant GetById(int id)
+        public async Task<Participant> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Participants.FirstOrDefaultAsync(n => n.Id == id);
+            return result;
         }
 
         public void Update(int id, Participant model)

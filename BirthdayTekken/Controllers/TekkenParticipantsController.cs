@@ -21,13 +21,12 @@ namespace BirthdayTekken.Controllers
             return View(model);
         }
 
-        //// GET: HomeController1/Details/5
-        //[Route("details/{id:int}")]
-        //public ActionResult Details(int id)
-        //{
-        //    var model = _participantService.GetById(id);
-        //    return View(model);
-        //}
+        public async Task<ActionResult> Details(int id)
+        {
+            var participantDetails = await _service.GetByIdAsync(id);
+            if(participantDetails == null) return View("Empty");
+            return View(participantDetails);
+        }
 
         // GET: HomeController1/Create
         public IActionResult Create()
@@ -46,7 +45,7 @@ namespace BirthdayTekken.Controllers
             return View(participant);
             }
 
-            _service.Add(participant);
+            _service.AddAsync(participant);
             return RedirectToAction(nameof(Index));
         }
 

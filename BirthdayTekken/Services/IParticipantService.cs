@@ -5,8 +5,8 @@ namespace BirthdayTekken.Services
     public interface IParticipantService
     {
          Task <IEnumerable<Participant>> GetAllAsync();
-         Participant GetById(int id);
-         void Add(Participant participant);
+         Task<Participant> GetByIdAsync(int id);
+         Task AddAsync(Participant participant);
          void Update(int id, Participant model);
          void Delete(int id);
     }
