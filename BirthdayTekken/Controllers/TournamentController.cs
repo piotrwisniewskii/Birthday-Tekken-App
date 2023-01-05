@@ -1,6 +1,5 @@
 ﻿using BirthdayTekken.Data;
 using BirthdayTekken.Models.ViewModel;
-using BirthdayTekken.Repository;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

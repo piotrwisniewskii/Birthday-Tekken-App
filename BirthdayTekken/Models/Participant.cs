@@ -1,10 +1,11 @@
-﻿using BirthdayTekken.Enums;
+﻿using BirthdayTekken.Data.Base;
+using BirthdayTekken.Enums;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace BirthdayTekken.Models
 {
-    public class Participant
+    public class Participant : IEntityBase
     {
         public int Id { get; set; }
 

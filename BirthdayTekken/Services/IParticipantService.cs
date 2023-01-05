@@ -1,13 +1,10 @@
-﻿using BirthdayTekken.Models;
+﻿using BirthdayTekken.Data.Base;
+using BirthdayTekken.Models;
 
 namespace BirthdayTekken.Services
 {
-    public interface IParticipantService
+    public interface IParticipantService: IEntityBaseRepository<Participant>
     {
-         Task <IEnumerable<Participant>> GetAllAsync();
-         Task<Participant> GetByIdAsync(int id);
-         Task AddAsync(Participant participant);
-         Task <Participant> UpdateAsync(int id, Participant model);
-         Task DeleteAsync(int id);
+ 
     }
 }

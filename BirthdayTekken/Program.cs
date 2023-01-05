@@ -1,5 +1,4 @@
 using BirthdayTekken.Data;
-using BirthdayTekken.Repository;
 using BirthdayTekken.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
