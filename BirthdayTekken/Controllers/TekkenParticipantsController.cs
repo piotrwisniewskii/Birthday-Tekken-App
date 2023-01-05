@@ -15,88 +15,73 @@ namespace BirthdayTekken.Controllers
             _service = service;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var model = await _service.GetAllAsync();
             return View(model);
         }
 
-        public async Task<ActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var participantDetails = await _service.GetByIdAsync(id);
-            if(participantDetails == null) return View("Empty");
+            if(participantDetails == null) return View("NotFound");
             return View(participantDetails);
         }
 
-        // GET: HomeController1/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        //POST: HomeController1/Create
+    
 
        [HttpPost]
-       [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("ProfilePictureURL", "Name", "Surname","Champion")]Participant participant)
+        public async Task<IActionResult> Create([Bind("ProfilePictureURL", "Name", "Surname","Champion")]Participant participant)
         {
             if (!ModelState.IsValid)
             {
             return View(participant);
             }
 
-            _service.AddAsync(participant);
+            await _service.AddAsync(participant);
             return RedirectToAction(nameof(Index));
         }
 
-        //// GET: HomeController1/Edit/5
-        //[Route("edit/{id:int}")]
-        //public ActionResult Edit(int id)
-        //{
-        //    var model = _participantService.GetById(id);
-        //    return View(model);
-        //}
 
-        //// POST: HomeController1/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[Route("edit/{id:int}")]
-        //public ActionResult Edit(Participant participant)
-        //{
-        //    try
-        //    {
-        //        _participantService.Update(participant);
-        //        return RedirectToAction(nameof(Details), participant);
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        public async Task<IActionResult> Edit(int id)
+        {
+            var participantDetails = await _service.GetByIdAsync(id);
+            if (participantDetails == null) return View("NotFound");
+            return View(participantDetails);
+        }
 
-        //// GET: HomeController1/Delete/5
-        //[Route("delete/{id:int}")]
-        //public ActionResult Delete(int id)
-        //{
-        //    var model = _participantService.GetById(id);
-        //    return View(model);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id,[Bind("Id,ProfilePictureURL", "Name", "Surname", "Champion")] Participant participant)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(participant);
+            }
+            await _service.UpdateAsync(id,participant);
+            return RedirectToAction(nameof(Index));
+        }
 
-        //// POST: HomeController1/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[Route("delete/{id:int}")]
-        //public ActionResult Delete(Participant model)
-        //{
-        //    try
-        //    {
-        //        _participantService.Delete(model.Id);
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+
+        public async Task <IActionResult> Delete(int id)
+        {
+            var model = await _service.GetByIdAsync(id);
+            if (model == null) return View("NotFound");
+            return View(model);
+        }
+
+        [HttpPost,ActionName("Delete")]
+        public async Task <IActionResult> DeleteConfirmed(int id)
+        {
+            var model = await _service.GetByIdAsync(id);
+            if (model == null) return View("NotFound");
+
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

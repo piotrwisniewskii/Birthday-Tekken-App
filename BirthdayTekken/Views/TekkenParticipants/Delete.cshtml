@@ -1,51 +1,65 @@
-﻿@model BirthdayTekken.Models.Participant
+﻿@using BirthdayTekken.Enums;
+@model Participant
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Participant";
 }
 
-<h1>Delete</h1>
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Delete confirmation for @Model.Name</h1>
+        </p>
+        <div class="row">
+             <div class="col-md-8 offset-2">
+                <div class="form-group text-center">
+                    <img class="border-info rounder-circle" style="max-width: 150px" id="ProfilePicturePreview"/>
+                </div>
+                <div class="form group">
+                    <label asp-for="ProfilePictureURL" class="control-label"></label>
+                    <input asp-for="ProfilePictureURL" class="form-control" readonly />
+                    <span asp-validation-for="ProfilePictureURL" class="text-danger"></span>
+                </div>
+                <div class="form group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" readonly/>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                      <div class="form group">
+                    <label asp-for="Surname" class="control-label"></label>
+                    <input asp-for="Surname" class="form-control" readonly/>
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                 <div class="form group">
+                    <label asp-for="Champion" class="control-label"></label>
+                    <select asp-for="Champion" asp-items="Html.GetEnumSelectList<Champion>()" class="form-control">
+                    <option selected="selected" value="">Choose your champion!</option>
+                    </select>
+                    <span asp-validation-for="Champion" class="text-danger"></span>
+                </div>
+                <div class="form group">
+                    <label asp-for="TournamentsWon" class="control-label"></label>
+                    <input asp-for="TournamentsWon" class="form-control" />
+                    <span asp-validation-for="TournamentsWon" class="text-danger"></span>
+                </div>
 
-<h2>Are you sure you want to delete? </h2>
-<h3>Maybe consider just editing the participant profile, tournament goes on!</h3>
-<div>
-    <h4>Participants</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            <label asp-for="Id"></label>
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.Id
-        </dd>
-        <dt class = "col-sm-2">
-            <label asp-for="Name"></label>
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.Name
-        </dd>
-        <dt class = "col-sm-2">
-            <label asp-for="Surname"></label>
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.Surname
-        </dd>
-        <dt class = "col-sm-2">
-            <label asp-for="Champion"></label>
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.Champion)
-        </dd>
-        <dt class = "col-sm-2">
-            <label asp-for="TournamentsWon"></label>
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.TournamentsWon
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+                <div class="form-group">
+                    <form action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="submit" value="Confirm" class="btn btn-danger float-end" />
+                    <a class="btn btn-outline-secondary float-end" asp-action="Index">Show All</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts{ 
+                <script>
+                    $(document).ready(function () {
+                        var output = document.getElementById('ProfilePicturePreview');
+                        output.src = $("#ProfilePictureURL").val();
+                    })
+                </script>
+}
