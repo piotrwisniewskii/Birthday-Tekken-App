@@ -1,4 +1,5 @@
 ﻿using BirthdayTekken.Data;
+using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,23 @@ namespace BirthdayTekken.Controllers
             var model = await _service.GetByIdAsync(id);
             if (model == null) return View("NotFound");
             return View(model);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("Name", "TournamentDate", "WinnerId","PlayersNumber")]Tournament tournament)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(tournament);
+            }
+
+            await _service.AddAsync(tournament);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
