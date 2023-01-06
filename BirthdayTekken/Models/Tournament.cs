@@ -7,6 +7,7 @@ namespace BirthdayTekken.Models
 {
     public class Tournament : IEntityBase
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -20,6 +21,6 @@ namespace BirthdayTekken.Models
 
         //Relationships
         [ValidateNever]
-        public List<Participant_Tournament> Participant_Tournaments { get; set; }
+        public List<Participant_Tournament> Participants_Tournaments { get; set; }
     }
 }

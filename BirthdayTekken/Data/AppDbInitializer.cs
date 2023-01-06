@@ -79,9 +79,9 @@ namespace BirthdayTekken.Data
                     context.SaveChanges();
                 }
                 //Participants & Tournamnents
-                if (!context.Participant_Tournaments.Any())
+                if (!context.Participants_Tournaments.Any())
                 {
-                    context.Participant_Tournaments.AddRange(new List<Participant_Tournament>()
+                    context.Participants_Tournaments.AddRange(new List<Participant_Tournament>()
                     {
                         new Participant_Tournament()
                         {

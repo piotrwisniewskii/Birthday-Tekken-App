@@ -21,13 +21,13 @@ namespace BirthdayTekken.Controllers
         // GET: TournamentController
         public async Task<IActionResult> Index()
         {
-            var model = await _service.GetAllAsync();
+            var model = await _service.GetAllAsync(n=>n.Participants_Tournaments);
             return View(model);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var model = await _service.GetByIdAsync(id);
+            var model = await _service.GetTournamentByIdAsync(id);
             if (model == null) return View("NotFound");
             return View(model);
         }

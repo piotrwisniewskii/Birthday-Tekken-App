@@ -1,53 +1,57 @@
 ﻿@model Tournament
 
 @{
-    ViewData["Title"] = "Add a new ";
+    ViewData["Title"] = "Movie details";
 }
 
-<div class="row text">
+<div class="row">
     <div class="col-md-8 offset-2">
-        <p>
-            <h1>Details for @Model.Name</h1>
-        </p>
-        <div class="row">
-             <div class="col-md-8 offset-2">
-                <div class="form-group text-center">
-                    <img class="border-info rounder-circle" style="max-width: 150px" id="ProfilePicturePreview"/>
+        <div class="card mb-12">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-header text-white bg-info">
+                        <p class="card-text">
+                            <h5 class="card-title">
+                                @Model.Name
+                            </h5>
+                        </p>
+                    </div>
                 </div>
-                <div class="form group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" readonly />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                 <div class="col-md-4">
+                    <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Bottle_cap_-_Harna%C5%9B.jpg/640px-Bottle_cap_-_Harna%C5%9B.jpg width="100%" alt="@Model.Name">
                 </div>
-                      <div class="form group">
-                    <label asp-for="TournamentDate" class="control-label"></label>
-                    <input asp-for="TournamentDate" class="form-control" readonly/>
-                    <span asp-validation-for="TournamentDate" class="text-danger"></span>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p class="card-text">@Model.Name</p>
+                        <p class="card-text"><b>Tournament Date: </b>@Model.TournamentDate</p>
+                        <p class="card-text"><b>Winner: </b>@Model.WinnerId</p>
+                        <p class="card-text"><b>Players Number</b>@Model.PlayersNumber</p>
+                        <p class="card-text ">
+                            <b>Participants: </b>
+                            <hr />
+                            <div>
+                                @foreach (var participant in Model.Participants_Tournaments)
+                                {
+                                        <div class="column text-center" style="display:inline-block">
+                                        <img class="border-info rounded-circle" src="@participant.Participant.ProfilePictureURL" style="max-width: 150px" />
+                                        <br />
+                                        <a asp-controller="TekkenParticipants" asp-action="Details" asp-route-id="@participant.ParticipantId">@participant.Participant.Name</a>
+                                    </div>
+                                }
+                            </div>
+                        </p>
+                    </div>
                 </div>
-                      <div class="form group">
-                    <label asp-for="WinnerId" class="control-label"></label>
-                    <input asp-for="WinnerId" class="form-control" readonly/>
-                    <span asp-validation-for="WinnerId" class="text-danger"></span>
-                </div>
-                <div class="form group">
-                    <label asp-for="PlayersNumber" class="control-label"></label>
-                    <input asp-for="PlayersNumber" class="form-control" />
-                    <span asp-validation-for="PlayersNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <a class="btn btn-outline-success" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                    <a class="btn btn-outline-secondary float-end" asp-action="Index">Show All</a>
-                 </div>
+                <div class="col-md-12">
+                    <div class="card-footer">
+                        <p class="card-text">
+                            <a class="btn btn-outline-primary float-right" asp-action="Index">
+                                Back to List
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-@section Scripts{ 
-                    <script>
-                        $(document).ready(function () {
-                            var output = document.getElementById('ProfilePicturePreview');
-                            output.src = $("#ProfilePictureURL").val();
-                        })
-                    </script>
-}
+</div>

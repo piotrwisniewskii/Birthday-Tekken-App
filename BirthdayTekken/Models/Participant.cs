@@ -7,6 +7,7 @@ namespace BirthdayTekken.Models
 {
     public class Participant : IEntityBase
     {
+        [Key]
         public int Id { get; set; }
 
         [Display(Name= "Profile Picture")]

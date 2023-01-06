@@ -20,7 +20,7 @@ namespace BirthdayTekken.Data
 
             modelBuilder.Entity<Participant_Tournament>()
                 .HasOne(t => t.Tournament)
-                .WithMany(pt => pt.Participant_Tournaments)
+                .WithMany(pt => pt.Participants_Tournaments)
                 .HasForeignKey(t => t.TournamentId);
 
             modelBuilder.Entity<Participant_Tournament>()
@@ -32,6 +32,6 @@ namespace BirthdayTekken.Data
         }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
-        public DbSet<Participant_Tournament> Participant_Tournaments { get; set; }
+        public DbSet<Participant_Tournament> Participants_Tournaments { get; set; }
     }
 }

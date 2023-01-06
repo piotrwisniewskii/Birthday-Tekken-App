@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221228192200_Initial")]
+    [Migration("20230106224045_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,8 +37,7 @@ namespace BirthdayTekken.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePictureURL")
                         .IsRequired()
@@ -46,8 +45,7 @@ namespace BirthdayTekken.Migrations
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TournamentsWon")
                         .HasColumnType("int");
@@ -69,7 +67,7 @@ namespace BirthdayTekken.Migrations
 
                     b.HasIndex("TournamentId");
 
-                    b.ToTable("Participant_Tournaments");
+                    b.ToTable("Participants_Tournaments");
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Tournament", b =>
@@ -107,7 +105,7 @@ namespace BirthdayTekken.Migrations
                         .IsRequired();
 
                     b.HasOne("BirthdayTekken.Models.Tournament", "Tournament")
-                        .WithMany("Participant_Tournaments")
+                        .WithMany("Participants_Tournaments")
                         .HasForeignKey("TournamentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -124,7 +122,7 @@ namespace BirthdayTekken.Migrations
 
             modelBuilder.Entity("BirthdayTekken.Models.Tournament", b =>
                 {
-                    b.Navigation("Participant_Tournaments");
+                    b.Navigation("Participants_Tournaments");
                 });
 #pragma warning restore 612, 618
         }
