@@ -12,89 +12,23 @@ namespace BirthdayTekken.Controllers
 {
     public class TournamentController : Controller
     {
-        private readonly AppDbContext _context;
-        public TournamentController(AppDbContext context)
+        private readonly ITournamentService _service;
+        public TournamentController(ITournamentService service)
         {
-            _context = context;
+            _service = service;
         }
         // GET: TournamentController
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var model = await _context.Tournaments.ToListAsync();
+            var model = await _service.GetAllAsync();
             return View(model);
         }
 
-        // GET: TournamentController/Details/5
-        //        public ActionResult Details(int id)
-        //        {
-        //            var model = _tournamentService.GetAll().First(t=>t.Id == id);
-        //            return View(model);
-        //        }
-
-        //        // GET: TournamentController/Create
-        //        public ActionResult Create()
-        //        {
-        //            return View(new TournamentViewModel{Participants = _participantsService.GetAllParticipants()});
-        //        }
-
-        //        // POST: TournamentController/Create
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Create(TournamentViewModel vm)
-        //        {
-        //            try
-        //            {
-
-        //                _tournamentService.Create(vm.TournamentModel);
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }
-
-        //        // GET: TournamentController/Edit/5
-        //        public ActionResult Edit(int id)
-        //        {
-        //            return View();
-        //        }
-
-        //        // POST: TournamentController/Edit/5
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Edit(int id, IFormCollection collection)
-        //        {
-        //            try
-        //            {
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }
-
-        //        // GET: TournamentController/Delete/5
-        //        public ActionResult Delete()
-        //        {
-        //            return View();
-        //        }
-
-        //        // POST: TournamentController/Delete/5
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Delete(int id)
-        //        {
-        //            try
-        //            {
-        //                _tournamentService.Delete(id);
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }  
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await _service.GetByIdAsync(id);
+            if (model == null) return View("NotFound");
+            return View(model);
+        }
     }
 }

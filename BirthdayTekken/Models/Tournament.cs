@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BirthdayTekken.Data.Base;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace BirthdayTekken.Models
 {
-    public class Tournament
+    public class Tournament : IEntityBase
     {
         public int Id { get; set; }
         public string Name { get; set; }

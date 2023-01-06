@@ -5,6 +5,5 @@ namespace BirthdayTekken.Services
 {
     public interface IParticipantService: IEntityBaseRepository<Participant>
     {
- 
     }
 }

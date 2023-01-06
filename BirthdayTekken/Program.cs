@@ -12,10 +12,8 @@ builder.Services.AddDbContext<AppDbContext>(
     options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
 builder.Services.AddControllersWithViews();
-//builder.Services.AddTransient<IParticipantRepository, ParticipantJsonFileRepository>();
 builder.Services.AddTransient<IParticipantService, ParticipantService>();
-//builder.Services.AddTransient<ITournamentRepository, TournamentRepository>();
-//builder.Services.AddTransient<ITournamentService, TournamentService>();
+builder.Services.AddTransient<ITournamentService, TournamentService>();
 var app = builder.Build();
 
 
