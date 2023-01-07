@@ -16,6 +16,32 @@ namespace BirthdayTekken.Services
             _context = context;
         }
 
+        public async Task AddNewTournamentAsync(NewTournamentVM data)
+        {
+            var newTournament = new Tournament()
+            {
+                Name = data.Name,
+                TournamentDate = data.TournamentDate,
+                WinnerId = data.WinnerId,
+                PlayersNumber = data.PlayersNumber,
+            };
+            await _context.Tournaments.AddAsync(newTournament);
+            await _context.SaveChangesAsync();
+
+            foreach (var participantId in data.ParticipantsIds)
+            {
+                var newParticipantTournament = new Participant_Tournament()
+                {
+                    TournamentId = newTournament.Id,
+                    ParticipantId = participantId
+                };
+            await _context.Participants_Tournaments.AddAsync(newParticipantTournament);
+            }
+            await _context.SaveChangesAsync();
+
+
+        }
+
         public async Task<NewTournamentDropdownsVM> GetNewTournamentDropdownsValies()
         {
             var response = new NewTournamentDropdownsVM()

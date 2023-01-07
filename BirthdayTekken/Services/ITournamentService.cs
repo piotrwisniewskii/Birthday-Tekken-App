@@ -8,5 +8,7 @@ namespace BirthdayTekken.Services
     {
         Task<Tournament> GetTournamentByIdAsync(int id);
         Task<NewTournamentDropdownsVM> GetNewTournamentDropdownsValies();
+
+        Task AddNewTournamentAsync(NewTournamentVM data);
     }
 }

@@ -33,6 +33,11 @@
                               <input asp-for="PlayersNumber" class="control-label" />
                               <span asp-validation-for="PlayersNumber" class="text-danger"></span>
                           </div>
+                           <div class="form-group">
+                              <label asp-for="WinnerId" class="control-label"></label>
+                              <input asp-for="WinnerId" class="control-label" />
+                              <span asp-validation-for="WinnerId" class="text-danger"></span>
+                          </div>
                       </div>
                       <div class="col-md-12">
                           <div class="form-group">
@@ -42,7 +47,7 @@
                           </div>     
                       </div>
                       <div class="form-group">
-                          <input type="submit" value="Create" class="btn btn-outline-success float-end" />
+                          <input type="submit" value="Create" formmethod="post" class="btn btn-outline-success float-end" />
                           <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                       </div>
                </form>

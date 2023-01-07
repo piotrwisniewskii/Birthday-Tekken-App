@@ -40,5 +40,20 @@ namespace BirthdayTekken.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Create(NewTournamentVM tournament)
+        {
+            if (!ModelState.IsValid)
+            {
+                var movieDropdownsData = await _service.GetNewTournamentDropdownsValies();
+
+                ViewBag.Participants = new SelectList(movieDropdownsData.Participants, "Id", "Name", "Surname");
+                return View(tournament);
+            }
+
+            await _service.AddNewTournamentAsync(tournament);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
