@@ -1,62 +1,99 @@
-﻿@model Tournament
+﻿@using BirthdayTekken.Models.ViewModel
+@model NewTournamentVM
+
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create a new tournament";
 }
 
-<div class="row text">
+<div class="row">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Add new Tournament</h1>
+            <h4>Create a new tournament</h4>
         </p>
+
         <div class="row">
-             <div class="col-md-8 offset-2">
-                <form asp-action="Create">
+            <div class="col-md-8 offset-2">
+               <form action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group text-center">
-                    <img id="ProfilePicturePreview" class="border-info rounder-circle" style="max-width: 150px"/>
-                </div>
-                <div class="form-check group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-check group">
-                    <label asp-for="TournamentDate" class="control-label"></label>
-                    <input asp-for="TournamentDate" class="form-control" />
-                    <span asp-validation-for="TournamentDate" class="text-danger"></span>
-                </div>
-                      <div class="form-check group">
-                    <label asp-for="WinnerId" class="control-label"></label>
-                    <input asp-for="WinnerId" class="form-control" />
-                    <span asp-validation-for="WinnerId" class="text-danger"></span>
-                </div>
-                <div class="form-check group">
-                    <label asp-for="PlayersNumber" class="control-label"></label>
-                    <input asp-for="PlayersNumber" class="form-control" />
-                    <span asp-validation-for="PlayersNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-outline-success float-right" />
-                    <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
-                </div>
-             </form>
+                  <div class="row">
+                      <div class="col-md-6"> 
+                          <div class="form-group">
+                              <label asp-for="Name" class="control-label"></label>
+                              <input asp-for="Name" class="control-label" />
+                              <span asp-validation-for="Name" class="text-danger"></span>
+                          </div>
+                               <div class="form-group">
+                              <label asp-for="TournamentDate" class="control-label"></label>
+                              <input asp-for="TournamentDate" class="control-label" />
+                              <span asp-validation-for="TournamentDate" class="text-danger"></span>
+
+                               <div class="form-group">
+                              <label asp-for="PlayersNumber" class="control-label"></label>
+                              <input asp-for="PlayersNumber" class="control-label" />
+                              <span asp-validation-for="PlayersNumber" class="text-danger"></span>
+                          </div>
+                      </div>
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label asp-for="ParticipantsIds" class="control-label"></label>
+                              <select asp-for="ParticipantsIds" class="form-control" asp-items="ViewBag.Participants" multiple></select>
+                              <span asp-validation-for="ParticipantsIds" class="text-danger"></span>
+                          </div>     
+                      </div>
+                      <div class="form-group">
+                          <input type="submit" value="Create" class="btn btn-outline-success float-end" />
+                          <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                      </div>
+               </form>
             </div>
         </div>
     </div>
 </div>
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 
 
-    @*<div class="form-group">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @*  <div class="form-group">
                 <label asp-for="TournamentModel.WinnerId" class="control-label"></label>
                     <div class="button">
                         <select asp-for="TournamentModel.WinnerId" asp-items="@(new SelectList(Model.ParticipantModel.ToList(), nameof(Participant.Id), nameof(Participant.Surname)))">
-                            <option selected="selected" value="">Choose Tournament winner</option>
+                          <option selected="selected" value="">Choose Tournament winner</option>
                         </select>
-                        <span asp-validation-for="TournamentModel.WinnerId" class="text-danger"></span>
-                    </div>*@
+                <span asp-validation-for="TournamentModel.WinnerId" class="text-danger"></span>
+      </div>*@

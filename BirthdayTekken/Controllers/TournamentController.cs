@@ -4,6 +4,7 @@ using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Rules;
 using System.Reflection;
@@ -32,21 +33,12 @@ namespace BirthdayTekken.Controllers
             return View(model);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var movieDropdownsData = await _service.GetNewTournamentDropdownsValies();
+            ViewBag.Participants = new SelectList(movieDropdownsData.Participants,"Id","Name","Surname");
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name", "TournamentDate", "WinnerId","PlayersNumber")]Tournament tournament)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(tournament);
-            }
-
-            await _service.AddAsync(tournament);
-            return RedirectToAction(nameof(Index));
-        }
     }
 }
