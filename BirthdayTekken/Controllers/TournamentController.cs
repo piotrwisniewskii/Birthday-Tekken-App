@@ -45,6 +45,33 @@ namespace BirthdayTekken.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var tournamentDropDownsData = await _service.GetNewTournamentDropdownsValies();
+
+                ViewBag.Participants = new SelectList(tournamentDropDownsData.Participants, "Id", "Name", "Surname");
+                return View(tournament);
+            }
+
+            await _service.AddNewTournamentAsync(tournament);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var tournamentDetails = await _service.GetNewTournamentDropdownsValies();
+            if(tournamentDetails != null) return View("NotFound");
+
+            var response = new NewTournamentVM()
+            {
+                Id
+            }
+           
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(NewTournamentVM tournament)
+        {
+            if (!ModelState.IsValid)
+            {
                 var movieDropdownsData = await _service.GetNewTournamentDropdownsValies();
 
                 ViewBag.Participants = new SelectList(movieDropdownsData.Participants, "Id", "Name", "Surname");
@@ -54,6 +81,5 @@ namespace BirthdayTekken.Controllers
             await _service.AddNewTournamentAsync(tournament);
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

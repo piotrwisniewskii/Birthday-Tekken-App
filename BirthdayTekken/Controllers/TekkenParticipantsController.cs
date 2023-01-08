@@ -56,7 +56,7 @@ namespace BirthdayTekken.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id,[Bind("Id,ProfilePictureURL", "Name", "Surname", "Champion")] Participant participant)
+        public async Task<IActionResult> Edit(int id,[Bind("Id,ProfilePictureURL", "Name", "Surname", "Champion", "TournamentsWon")] Participant participant)
         {
             if(!ModelState.IsValid)
             {
