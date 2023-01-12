@@ -11,6 +11,7 @@ namespace BirthdayTekken.Models.ViewModel
     public class NewTournamentVM 
     {
 
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

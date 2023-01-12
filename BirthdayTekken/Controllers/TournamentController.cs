@@ -57,18 +57,27 @@ namespace BirthdayTekken.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var tournamentDetails = await _service.GetNewTournamentDropdownsValies();
+            var tournamentDetails = await _service.GetTournamentByIdAsync(id);
             if(tournamentDetails != null) return View("NotFound");
 
             var response = new NewTournamentVM()
             {
-                Id
-            }
-           
+                Id = tournamentDetails.Id,
+                Name = tournamentDetails.Name,
+                TournamentDate = tournamentDetails.TournamentDate,
+                PlayersNumber = tournamentDetails.PlayersNumber,
+                ParticipantsIds = tournamentDetails.Participants_Tournaments.Select(n => n.ParticipantId).ToList(),
+            };
+
+            var tournamentDropDownsData = await _service.GetNewTournamentDropdownsValies();
+            ViewBag.Participants = new SelectList(tournamentDropDownsData.Participants, "Id", "Name", "Surname");
+            return View();
+
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(NewTournamentVM tournament)
+        public async Task<IActionResult> Edit(int id,NewTournamentVM tournament)
         {
             if (!ModelState.IsValid)
             {
