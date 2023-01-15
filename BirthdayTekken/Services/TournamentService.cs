@@ -41,7 +41,6 @@ namespace BirthdayTekken.Services
 
 
         }
-
         public async Task<NewTournamentDropdownsVM> GetNewTournamentDropdownsValies()
         {
             var response = new NewTournamentDropdownsVM()
@@ -51,9 +50,6 @@ namespace BirthdayTekken.Services
 
             return response;
         }
-
-
-
         public async Task<Tournament> GetTournamentByIdAsync(int id)
         {
             var tournamentDetails = await _context.Tournaments
