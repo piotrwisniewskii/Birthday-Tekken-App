@@ -11,28 +11,41 @@ namespace BirthdayTekken.Services
     {
         private readonly AppDbContext _context;
 
-        public MatchMakerService(AppDbContext context) : base(context) { }
+        public MatchMakerService(AppDbContext context) : base(context) 
+        {
+            _context= context;
+        }
 
-        public async Task AddNewMatchAsync(MatchMaker match)
+        public async Task AddNewMatchAsync(NewMatchMakerVM match)
         {
             var newMatch = new MatchMaker()
             {
                 Name = match.Name,
             };
+
+            foreach (var participantId in match.ParticipantsIds)
+            {
+                var newParticipantTournament = new Participant_Tournament()
+                {
+                    ParticipantId = participantId
+                };
+                await _context.Participants_Tournaments
+                        .AddAsync(newParticipantTournament);
+            }
+
             await _context.Matches.AddAsync(newMatch);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<NewTournamentDropdownsVM> GetParticipantsLIst()
+        public async Task<NewMatchMakerDropdownsVM> GetParticipantsLIst()
         {
-            var response = new NewTournamentDropdownsVM()
+            var response = new NewMatchMakerDropdownsVM()
             {
                 Participants = await _context.Participants
                 .OrderBy(n => n.Name)
                 .ToListAsync()
             };
-
             return response;
         }
 
@@ -42,7 +55,6 @@ namespace BirthdayTekken.Services
                 .Include(am => am.Participants_Tournaments)
                 .ThenInclude(a => a.Participant)
                 .FirstOrDefaultAsync(n => n.Id == id);
-
             return MatchDetails;
         }
 

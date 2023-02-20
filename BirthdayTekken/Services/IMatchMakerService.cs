@@ -7,7 +7,7 @@ namespace BirthdayTekken.Services
     public interface IMatchMakerService : IEntityBaseRepository<MatchMaker>
     {
         Task<MatchMaker> GetMatchById(int id);
-        Task<NewTournamentDropdownsVM> GetParticipantsLIst();
-        Task AddNewMatchAsync(MatchMaker match);
+        Task<NewMatchMakerDropdownsVM> GetParticipantsLIst();
+        Task AddNewMatchAsync(NewMatchMakerVM match);
     }
 }

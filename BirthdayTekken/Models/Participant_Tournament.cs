@@ -11,6 +11,7 @@ namespace BirthdayTekken.Models
         public int ParticipantId { get; set; }
         public Participant Participant { get; set; }
 
+        
         public int MatchMakerId { get; set; }
         public MatchMaker MatchMaker { get; set; }
     }

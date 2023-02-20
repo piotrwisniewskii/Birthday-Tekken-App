@@ -1,5 +1,6 @@
 ﻿using BirthdayTekken.Data.Base;
 using BirthdayTekken.Enums;
+using BirthdayTekken.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 

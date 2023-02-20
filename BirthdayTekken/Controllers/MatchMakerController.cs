@@ -7,31 +7,37 @@ namespace BirthdayTekken.Controllers
 {
     public class MatchMakerController : Controller
     {
-        private readonly ITournamentService _service;
+        private readonly IMatchMakerService _service;
 
-        public MatchMakerController(ITournamentService service)
+        public MatchMakerController(IMatchMakerService service)
         {
             _service= service;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var model = await _service.GetAllAsync();
+            return View(model);
+        }
+
         public async Task<IActionResult> ChooseMatch()
         {
-            var movieDropdownsData = await _service.GetNewTournamentDropdownsValies();
-            ViewBag.Participants = new SelectList(movieDropdownsData.Participants, "Id", "Name", "Surname");
+            var matchDropDownData = await _service.GetParticipantsLIst();
+            ViewBag.Participants = new SelectList(matchDropDownData.Participants, "Id", "Name", "Surname");
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> ChooseMatch(NewTournamentVM tournament)
+        public async Task<IActionResult> ChooseMatch(NewMatchMakerVM match)
         {
             if (!ModelState.IsValid)
             {
-                var tournamentDropDownsData = await _service.GetNewTournamentDropdownsValies();
+                var matchDropDownData = await _service.GetParticipantsLIst();
 
-                ViewBag.Participants = new SelectList(tournamentDropDownsData.Participants, "Id", "Name", "Surname");
-                return View(tournament);
+                ViewBag.Participants = new SelectList(matchDropDownData.Participants, "Id", "Name", "Surname");
+                return View(match);
             }
 
-            await _service.AddNewTournamentAsync(tournament);
+            await _service.AddNewMatchAsync(match);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -16,7 +16,8 @@ namespace BirthdayTekken.Data
             modelBuilder.Entity<Participant_Tournament>().HasKey(pt => new
             {
                 pt.ParticipantId,
-                pt.TournamentId
+                pt.TournamentId,
+                pt.MatchMakerId
             });
 
             modelBuilder.Entity<Participant_Tournament>()

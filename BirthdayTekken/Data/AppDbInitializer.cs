@@ -1,5 +1,6 @@
 ﻿using BirthdayTekken.Enums;
 using BirthdayTekken.Models;
+using BirthdayTekken.Models.ViewModel;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 
@@ -56,6 +57,7 @@ namespace BirthdayTekken.Data
                     context.SaveChanges();
                 }
 
+
                 //Tournaments
                 if (!context.Tournaments.Any())
                 {
@@ -78,6 +80,20 @@ namespace BirthdayTekken.Data
                 });
                     context.SaveChanges();
                 }
+                //MAtchMaker
+
+                if (!context.Matches.Any())
+                {
+                    context.Matches.AddRange(new List<MatchMaker>()
+                    {
+                        new MatchMaker()
+                        {
+                            Name = "Match First"
+                        }
+                });
+                    context.SaveChanges();
+                }
+
                 //Participants & Tournamnents
                 if (!context.Participants_Tournaments.Any())
                 {
@@ -87,28 +103,33 @@ namespace BirthdayTekken.Data
                         {
                             TournamentId = 1,
                             ParticipantId = 1,
+                            MatchMakerId = 1
                         },
                         new Participant_Tournament()
                         {
                             TournamentId = 1,
                             ParticipantId = 2,
+                             MatchMakerId = 1
                         },
                         new Participant_Tournament()
                         {
                             TournamentId = 1,
                             ParticipantId = 3,
+                             MatchMakerId = 1
                         },
                         new Participant_Tournament()
                         {
                             TournamentId = 2,
                             ParticipantId = 3,
+                             MatchMakerId = 1
                         },
                         new Participant_Tournament()
                         {
                             TournamentId = 2,
                             ParticipantId = 4,
+                             MatchMakerId = 1
                         },
-                    });
+                    }) ;
                     context.SaveChanges();
                 }
             }

@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IParticipantService, ParticipantService>();
 builder.Services.AddTransient<ITournamentService, TournamentService>();
+builder.Services.AddTransient<IMatchMakerService, MatchMakerService>();
 var app = builder.Build();
 
 
