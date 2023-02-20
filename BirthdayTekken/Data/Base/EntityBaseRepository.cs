@@ -24,12 +24,14 @@ namespace BirthdayTekken.Data.Base
         {
             EntityEntry entityEntry = _context.Entry<T>(entity);
             entityEntry.State = EntityState.Modified;
-
+            //_context.Update(entity);
             await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
             var entity = await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
+
+            //_context.Set<T>().Remove(entity);
             EntityEntry entityEntry = _context.Entry<T>(entity);
             entityEntry.State = EntityState.Deleted;
 
