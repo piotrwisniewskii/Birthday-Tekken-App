@@ -1,0 +1,64 @@
+﻿@using BirthdayTekken.Models.ViewModel
+@model NewTournamentVM
+
+
+@{
+    ViewData["Title"] = "Create a new tournament";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h4>Create a new tournament</h4>
+        </p>
+
+        <div class="row">
+            <div class="col-md-8 offset-2">
+               <form action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                  <div class="row">
+                      <div class="col-md-6"> 
+                          <div class="form-group">
+                              <label asp-for="Name" class="control-label"></label>
+                              <input asp-for="Name" class="control-label" />
+                              <span asp-validation-for="Name" class="text-danger"></span>
+                          </div>
+                               <div class="form-group">
+                              <label asp-for="TournamentDate" class="control-label"></label>
+                              <input asp-for="TournamentDate" class="control-label" />
+                              <span asp-validation-for="TournamentDate" class="text-danger"></span>
+
+                               <div class="form-group">
+                              <label asp-for="PlayersNumber" class="control-label"></label>
+                              <input asp-for="PlayersNumber" class="control-label" />
+                              <span asp-validation-for="PlayersNumber" class="text-danger"></span>
+                          </div>
+                           <div class="form-group">
+                              <label asp-for="WinnerId" class="control-label"></label>
+                              <input asp-for="WinnerId" class="control-label" />
+                              <span asp-validation-for="WinnerId" class="text-danger"></span>
+                          </div>
+                      </div>
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label asp-for="ParticipantsIds" class="control-label"></label>
+                              <select asp-for="ParticipantsIds" class="form-control" asp-items="ViewBag.Participants" multiple></select>
+                              <span asp-validation-for="ParticipantsIds" class="text-danger"></span>
+                          </div>     
+                      </div>
+                      <div class="form-group">
+                          <input type="submit" value="Create" formmethod="post" class="btn btn-outline-success float-end" />
+                          <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                      </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

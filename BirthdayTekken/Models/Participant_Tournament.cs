@@ -1,4 +1,6 @@
-﻿namespace BirthdayTekken.Models
+﻿using BirthdayTekken.Models.ViewModel;
+
+namespace BirthdayTekken.Models
 {
     public class Participant_Tournament
     {
@@ -8,5 +10,8 @@
 
         public int ParticipantId { get; set; }
         public Participant Participant { get; set; }
+
+        public int MatchMakerId { get; set; }
+        public MatchMaker MatchMaker { get; set; }
     }
 }

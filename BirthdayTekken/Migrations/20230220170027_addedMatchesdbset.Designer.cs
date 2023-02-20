@@ -4,6 +4,7 @@ using BirthdayTekken.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230220170027_addedMatchesdbset")]
+    partial class addedMatchesdbset
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,7 @@ namespace BirthdayTekken.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Participants");
+                    b.ToTable("Participant");
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>
@@ -61,12 +63,7 @@ namespace BirthdayTekken.Migrations
                     b.Property<int>("TournamentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MatchMakerId")
-                        .HasColumnType("int");
-
                     b.HasKey("ParticipantId", "TournamentId");
-
-                    b.HasIndex("MatchMakerId");
 
                     b.HasIndex("TournamentId");
 
@@ -99,31 +96,8 @@ namespace BirthdayTekken.Migrations
                     b.ToTable("Tournaments");
                 });
 
-            modelBuilder.Entity("BirthdayTekken.Models.ViewModel.MatchMaker", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Matches");
-                });
-
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>
                 {
-                    b.HasOne("BirthdayTekken.Models.ViewModel.MatchMaker", "MatchMaker")
-                        .WithMany("Participants_Tournaments")
-                        .HasForeignKey("MatchMakerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BirthdayTekken.Models.Participant", "Participant")
                         .WithMany("Participant_Tournaments")
                         .HasForeignKey("ParticipantId")
@@ -136,8 +110,6 @@ namespace BirthdayTekken.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MatchMaker");
-
                     b.Navigation("Participant");
 
                     b.Navigation("Tournament");
@@ -149,11 +121,6 @@ namespace BirthdayTekken.Migrations
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Tournament", b =>
-                {
-                    b.Navigation("Participants_Tournaments");
-                });
-
-            modelBuilder.Entity("BirthdayTekken.Models.ViewModel.MatchMaker", b =>
                 {
                     b.Navigation("Participants_Tournaments");
                 });

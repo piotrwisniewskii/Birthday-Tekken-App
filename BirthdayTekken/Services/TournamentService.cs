@@ -26,6 +26,7 @@ namespace BirthdayTekken.Services
                 PlayersNumber = data.PlayersNumber,
             };
             await _context.Tournaments.AddAsync(newTournament);
+
             await _context.SaveChangesAsync();
 
             foreach (var participantId in data.ParticipantsIds)
@@ -35,25 +36,29 @@ namespace BirthdayTekken.Services
                     TournamentId = newTournament.Id,
                     ParticipantId = participantId
                 };
-            await _context.Participants_Tournaments.AddAsync(newParticipantTournament);
+            await _context.Participants_Tournaments
+                    .AddAsync(newParticipantTournament);
             }
             await _context.SaveChangesAsync();
-
-
         }
+
         public async Task<NewTournamentDropdownsVM> GetNewTournamentDropdownsValies()
         {
             var response = new NewTournamentDropdownsVM()
             {
-                Participants = await _context.Participants.OrderBy(n => n.Name).ToListAsync()
+                Participants = await _context.Participants
+                .OrderBy(n => n.Name)
+                .ToListAsync()
             };
 
             return response;
         }
+
         public async Task<Tournament> GetTournamentByIdAsync(int id)
         {
             var tournamentDetails = await _context.Tournaments
-                .Include(am => am.Participants_Tournaments).ThenInclude(a => a.Participant)
+                .Include(am => am.Participants_Tournaments)
+                .ThenInclude(a => a.Participant)
                 .FirstOrDefaultAsync(n => n.Id == id);
 
             return tournamentDetails;

@@ -1,4 +1,5 @@
 ﻿using BirthdayTekken.Models;
+using BirthdayTekken.Models.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayTekken.Data
@@ -24,6 +25,11 @@ namespace BirthdayTekken.Data
                 .HasForeignKey(t => t.TournamentId);
 
             modelBuilder.Entity<Participant_Tournament>()
+               .HasOne(mm => mm.MatchMaker)
+               .WithMany(pt => pt.Participants_Tournaments)
+               .HasForeignKey(mm => mm.MatchMakerId);
+
+            modelBuilder.Entity<Participant_Tournament>()
                .HasOne(p => p.Participant)
                .WithMany(pt => pt.Participant_Tournaments)
                .HasForeignKey(p => p.ParticipantId);
@@ -33,5 +39,6 @@ namespace BirthdayTekken.Data
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<Participant_Tournament> Participants_Tournaments { get; set; }
+        public DbSet<MatchMaker> Matches { get; set; }
     }
 }
