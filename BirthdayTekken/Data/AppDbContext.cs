@@ -13,36 +13,7 @@ namespace BirthdayTekken.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Participant_Tournament>().HasKey(pt => new
-            {
-                pt.ParticipantId,
-                pt.TournamentId,
-            });
-
-
-
-            modelBuilder.Entity<Participant_MatchMaker>().HasKey(pm => new
-            {
-                pm.MatchMakerId
-            });
-
-            modelBuilder.Entity<Participant_Tournament>()
-                .HasOne(t => t.Tournament)
-                .WithMany(pt => pt.Participants_Tournaments)
-                .HasForeignKey(t => t.TournamentId);
-
-            modelBuilder.Entity<Participant_Tournament>()
-               .HasOne(p => p.Participant)
-               .WithMany(pt => pt.Participant_Tournaments)
-               .HasForeignKey(p => p.ParticipantId);
-
-
-
-            modelBuilder.Entity<Participant_MatchMaker>()
-            .HasOne(mm => mm.MatchMaker)
-            .WithMany(pm=>pm.Participant_MatchMakers)
-            .HasForeignKey(mm => mm.MatchMakerId);
-
+            modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Participant> Participants { get; set; }
