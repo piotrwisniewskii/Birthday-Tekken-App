@@ -103,31 +103,26 @@ namespace BirthdayTekken.Data
                         {
                             TournamentId = 1,
                             ParticipantId = 1,
-                            MatchMakerId = 1
                         },
                         new Participant_Tournament()
                         {
                             TournamentId = 1,
                             ParticipantId = 2,
-                             MatchMakerId = 1
                         },
                         new Participant_Tournament()
                         {
                             TournamentId = 1,
                             ParticipantId = 3,
-                             MatchMakerId = 1
                         },
                         new Participant_Tournament()
                         {
                             TournamentId = 2,
                             ParticipantId = 3,
-                             MatchMakerId = 1
                         },
                         new Participant_Tournament()
                         {
                             TournamentId = 2,
                             ParticipantId = 4,
-                             MatchMakerId = 1
                         },
                     }) ;
                     context.SaveChanges();

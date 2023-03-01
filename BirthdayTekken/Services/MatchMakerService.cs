@@ -22,19 +22,18 @@ namespace BirthdayTekken.Services
             {
                 Name = match.Name,
             };
+            await _context.Matches.AddAsync(newMatch);
+            await _context.SaveChangesAsync();
 
             foreach (var participantId in match.ParticipantsIds)
             {
-                var newParticipantTournament = new Participant_Tournament()
+                var participant_MatchMaker = new Participant_MatchMaker()
                 {
+                    MatchMakerId = newMatch.Id,
                     ParticipantId = participantId
                 };
-                await _context.Participants_Tournaments
-                        .AddAsync(newParticipantTournament);
+                await _context.MatchMakers.AddAsync(participant_MatchMaker);
             }
-
-            await _context.Matches.AddAsync(newMatch);
-
             await _context.SaveChangesAsync();
         }
 
@@ -52,7 +51,7 @@ namespace BirthdayTekken.Services
         public async Task<MatchMaker> GetMatchById(int id)
         {
             var MatchDetails = await _context.Matches
-                .Include(am => am.Participants_Tournaments)
+                .Include(am => am.Participant_MatchMakers)
                 .ThenInclude(a => a.Participant)
                 .FirstOrDefaultAsync(n => n.Id == id);
             return MatchDetails;

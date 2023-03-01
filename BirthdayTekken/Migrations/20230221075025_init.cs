@@ -5,10 +5,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BirthdayTekken.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Matches",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Matches", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Participants",
                 columns: table => new
@@ -43,6 +56,30 @@ namespace BirthdayTekken.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MatchMakers",
+                columns: table => new
+                {
+                    MatchMakerId = table.Column<int>(type: "int", nullable: false),
+                    ParticipantId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MatchMakers", x => x.MatchMakerId);
+                    table.ForeignKey(
+                        name: "FK_MatchMakers_Matches_MatchMakerId",
+                        column: x => x.MatchMakerId,
+                        principalTable: "Matches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MatchMakers_Participants_ParticipantId",
+                        column: x => x.ParticipantId,
+                        principalTable: "Participants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Participants_Tournaments",
                 columns: table => new
                 {
@@ -67,6 +104,11 @@ namespace BirthdayTekken.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_MatchMakers_ParticipantId",
+                table: "MatchMakers",
+                column: "ParticipantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Participants_Tournaments_TournamentId",
                 table: "Participants_Tournaments",
                 column: "TournamentId");
@@ -75,7 +117,13 @@ namespace BirthdayTekken.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "MatchMakers");
+
+            migrationBuilder.DropTable(
                 name: "Participants_Tournaments");
+
+            migrationBuilder.DropTable(
+                name: "Matches");
 
             migrationBuilder.DropTable(
                 name: "Participants");

@@ -7,6 +7,8 @@ namespace BirthdayTekken.Models.ViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Participant_Tournament> Participants_Tournaments { get; set; }
+        public List<Participant_MatchMaker> Participant_MatchMakers { get; set; }
+
+
     }
 }

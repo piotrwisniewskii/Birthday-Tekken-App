@@ -17,7 +17,13 @@ namespace BirthdayTekken.Data
             {
                 pt.ParticipantId,
                 pt.TournamentId,
-                pt.MatchMakerId
+            });
+
+
+
+            modelBuilder.Entity<Participant_MatchMaker>().HasKey(pm => new
+            {
+                pm.MatchMakerId
             });
 
             modelBuilder.Entity<Participant_Tournament>()
@@ -26,20 +32,23 @@ namespace BirthdayTekken.Data
                 .HasForeignKey(t => t.TournamentId);
 
             modelBuilder.Entity<Participant_Tournament>()
-               .HasOne(mm => mm.MatchMaker)
-               .WithMany(pt => pt.Participants_Tournaments)
-               .HasForeignKey(mm => mm.MatchMakerId);
-
-            modelBuilder.Entity<Participant_Tournament>()
                .HasOne(p => p.Participant)
                .WithMany(pt => pt.Participant_Tournaments)
                .HasForeignKey(p => p.ParticipantId);
+
+
+
+            modelBuilder.Entity<Participant_MatchMaker>()
+            .HasOne(mm => mm.MatchMaker)
+            .WithMany(pm=>pm.Participant_MatchMakers)
+            .HasForeignKey(mm => mm.MatchMakerId);
 
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<Participant_Tournament> Participants_Tournaments { get; set; }
+        public DbSet<Participant_MatchMaker> MatchMakers { get; set; }
         public DbSet<MatchMaker> Matches { get; set; }
     }
 }

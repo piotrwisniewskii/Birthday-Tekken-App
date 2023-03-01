@@ -53,6 +53,21 @@ namespace BirthdayTekken.Migrations
                     b.ToTable("Participants");
                 });
 
+            modelBuilder.Entity("BirthdayTekken.Models.Participant_MatchMaker", b =>
+                {
+                    b.Property<int>("MatchMakerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MatchMakerId");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.ToTable("MatchMakers");
+                });
+
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>
                 {
                     b.Property<int>("ParticipantId")
@@ -61,12 +76,7 @@ namespace BirthdayTekken.Migrations
                     b.Property<int>("TournamentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MatchMakerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ParticipantId", "TournamentId", "MatchMakerId");
-
-                    b.HasIndex("MatchMakerId");
+                    b.HasKey("ParticipantId", "TournamentId");
 
                     b.HasIndex("TournamentId");
 
@@ -116,14 +126,27 @@ namespace BirthdayTekken.Migrations
                     b.ToTable("Matches");
                 });
 
-            modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>
+            modelBuilder.Entity("BirthdayTekken.Models.Participant_MatchMaker", b =>
                 {
                     b.HasOne("BirthdayTekken.Models.ViewModel.MatchMaker", "MatchMaker")
-                        .WithMany("Participants_Tournaments")
+                        .WithMany("Participant_MatchMakers")
                         .HasForeignKey("MatchMakerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BirthdayTekken.Models.Participant", "Participant")
+                        .WithMany("Participant_MatchMaker")
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MatchMaker");
+
+                    b.Navigation("Participant");
+                });
+
+            modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>
+                {
                     b.HasOne("BirthdayTekken.Models.Participant", "Participant")
                         .WithMany("Participant_Tournaments")
                         .HasForeignKey("ParticipantId")
@@ -136,8 +159,6 @@ namespace BirthdayTekken.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MatchMaker");
-
                     b.Navigation("Participant");
 
                     b.Navigation("Tournament");
@@ -145,6 +166,8 @@ namespace BirthdayTekken.Migrations
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant", b =>
                 {
+                    b.Navigation("Participant_MatchMaker");
+
                     b.Navigation("Participant_Tournaments");
                 });
 
@@ -155,7 +178,7 @@ namespace BirthdayTekken.Migrations
 
             modelBuilder.Entity("BirthdayTekken.Models.ViewModel.MatchMaker", b =>
                 {
-                    b.Navigation("Participants_Tournaments");
+                    b.Navigation("Participant_MatchMakers");
                 });
 #pragma warning restore 612, 618
         }
