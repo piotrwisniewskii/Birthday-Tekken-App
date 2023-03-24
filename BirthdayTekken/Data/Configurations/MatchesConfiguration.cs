@@ -20,8 +20,8 @@ namespace BirthdayTekken.Data.Configurations
 
             builder
                .HasOne(p => p.Match)
-               .WithMany(pt => pt.Participant_Tournaments)
-               .HasForeignKey(p => p.ParticipantId);
+               .WithMany(pt => pt.Participant_Matches)
+               .HasForeignKey(p => p.MatchId);
         }
     }
 }

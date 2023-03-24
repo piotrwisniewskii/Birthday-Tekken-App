@@ -1,21 +1,21 @@
-﻿@model Match
+﻿@*@model Participant_Match
 
-<h2>Round @Model.RoundNumber</h2>
+<h2>Round @Model.Match.RoundNumber</h2>
 
 <div>
     <h4>Participants:</h4>
     <ul>
-        @foreach (var participant in Model.Participants)
+        @foreach (var participant in Model.Match.Participant_Matches)
         {
-            <li>@participant.Name</li>
+            <li>@participant.Participant.Name</li>
         }
     </ul>
 </div>
 
 <div>
-    @using (Html.BeginForm("NextRound", "Match", new { roundNumber = Model.RoundNumber }))
+    @using (Html.BeginForm("NextRound", "Match", new { roundNumber = Model.Match.RoundNumber }))
     {
-        @for (int i = 0; i < Model.Participants.Count; i += 2)
+        @for (int i = 0; i < Model.Match.Participant.Count; i += 2)
         {
             var participant1 = Model.Participants[i];
             var participant2 = Model.Participants[i + 1];
@@ -31,4 +31,4 @@
 
         <input type="submit" value="Next Round" />
     }
-</div>
+</div>*@

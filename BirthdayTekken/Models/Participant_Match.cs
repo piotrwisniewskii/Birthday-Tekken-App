@@ -3,7 +3,7 @@
     public class Participant_Match
     {
 
-        public int Match { get; set; }
+        public Match Match { get; set; }
         public int MatchId { get; set; }
 
         public Participant Participant { get; set; }
