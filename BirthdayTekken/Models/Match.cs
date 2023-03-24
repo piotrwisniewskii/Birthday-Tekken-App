@@ -6,10 +6,11 @@ namespace BirthdayTekken.Models
     {
         public int Id { get; set; }
         public Participant Participant1 { get; set; }
-        public Participant Participan2t { get; set; }
+        public Participant Participant2 { get; set; }
         public Participant Winner { get; set; }
         public int Participant1Id { get; set; }
         public int Participant2Id { get; set; }
         public int? WinnerId { get; set; }
+        public int RoundNumber { get; set; }
     }
 }

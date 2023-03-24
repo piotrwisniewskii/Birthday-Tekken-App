@@ -98,7 +98,7 @@ namespace BirthdayTekken.Controllers
                 matches.Add(new Match
                 {
                     Participant1 = shuffledParticipants[i],
-                    Participan2t = shuffledParticipants[i + 1]
+                    Participant2 = shuffledParticipants[i + 1]
                 });
             }
 
@@ -106,5 +106,6 @@ namespace BirthdayTekken.Controllers
 
             return View(modelMatch);
         }
+
     }
 }

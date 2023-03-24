@@ -33,7 +33,7 @@ namespace BirthdayTekken.Models
         [ValidateNever]
         public List<Participant_Tournament> Participant_Tournaments { get; set; }
 
-        //public List<Match> Matches { get; set; }
+        public List<Match> Matches { get; set; }
 
     }
 }
