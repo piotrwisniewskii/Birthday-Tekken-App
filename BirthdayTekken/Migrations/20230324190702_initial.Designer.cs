@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230324160959_initia2")]
-    partial class initia2
+    [Migration("20230324190702_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,12 +32,10 @@ namespace BirthdayTekken.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ParticipantId")
+                    b.Property<int>("RoundNumber")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParticipantId");
 
                     b.ToTable("Matches");
                 });
@@ -114,15 +112,19 @@ namespace BirthdayTekken.Migrations
                     b.ToTable("Tournaments");
                 });
 
-            modelBuilder.Entity("BirthdayTekken.Models.Match", b =>
+            modelBuilder.Entity("MatchParticipant", b =>
                 {
-                    b.HasOne("BirthdayTekken.Models.Participant", "Participant")
-                        .WithMany("Matches")
-                        .HasForeignKey("ParticipantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("MatchesId")
+                        .HasColumnType("int");
 
-                    b.Navigation("Participant");
+                    b.Property<int>("ParticipantsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MatchesId", "ParticipantsId");
+
+                    b.HasIndex("ParticipantsId");
+
+                    b.ToTable("MatchParticipant");
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>
@@ -144,10 +146,23 @@ namespace BirthdayTekken.Migrations
                     b.Navigation("Tournament");
                 });
 
+            modelBuilder.Entity("MatchParticipant", b =>
+                {
+                    b.HasOne("BirthdayTekken.Models.Match", null)
+                        .WithMany()
+                        .HasForeignKey("MatchesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BirthdayTekken.Models.Participant", null)
+                        .WithMany()
+                        .HasForeignKey("ParticipantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BirthdayTekken.Models.Participant", b =>
                 {
-                    b.Navigation("Matches");
-
                     b.Navigation("Participant_Tournaments");
                 });
 

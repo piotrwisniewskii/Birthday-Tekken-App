@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230324163252_initia22")]
-    partial class initia22
+    [Migration("20230324191007_secondmig")]
+    partial class secondmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,22 @@ namespace BirthdayTekken.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("BirthdayTekken.Models.Match", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("RoundNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Matches");
+                });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant", b =>
                 {
@@ -96,6 +112,21 @@ namespace BirthdayTekken.Migrations
                     b.ToTable("Tournaments");
                 });
 
+            modelBuilder.Entity("MatchParticipant", b =>
+                {
+                    b.Property<int>("MatchesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParticipantsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MatchesId", "ParticipantsId");
+
+                    b.HasIndex("ParticipantsId");
+
+                    b.ToTable("MatchParticipant");
+                });
+
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>
                 {
                     b.HasOne("BirthdayTekken.Models.Participant", "Participant")
@@ -113,6 +144,21 @@ namespace BirthdayTekken.Migrations
                     b.Navigation("Participant");
 
                     b.Navigation("Tournament");
+                });
+
+            modelBuilder.Entity("MatchParticipant", b =>
+                {
+                    b.HasOne("BirthdayTekken.Models.Match", null)
+                        .WithMany()
+                        .HasForeignKey("MatchesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BirthdayTekken.Models.Participant", null)
+                        .WithMany()
+                        .HasForeignKey("ParticipantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant", b =>

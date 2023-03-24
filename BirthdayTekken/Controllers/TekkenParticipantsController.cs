@@ -85,27 +85,5 @@ namespace BirthdayTekken.Controllers
         }
 
 
-        public async Task<IActionResult> CreateMatch()
-        {
-            var model = await _service.GetAllAsync();
-
-            var shuffledParticipants = model.OrderBy(p=>Guid.NewGuid()).ToList();
-
-            var matches = new List<Match>();
-
-            for (int i = 0; i < shuffledParticipants.Count; i+= 2)
-            {
-                matches.Add(new Match
-                {
-                    Participant1 = shuffledParticipants[i],
-                    Participant2 = shuffledParticipants[i + 1]
-                });
-            }
-
-            var modelMatch = new List<List<Match>>();
-
-            return View(modelMatch);
-        }
-
     }
 }

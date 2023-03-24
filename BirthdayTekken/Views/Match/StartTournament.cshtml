@@ -1,0 +1,20 @@
+﻿@model Match
+
+<h2>Round @Model.RoundNumber</h2>
+
+<div>
+    <h4>Participants:</h4>
+    <ul>
+        @foreach (var participant in Model.Participants)
+        {
+            <li>@participant.Name</li>
+        }
+    </ul>
+</div>
+
+<div>
+    @using (Html.BeginForm("NextRound", "Match", new { roundNumber = Model.RoundNumber }))
+    {
+        <input type="submit" value="Start Next Round" />
+    }
+</div>
