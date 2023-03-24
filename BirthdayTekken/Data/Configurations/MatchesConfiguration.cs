@@ -6,16 +6,22 @@ using System.Reflection.Emit;
 
 namespace BirthdayTekken.Data.Configurations
 {
-    public class MatchesConfiguration : IEntityTypeConfiguration<Match>
+    public class MatchesConfiguration : IEntityTypeConfiguration<Participant_Match>
     {
-        public void Configure(EntityTypeBuilder<Match> builder)
+        public void Configure(EntityTypeBuilder<Participant_Match> builder)
         {
             builder
-                .HasKey(x => x.Id);
+                .HasKey(x => new {x.MatchId, x.ParticipantId });
 
             builder
-                .HasMany(m => m.Participants)
-                .WithMany(p => p.Matches);
+                .HasOne(t => t.Participant)
+                .WithMany(pt => pt.Participant_Matches)
+                .HasForeignKey(t => t.ParticipantId);
+
+            builder
+               .HasOne(p => p.Match)
+               .WithMany(pt => pt.Participant_Tournaments)
+               .HasForeignKey(p => p.ParticipantId);
         }
     }
 }

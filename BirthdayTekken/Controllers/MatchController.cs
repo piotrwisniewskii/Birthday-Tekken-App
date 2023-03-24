@@ -23,21 +23,30 @@ namespace BirthdayTekken.Controllers
         public IActionResult StartTournament()
         {
             var participants = _context.Participants.ToList();
+
+            var guidNumber = Guid.NewGuid();
+
             Match matchFirstRound = new Match
             {
-                RoundNumber = 1,
+
+                RoundNumber = guidNumber,
                 Participants = participants,
 
             };
+
             _context.Matches.Add(matchFirstRound);
-            _context.SaveChanges();
+  
 
             return View(matchFirstRound);
         }
 
-        public IActionResult NextRound(int roundNumber)
+        public IActionResult NextRound(Guid roundNumber)
         {
-            Match previousRound = _context.Matches.Single(r => r.RoundNumber == roundNumber);
+            Match previousRound = _context.Matches.SingleOrDefault(p => p.RoundNumber == roundNumber);
+            if (previousRound == null)
+            {
+                return NotFound($"No match found with round number {roundNumber}.");
+            }
             List<Participant> previousParticipants = previousRound.Participants;
             List<Participant> nextParticipants = new List<Participant>();
 
@@ -55,8 +64,8 @@ namespace BirthdayTekken.Controllers
                 nextParticipants.Add(nextParticipant);
             }
 
-            int nextRoundNumber = roundNumber + 1;
-            Match nextRound = new Match { RoundNumber = nextRoundNumber, Participants = nextParticipants };
+            int nextRoundNumber = 1 + 1;
+            Match nextRound = new Match { Id = nextRoundNumber, Participants = nextParticipants };
             _context.Matches.Add(nextRound);
             _context.SaveChanges();
 
@@ -72,47 +81,5 @@ namespace BirthdayTekken.Controllers
             return nextParticipant;
         }
 
-
-
-
-        //public IActionResult Index()
-        //{
-        //    var participants = _context.Participants.ToList();
-        //    var matches = GenerateTournamentLadder(participants);
-
-        //    return View(matches);
-        //}
-
-        //private List<Match> GenerateTournamentLadder(List<Participant> participants)
-        //{
-        //    var matches = new List<Match>();
-
-        //    var participantCount = participants.Count;
-
-        //    var rounds = (int)Math.Ceiling(Math.Log(participantCount, 2));
-
-        //    for (int i = 1; i <= rounds; i++)
-        //    {
-        //        var matchCount = (int)Math.Pow(2, rounds - i);
-
-        //        for (int j = 1; j <= matchCount; j++)
-        //        {
-        //            var match = new Match
-        //            {
-        //                RoundNumber = i,
-        //                Participant1Id = participants[(j - 1) * 2].Id,
-        //                Participant2Id = participants[(j - 1) * 2 + 1].Id
-        //            };
-
-        //            _context.Matches.Add(match);
-
-        //            matches.Add(match);
-        //        }
-        //    }
-
-        //    _context.SaveChanges();
-
-        //    return matches;
-        //}
     }
 }

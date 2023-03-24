@@ -6,9 +6,9 @@ namespace BirthdayTekken.Models
     public class Match
     {
         public int Id { get; set; }
-        public int RoundNumber { get; set; }
+        public Guid RoundNumber { get; set; }
 
-        public List<Participant> Participants { get; set; }
+        public List<Participant_Match> ParticipantsMatch { get; set; } = new List<Participant_Match>();
 
         [NotMapped]
         public Participant? Winner { get; set; }
