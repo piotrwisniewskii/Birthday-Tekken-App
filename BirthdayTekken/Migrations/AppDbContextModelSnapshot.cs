@@ -22,6 +22,24 @@ namespace BirthdayTekken.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BirthdayTekken.Models.Match", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.ToTable("Matches");
+                });
+
             modelBuilder.Entity("BirthdayTekken.Models.Participant", b =>
                 {
                     b.Property<int>("Id")
@@ -51,21 +69,6 @@ namespace BirthdayTekken.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Participants");
-                });
-
-            modelBuilder.Entity("BirthdayTekken.Models.Participant_MatchMaker", b =>
-                {
-                    b.Property<int>("MatchMakerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ParticipantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MatchMakerId", "ParticipantId");
-
-                    b.HasIndex("ParticipantId");
-
-                    b.ToTable("MatchMakers");
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>
@@ -109,38 +112,13 @@ namespace BirthdayTekken.Migrations
                     b.ToTable("Tournaments");
                 });
 
-            modelBuilder.Entity("BirthdayTekken.Models.ViewModel.MatchMaker", b =>
+            modelBuilder.Entity("BirthdayTekken.Models.Match", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Matches");
-                });
-
-            modelBuilder.Entity("BirthdayTekken.Models.Participant_MatchMaker", b =>
-                {
-                    b.HasOne("BirthdayTekken.Models.ViewModel.MatchMaker", "MatchMaker")
-                        .WithMany("Participant_MatchMakers")
-                        .HasForeignKey("MatchMakerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BirthdayTekken.Models.Participant", "Participant")
-                        .WithMany("Participant_MatchMaker")
+                        .WithMany("Matches")
                         .HasForeignKey("ParticipantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MatchMaker");
 
                     b.Navigation("Participant");
                 });
@@ -166,7 +144,7 @@ namespace BirthdayTekken.Migrations
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant", b =>
                 {
-                    b.Navigation("Participant_MatchMaker");
+                    b.Navigation("Matches");
 
                     b.Navigation("Participant_Tournaments");
                 });
@@ -174,11 +152,6 @@ namespace BirthdayTekken.Migrations
             modelBuilder.Entity("BirthdayTekken.Models.Tournament", b =>
                 {
                     b.Navigation("Participants_Tournaments");
-                });
-
-            modelBuilder.Entity("BirthdayTekken.Models.ViewModel.MatchMaker", b =>
-                {
-                    b.Navigation("Participant_MatchMakers");
                 });
 #pragma warning restore 612, 618
         }

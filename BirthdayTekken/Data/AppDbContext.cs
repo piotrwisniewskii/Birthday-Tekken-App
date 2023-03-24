@@ -19,7 +19,6 @@ namespace BirthdayTekken.Data
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<Participant_Tournament> Participants_Tournaments { get; set; }
-        public DbSet<Participant_MatchMaker> MatchMakers { get; set; }
-        public DbSet<MatchMaker> Matches { get; set; }
+        //public DbSet<Match> Matches { get; set; }
     }
 }

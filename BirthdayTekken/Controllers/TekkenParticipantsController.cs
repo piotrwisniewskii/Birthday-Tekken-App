@@ -33,7 +33,8 @@ namespace BirthdayTekken.Controllers
             return View();
         }
 
-    
+
+
 
        [HttpPost]
         public async Task<IActionResult> Create([Bind("ProfilePictureURL", "Name", "Surname","Champion")]Participant participant)
@@ -66,7 +67,6 @@ namespace BirthdayTekken.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
         public async Task <IActionResult> Delete(int id)
         {
             var model = await _service.GetByIdAsync(id);
@@ -82,6 +82,29 @@ namespace BirthdayTekken.Controllers
 
             await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> CreateMatch()
+        {
+            var model = await _service.GetAllAsync();
+
+            var shuffledParticipants = model.OrderBy(p=>Guid.NewGuid()).ToList();
+
+            var matches = new List<Match>();
+
+            for (int i = 0; i < shuffledParticipants.Count; i+= 2)
+            {
+                matches.Add(new Match
+                {
+                    Participant1 = shuffledParticipants[i],
+                    Participan2t = shuffledParticipants[i + 1]
+                });
+            }
+
+            var modelMatch = new List<List<Match>>();
+
+            return View(modelMatch);
         }
     }
 }

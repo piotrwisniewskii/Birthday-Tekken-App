@@ -80,19 +80,7 @@ namespace BirthdayTekken.Data
                 });
                     context.SaveChanges();
                 }
-                //MAtchMaker
 
-                if (!context.Matches.Any())
-                {
-                    context.Matches.AddRange(new List<MatchMaker>()
-                    {
-                        new MatchMaker()
-                        {
-                            Name = "Match First"
-                        }
-                });
-                    context.SaveChanges();
-                }
 
                 //Participants & Tournamnents
                 if (!context.Participants_Tournaments.Any())
