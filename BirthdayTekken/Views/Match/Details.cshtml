@@ -1,0 +1,28 @@
+﻿@model BirthdayTekken.Models.Match
+
+<h2>Match Details</h2>
+
+@if (Model == null)
+{
+    <p>Match not found.</p>
+}
+else
+{
+    <dl>
+        <dt>Match ID:</dt>
+        <dd>@Model.Id</dd>
+        <dt>Round Number:</dt>
+        <dd>@Model.RoundNumber</dd>
+        <dt>Participants:</dt>
+        <dd>
+            <ul>
+                @foreach (var pm in Model.Participant_Matches)
+                {
+                    <li>@pm.Participant.Name</li>
+                }
+            </ul>
+        </dd>
+        <dt>Winner:</dt>
+        <dd>@(Model.WinnerId > 0 ? Model.Participant_Matches.FirstOrDefault(pm => pm.Participant.Id == Model.WinnerId)?.Participant.Name : "-")</dd>
+    </dl>
+}

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230324205959_initial")]
+    [Migration("20230325175909_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,8 +32,8 @@ namespace BirthdayTekken.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid>("RoundNumber")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("RoundNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -83,7 +83,7 @@ namespace BirthdayTekken.Migrations
 
                     b.HasIndex("ParticipantId");
 
-                    b.ToTable("Participant_Match");
+                    b.ToTable("Participants_Matches");
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Tournament", b =>

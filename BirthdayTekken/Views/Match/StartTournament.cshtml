@@ -1,20 +1,29 @@
-﻿@*@model Match
+﻿@model List<List<Match>>
 
-<h2>Round @Model.RoundNumber</h2>
+@{
+    ViewData["Title"] = "Tournament Ladder";
+}
 
-<div>
-    <h4>Participants:</h4>
-    <ul>
-        @foreach (var participant in Model.Participants)
+<h1>@ViewData["Title"]</h1>
+
+@foreach (var round in Model)
+{
+    <h2>Round @round.First().RoundNumber</h2>
+
+   @* <ul>
+        @foreach (var match in round)
         {
-            <li>@participant.Name</li>
+            <li>
+                @foreach (var pm in match.Participant_Matches)
+                {
+                    @pm.Participant.Name @pm.Participant.Surname
+                    @if (pm.Participant.Id == match.Winner?.Id)
+                    {
+                        (winner);
+                    }
+                    <br />
+                }
+            </li>
         }
-    </ul>
-</div>
-
-<div>
-    @using (Html.BeginForm("NextRound", "Match", new { roundNumber = Model.RoundNumber }))
-    {
-        <input type="submit" value="Start Next Round" />
-    }
-</div>*@
+    </ul>*@
+}

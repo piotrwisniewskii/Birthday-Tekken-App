@@ -4,14 +4,16 @@ using System.Xml.Linq;
 
 namespace BirthdayTekken.Models.ViewModel
 {
-    public class NewMatchMakerVM
+    public class NewMatchVm
     {
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        
+
         [Display(Name = "Winner")]
-        public int? WinnerId { get; set; }
+        public int WinnerId { get; set; }
+
+        public int RoundNumber { get; set; }
         [Required]
 
         //Relationships

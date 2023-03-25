@@ -1,0 +1,25 @@
+﻿@using BirthdayTekken.Models.ViewModel
+@model NewMatchVm
+
+<h2>Create New Match</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label>Round Number</label>
+        @Html.TextBoxFor(m => m.RoundNumber, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Participants</label>
+        @Html.ListBoxFor(m => m.ParticipantsIds, (IEnumerable<SelectListItem>) ViewBag.Participants, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Winner</label>
+        @Html.DropDownListFor(m => m.WinnerId, (IEnumerable<SelectListItem>) ViewBag.Participants, "-- Select --", new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+}
+

@@ -7,12 +7,12 @@ namespace BirthdayTekken.Models
     public class Match : IEntityBase
     {
         public int Id { get; set; }
-        public Guid RoundNumber { get; set; }
+        public int RoundNumber { get; set; }
 
-        public List<Participant_Match> Participant_Matches { get; set; } = new List<Participant_Match>();
+        public List<Participant_Match> Participant_Matches { get; set; }
 
         [NotMapped]
-        public Participant? Winner { get; set; }
+        public int WinnerId { get; set; }
 
     }
 }
