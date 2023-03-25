@@ -60,5 +60,18 @@ namespace BirthdayTekken.Services
             return response;
         }
 
+        public async Task<NewMatchDropdownsVM> GetRandomizedParticipantsList()
+        {
+            Random random = new Random();
+
+            var response = new NewMatchDropdownsVM()
+            {
+                Participants = await _context.Participants
+                .OrderBy(p => random.Next())
+                .ToListAsync()
+            };
+
+            return response;
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace BirthdayTekken.Models.ViewModel
 {
-    public class NewTournamentVM 
+    public class NewTournamentVM
     {
         public int Id { get; set; }
         [Required]
@@ -24,5 +24,7 @@ namespace BirthdayTekken.Models.ViewModel
         //Relationships
         [ValidateNever]
         public List<int> ParticipantsIds { get; set; }
+
     }
 }
+

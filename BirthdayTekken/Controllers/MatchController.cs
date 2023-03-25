@@ -5,6 +5,7 @@ using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Media;
 
 namespace BirthdayTekken.Controllers
@@ -14,7 +15,7 @@ namespace BirthdayTekken.Controllers
         private readonly IMatchService _service;
         private readonly Random _random;
 
-        public MatchController( Random random, IMatchService service)
+        public MatchController(Random random, IMatchService service)
         {
             _random = random;
             _service = service;
@@ -57,81 +58,20 @@ namespace BirthdayTekken.Controllers
         }
 
 
-        //    public IActionResult StartTournament()
-        //    {
-        //        // Get all matches from the database and group them by round number
-        //        var matches = db.Participant_Matches.Include(m => m.Match).Include(m => m.Participant)
-        //                        .OrderBy(m => m.Match.RoundNumber).ToList();
-        //        var rounds = matches.GroupBy(m => m.Match.RoundNumber);
+        public async Task<IActionResult> GenerateMatch()
+        {
+            Random random = new Random();
+            var shuffledParticipants = await _service.GetNewMatchDropdownsValies();
+            var participants = shuffledParticipants.Participants
+                .OrderBy(p => random.Next()).ToList();
 
-        //        // Create a list of lists to hold the matches for each round
-        //        var roundsList = new List<List<Participant_Match>>();
+            //ViewBag.Participants = new SelectList(matchDropDownValues.Participants, "Id", "Name", "Surname");
+             var roundMatch = new NewMatchVm(participants[0], participants[1]);
 
-        //        foreach (var round in rounds)
-        //        {
-        //            // Create a list to hold the matches for this round
-        //            var roundMatches = new List<Participant_Match>();
-
-        //            foreach (var match in round)
-        //            {
-        //                roundMatches.Add(match);
-        //            }
-
-        //            // Add the matches for this round to the list of rounds
-        //            roundsList.Add(roundMatches);
-        //        }
-
-        //        // Create a new TournamentLadderViewModel and pass it to the view
-        //        var model = new TournamentLadderViewModel { Rounds = roundsList };
-        //        return View(model);
-        //    }
-
-        //    // Pass the list of rounds to the view
-        //    return View(rounds);
-        //}
-
-        //    public IActionResult NextRound(Guid roundNumber)
-        //    {
-        //        Match previousRound = _context.Matches.SingleOrDefault(p => p.RoundNumber == roundNumber);
-        //        if (previousRound == null)
-        //        {
-        //            return NotFound($"No match found with round number {roundNumber}.");
-        //        }
-        //        List<Participant> previousParticipants = previousRound.Participants;
-        //        List<Participant> nextParticipants = new List<Participant>();
-
-        //        while (previousParticipants.Count > 0)
-        //        {
-        //            int index1 = _random.Next(previousParticipants.Count);
-        //            Participant participant1 = previousParticipants[index1];
-        //            previousParticipants.RemoveAt(index1);
-
-        //            int index2 = _random.Next(previousParticipants.Count);
-        //            Participant participant2 = previousParticipants[index2];
-        //            previousParticipants.RemoveAt(index2);
-
-        //            Participant nextParticipant = CreateNextParticipant(participant1, participant2);
-        //            nextParticipants.Add(nextParticipant);
-        //        }
-
-        //        int nextRoundNumber = 1 + 1;
-        //        Match nextRound = new Match { Id = nextRoundNumber, Participants = nextParticipants };
-        //        _context.Matches.Add(nextRound);
-        //        _context.SaveChanges();
-
-        //        return View(nextRound);
-        //    }
+            return View(roundMatch);
+        }
 
 
-        //    private Participant CreateNextParticipant(Participant participant1, Participant participant2)
-        //    {
-
-        //        Participant nextParticipant = new Participant {  };
-        //        nextParticipant = participant1;
-        //        return nextParticipant;
-        //    }
-
-        //}
     }
 }
 
