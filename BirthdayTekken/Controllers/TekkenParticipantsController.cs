@@ -34,8 +34,6 @@ namespace BirthdayTekken.Controllers
         }
 
 
-
-
        [HttpPost]
         public async Task<IActionResult> Create([Bind("ProfilePictureURL", "Name", "Surname","Champion")]Participant participant)
         {

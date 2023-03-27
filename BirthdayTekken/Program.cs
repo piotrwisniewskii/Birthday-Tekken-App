@@ -19,7 +19,7 @@ builder.Services.AddTransient<Random>();
 builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 
-
+// minor fix
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
