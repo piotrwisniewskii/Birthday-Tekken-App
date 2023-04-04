@@ -60,15 +60,19 @@ namespace BirthdayTekken.Controllers
 
         public async Task<IActionResult> GenerateMatch()
         {
-            Random random = new Random();
             var shuffledParticipants = await _service.GetNewMatchDropdownsValies();
             var participants = shuffledParticipants.Participants
-                .OrderBy(p => random.Next()).ToList();
+                .OrderBy(p => _random.Next()).ToList();
 
-            //ViewBag.Participants = new SelectList(matchDropDownValues.Participants, "Id", "Name", "Surname");
-             var roundMatch = new NewMatchVm(participants[0], participants[1]);
-
+            var roundMatch = new NewMatchVm(participants[0], participants[1]);
             return View(roundMatch);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GenerateMatch(int winnerId, int loserId)
+        {
+            await _service.RemoveParticipantAsync(loserId);
+            return RedirectToAction(nameof(Index));
         }
 
 

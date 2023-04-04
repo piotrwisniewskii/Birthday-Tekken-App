@@ -73,5 +73,15 @@ namespace BirthdayTekken.Services
 
             return response;
         }
+
+        public async Task RemoveParticipantAsync(int participantId)
+        {
+            var participant = await _context.Matches.FindAsync(participantId);
+            if (participant != null)
+            {
+                _context.Matches.Remove(participant);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }
