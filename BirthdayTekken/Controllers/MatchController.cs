@@ -61,9 +61,15 @@ namespace BirthdayTekken.Controllers
         public async Task<IActionResult> GenerateMatch()
         {
             var shuffledParticipants = await _service.GetNewMatchDropdownsValies();
-            var participants = shuffledParticipants.Participants
-                .OrderBy(p => _random.Next()).ToList();
+            var allParticipants = shuffledParticipants.Participants.OrderBy(p => _random.Next()).ToList();
 
+            if (allParticipants.Count < 2)
+            {
+                
+                return View("Not Found");
+            }
+
+            var participants = allParticipants.Take(2).ToList();
             var roundMatch = new NewMatchVm(participants[0], participants[1]);
             return View(roundMatch);
         }
@@ -74,6 +80,7 @@ namespace BirthdayTekken.Controllers
             await _service.RemoveParticipantAsync(loserId);
             return RedirectToAction(nameof(Index));
         }
+
 
 
     }
