@@ -1,9 +1,28 @@
 ﻿@using BirthdayTekken.Models.ViewModel
 @model NewMatchVm
-<h1>Round @Model.RoundNumber</h1>
+@{
+    ViewData["Title"] = "Generate Match";
+}
 
-<div>
-    <div>@Model.Participant1.Name @Model.Participant1.Surname</div>
-    <div>vs.</div>
-    <div>@Model.Participant2.Name @Model.Participant2.Surname</div>
-</div>
+<h1>Generate Match</h1>
+
+<form asp-action="GenerateMatch" method="post">
+    <div class="form-group">
+        <label>Participant 1:</label>
+        <span>@Model.Participant1.Name @Model.Participant1.Surname</span>
+    </div>
+    <div class="form-group">
+        <label>Participant 2:</label>
+        <span>@Model.Participant2.Name @Model.Participant2.Surname</span>
+    </div>
+    <div class="form-group">
+        <label for="winner">Choose the winner:</label>
+        <select id="winner" name="winnerId" class="form-control">
+            <option value="@Model.Participant1.Id">@Model.Participant1.Name @Model.Participant1.Surname</option>
+            <option value="@Model.Participant2.Id">@Model.Participant2.Name @Model.Participant2.Surname</option>
+        </select>
+    </div>
+    <input type="hidden" asp-for="Participant1.Id" name="loserId" />
+    <input type="hidden" asp-for="Participant2.Id" name="loserId" />
+    <button type="submit" class="btn btn-primary">Submit Result</button>
+</form>
