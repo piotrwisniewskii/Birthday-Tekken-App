@@ -12,5 +12,8 @@ namespace BirthdayTekken.Services
         Task<NewMatchDropdownsVM> GetNewMatchDropdownsValies();
         Task<NewMatchDropdownsVM> GetRandomizedParticipantsList();
         Task RemoveParticipantAsync(int participantId);
+        Task AddRandomMatchAsync();
+        Task<List<Match>> GetAllMatchesAsync();
+
     }
 }

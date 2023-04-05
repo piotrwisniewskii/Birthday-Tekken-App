@@ -1,36 +1,43 @@
-﻿@model IEnumerable<BirthdayTekken.Models.Match>
+﻿@model List<BirthdayTekken.Models.Match>
 
-<h2>Tournament Matches</h2>
-
-@if (!Model.Any())
-{
-    <p>No matches found.</p>
+@{
+    ViewData["Title"] = "Matches";
 }
-else
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Match ID</th>
-                <th>Round Number</th>
-                <th>Participant 1</th>
-                <th>Participant 2</th>
-                <th>Winner</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var match in Model)
-            {
+
+<h1>Matches</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Match ID</th>
+            <th>Round Number</th>
+            <th>Participants</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var match in Model)
+        {
                 <tr>
                     <td>@match.Id</td>
                     <td>@match.RoundNumber</td>
-                    <td>@match.Participant_Matches[0].Participant.Name</td>
-                    <td>@match.Participant_Matches[1].Participant.Name</td>
-                    <td>@(match.WinnerId > 0 ? match.Participant_Matches.FirstOrDefault(pm => pm.Participant.Id == match.WinnerId)?.Participant.Name : "-")</td>
+                    <td>
+                        <ul>
+                        @if (match.Participant_Matches != null)
+                        {
+                            foreach (var participantMatch in match.Participant_Matches)
+                            {
+                                if (participantMatch.Participant != null)
+                                {
+                                                    <li>@participantMatch.Participant.Name @participantMatch.Participant.Surname</li>
+                                }
+                            }
+                        }
+                        </ul>
+                    </td>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+        }
+    </tbody>
+</table>
+
 
 @await Html.PartialAsync("_CreateItem", "Match")

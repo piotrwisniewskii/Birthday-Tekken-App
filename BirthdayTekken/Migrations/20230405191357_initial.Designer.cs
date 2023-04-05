@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230405190454_mig1")]
-    partial class mig1
+    [Migration("20230405191357_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,12 +35,7 @@ namespace BirthdayTekken.Migrations
                     b.Property<int>("RoundNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("WinnerId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("WinnerId");
 
                     b.ToTable("Matches");
                 });
@@ -132,27 +127,18 @@ namespace BirthdayTekken.Migrations
                     b.ToTable("Tournaments");
                 });
 
-            modelBuilder.Entity("BirthdayTekken.Models.Match", b =>
-                {
-                    b.HasOne("BirthdayTekken.Models.Participant", "Winner")
-                        .WithMany()
-                        .HasForeignKey("WinnerId");
-
-                    b.Navigation("Winner");
-                });
-
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Match", b =>
                 {
                     b.HasOne("BirthdayTekken.Models.Match", "Match")
                         .WithMany("Participant_Matches")
                         .HasForeignKey("MatchId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BirthdayTekken.Models.Participant", "Participant")
                         .WithMany("Participant_Matches")
                         .HasForeignKey("ParticipantId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Match");
