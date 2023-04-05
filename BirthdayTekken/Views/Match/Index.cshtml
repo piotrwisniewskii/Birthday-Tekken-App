@@ -1,7 +1,7 @@
 ﻿@model List<BirthdayTekken.Models.Match>
 
 @{
-    ViewData["Title"] = "Matches";
+    ViewData["Title"] = "Match";
 }
 
 <h1>Matches</h1>
@@ -10,21 +10,19 @@
     <thead>
         <tr>
             <th>Match ID</th>
-            <th>Round Number</th>
             <th>Participants</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var match in Model)
         {
-                <tr>
-                    <td>@match.Id</td>
-                    <td>@match.RoundNumber</td>
-                    <td>
-                        <ul>
+                    <tr>
+                        <td>@match.Id</td>
+                        <td>
+                            <ul>
                         @if (match.Participant_Matches != null)
                         {
-                            foreach (var participantMatch in match.Participant_Matches)
+                            @foreach (var participantMatch in match.Participant_Matches)
                             {
                                 if (participantMatch.Participant != null)
                                 {
@@ -32,12 +30,15 @@
                                 }
                             }
                         }
-                        </ul>
-                    </td>
-                </tr>
+                            </ul>
+                        </td>
+                    </tr>
         }
     </tbody>
 </table>
 
-
-@await Html.PartialAsync("_CreateItem", "Match")
+<div style="position: fixed; right: 25px; bottom: 25px" class="text white">
+    <a asp-controller="Match" asp-action="AddRandomMatch" class="btn btn-success">
+    <i class="bi bi-plus-circle"></i>Add New
+    </a>
+</div>

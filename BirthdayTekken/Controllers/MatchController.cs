@@ -65,7 +65,7 @@ namespace BirthdayTekken.Controllers
 
 
         [HttpPost]
-        [Route("Matches/AddRandomMatch")]
+        [Route("Match/AddRandomMatch")]
         public async Task<IActionResult> AddRandomMatchAsync()
         {
             try
