@@ -1,44 +1,38 @@
-﻿@model List<BirthdayTekken.Models.Match>
+﻿@model IEnumerable<Match>
 
 @{
-    ViewData["Title"] = "Match";
+    ViewData["Title"] = "List of Matches";
 }
 
-<h1>Matches</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Match ID</th>
-            <th>Participants</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var match in Model)
-        {
-                    <tr>
-                        <td>@match.Id</td>
-                        <td>
-                            <ul>
-                        @if (match.Participant_Matches != null)
-                        {
-                            @foreach (var participantMatch in match.Participant_Matches)
-                            {
-                                if (participantMatch.Participant != null)
-                                {
-                                                    <li>@participantMatch.Participant.Name @participantMatch.Participant.Surname</li>
-                                }
-                            }
-                        }
-                            </ul>
-                        </td>
-                    </tr>
-        }
-    </tbody>
-</table>
-
-<div style="position: fixed; right: 25px; bottom: 25px" class="text white">
-    <a asp-controller="Match" asp-action="AddRandomMatch" class="btn btn-success">
-    <i class="bi bi-plus-circle"></i>Add New
-    </a>
+<div class ="row">
+    <div class="col-md-8 offset-md-2">
+        <table class="table">
+            <thead>
+                 <tr>
+                     <th><label asp-for="First().Id"></label></th>
+                     <th><label asp-for="First().WinnerId"></label></th>
+                     <th>Actions</th>
+                 </tr>
+            </thead>
+        <tbody>
+                @foreach (var item in Model)
+                {
+                        <tr>
+                            
+                            <td class="allign-middle">
+                            @item.Id
+                            </td>
+                            <td class="allign-middle">
+                            @item.WinnerId
+                            </td>
+                            <td class="allign middle">
+                                <a class="btn btn-outline-primary text-black" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
+                                <a class="btn btn-outline-info text-black"    asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details</a> |
+                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
+                            </td>
+                       </tr>
+                }
+         </tbody>
+        </table>
+    </div>
 </div>
