@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230404190042_migFix")]
-    partial class migFix
+    [Migration("20230405185013_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,7 +35,12 @@ namespace BirthdayTekken.Migrations
                     b.Property<int>("RoundNumber")
                         .HasColumnType("int");
 
+                    b.Property<int>("WinnerId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WinnerId");
 
                     b.ToTable("Matches");
                 });
@@ -125,6 +130,17 @@ namespace BirthdayTekken.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tournaments");
+                });
+
+            modelBuilder.Entity("BirthdayTekken.Models.Match", b =>
+                {
+                    b.HasOne("BirthdayTekken.Models.Participant", "Winner")
+                        .WithMany()
+                        .HasForeignKey("WinnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Winner");
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Match", b =>

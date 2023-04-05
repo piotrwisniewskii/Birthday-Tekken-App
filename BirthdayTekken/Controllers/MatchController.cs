@@ -58,21 +58,34 @@ namespace BirthdayTekken.Controllers
         }
 
 
-        public async Task<IActionResult> GenerateMatch()
-        {
-            var shuffledParticipants = await _service.GetNewMatchDropdownsValies();
-            var allParticipants = shuffledParticipants.Participants.OrderBy(p => _random.Next()).ToList();
+        //public async Task<IActionResult> GenerateMatch(int roundNumber)
+        //{
+        //    var shuffledParticipants = await _service.GetNewMatchDropdownsValies();
+        //    var allParticipants = shuffledParticipants.Participants.OrderBy(p => _random.Next()).ToList();
 
-            if (allParticipants.Count < 2)
-            {
+        //    if (allParticipants.Count < 2)
+        //    {
                 
-                return View("Not Found");
-            }
+        //        return View("Not Found");
+        //    }
 
-            var participants = allParticipants.Take(2).ToList();
-            var roundMatch = new NewMatchVm(participants[0], participants[1]);
-            return View(roundMatch);
-        }
+        //    var random = new Random();
+        //    var firstParticipantIndex = random.Next(allParticipants.Count);
+        //    int secondParticipantIndex;
+
+        //    do
+        //    {
+        //        secondParticipantIndex = random.Next(allParticipants.Count);
+        //    } while (secondParticipantIndex == firstParticipantIndex);
+
+        //    var firstParticipant = allParticipants[firstParticipantIndex];
+        //    var secondParticipant = allParticipants[secondParticipantIndex];
+
+        //    var match = new Match
+        //    {
+        //        RoundNumber = roundNumber
+        //    };
+        //}
 
         [HttpPost]
         public async Task<IActionResult> GenerateMatch(int winnerId, int loserId)

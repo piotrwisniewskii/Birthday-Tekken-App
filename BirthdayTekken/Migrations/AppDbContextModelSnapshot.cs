@@ -33,7 +33,12 @@ namespace BirthdayTekken.Migrations
                     b.Property<int>("RoundNumber")
                         .HasColumnType("int");
 
+                    b.Property<int>("WinnerId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WinnerId");
 
                     b.ToTable("Matches");
                 });
@@ -123,6 +128,17 @@ namespace BirthdayTekken.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tournaments");
+                });
+
+            modelBuilder.Entity("BirthdayTekken.Models.Match", b =>
+                {
+                    b.HasOne("BirthdayTekken.Models.Participant", "Winner")
+                        .WithMany()
+                        .HasForeignKey("WinnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Winner");
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Match", b =>
