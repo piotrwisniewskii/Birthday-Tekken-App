@@ -1,0 +1,28 @@
+﻿@using BirthdayTekken.Models.ViewModel;
+@model List<NewMatchVm>
+
+@{
+    ViewBag.Title = "Tournament Ladder";
+}
+
+<h2>Tournament Ladder</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Round Number</th>
+            <th scope="col">Participant 1</th>
+            <th scope="col">Participant 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var match in Model)
+        {
+            <tr>
+                <td>@match.RoundNumber</td>
+                <td>@match.ParticipantNames[0]</td>
+                <td>@match.ParticipantNames[1]</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,4 +1,5 @@
-﻿using BirthdayTekken.Data;
+﻿using AutoMapper;
+using BirthdayTekken.Data;
 using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Services;
@@ -14,11 +15,15 @@ namespace BirthdayTekken.Controllers
     {
         private readonly IMatchService _service;
         private readonly Random _random;
+        private readonly IMapper _mapper;
+        private readonly ILogger<TournamentController> _logger;
 
-        public MatchController(Random random, IMatchService service)
+        public MatchController(Random random, IMatchService service,IMapper mapper, ILogger<TournamentController> logger)
         {
             _random = random;
             _service = service;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -90,6 +95,7 @@ namespace BirthdayTekken.Controllers
                 return View("Error");
             }
         }
+
         public async Task<IActionResult> Delete(int id)
         {
             var model = await _service.GetByIdAsync(id);
@@ -106,6 +112,36 @@ namespace BirthdayTekken.Controllers
             await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<ActionResult> TournamentLadder()
+        {
+            await _service.MakeTournamentLadder();
+            var matches = await _service.GetAllMatchesAsync();
+
+            if (matches == null || matches.Count == 0)
+            {
+                _logger.LogInformation("No matches were retrieved from the service.");
+            }
+            else
+            {
+                _logger.LogInformation($"Retrieved {matches.Count} matches from the service.");
+            }
+
+            var newMatchVms = _mapper.Map<List<NewMatchVm>>(matches);
+
+            if (newMatchVms == null || newMatchVms.Count == 0)
+            {
+                _logger.LogInformation("No NewMatchVm objects were created after mapping.");
+            }
+            else
+            {
+                _logger.LogInformation($"Created {newMatchVms.Count} NewMatchVm objects after mapping.");
+            }
+
+            return View(newMatchVms);
+        }
+
+
     }
 }
 

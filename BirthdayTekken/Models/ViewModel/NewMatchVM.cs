@@ -20,6 +20,8 @@ namespace BirthdayTekken.Models.ViewModel
         [ValidateNever]
         public List<int> ParticipantsIds { get; set; }
 
+        public List<string> ParticipantNames { get; set; }
+
         public Participant Participant1 { get; set; }
         public Participant Participant2 { get; set; }
         public Participant? Winner { get; set; }

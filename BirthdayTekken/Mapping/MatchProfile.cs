@@ -1,15 +1,12 @@
-﻿//using BirthdayTekken.Models;
-//using AutoMapper;
-//using BirthdayTekken.Models.ViewModel;
+﻿using AutoMapper;
+using BirthdayTekken.Models;
+using BirthdayTekken.Models.ViewModel;
 
-//namespace BirthdayTekken.Mapping
-//{
-//    public class MatchProfile : Profile
-//    {
-//        public MatchProfile()
-//        {
-//            CreateMap<Match, MatchMaker>();
-//            CreateMap<MatchMaker,Match> ();
-//        }
-//    }
-//}
+public class MappingProfile : Profile
+{
+    public MappingProfile()
+    {
+        CreateMap<Match, NewMatchVm>()
+            .ForMember(dest => dest.ParticipantNames, opt => opt.MapFrom(src => src.Participant_Matches.Select(pm => pm.Participant.Name + " " + pm.Participant.Surname).ToList()));
+    }
+}

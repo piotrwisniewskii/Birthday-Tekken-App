@@ -116,5 +116,39 @@ namespace BirthdayTekken.Services
 
             await AddNewMatchAsync(newMatch);
         }
+
+        public async Task MakeTournamentLadder()
+        {
+            var participants = await GetRandomizedParticipantsList();
+
+            if (participants.Participants.Count < 2)
+            {
+                throw new InvalidOperationException("There should be at least 2 participants in the database.");
+            }
+
+            if (participants.Participants.Count % 2 != 0)
+            {
+                throw new InvalidOperationException("The number of participants should be even.");
+            }
+
+            int numberOfMatches = participants.Participants.Count / 2;
+
+            for (int i = 0; i < numberOfMatches; i++)
+            {
+                var participant1 = participants.Participants[i * 2];
+                var participant2 = participants.Participants[i * 2 + 1];
+
+                var newMatch = new NewMatchVm()
+                {
+                    RoundNumber = 1,
+                    WinnerId = 0,
+                    ParticipantsIds = new List<int> { participant1.Id, participant2.Id }
+                };
+
+                await AddNewMatchAsync(newMatch);
+            }
+        }
+
+
     }
 }

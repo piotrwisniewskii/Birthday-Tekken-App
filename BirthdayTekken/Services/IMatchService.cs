@@ -14,6 +14,7 @@ namespace BirthdayTekken.Services
         Task RemoveParticipantAsync(int participantId);
         Task AddRandomMatchAsync();
         Task<List<Match>> GetAllMatchesAsync();
+        Task MakeTournamentLadder();
 
     }
 }
