@@ -34,6 +34,8 @@ namespace BirthdayTekken.Controllers
             return View(model);
         }
 
+
+
         public async Task<IActionResult> Create()
         {
             var movieDropdownsData = await _service.GetNewMatchDropdownsValies();
@@ -85,6 +87,23 @@ namespace BirthdayTekken.Controllers
                 ViewBag.ErrorMessage = ex.Message;
                 return View("Error");
             }
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _service.GetByIdAsync(id);
+            if (model == null) return View("NotFound");
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var model = await _service.GetByIdAsync(id);
+            if (model == null) return View("NotFound");
+
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -18,7 +18,7 @@
                 @foreach (var item in Model)
                 {
                         <tr>
-                            
+
                             <td class="allign-middle">
                             @item.Id
                             </td>
@@ -36,3 +36,8 @@
         </table>
     </div>
 </div>
+
+
+<form asp-controller="Match" asp-action="AddRandomMatch" method="post">
+    <input type="submit" value="Create Random Match" />
+</form>
