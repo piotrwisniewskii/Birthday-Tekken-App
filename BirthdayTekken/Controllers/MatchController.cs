@@ -89,35 +89,6 @@ namespace BirthdayTekken.Controllers
                 return View("Error");
             }
         }
-        //public async Task<IActionResult> GenerateMatch(int roundNumber)
-        //{
-        //    var shuffledParticipants = await _service.GetNewMatchDropdownsValies();
-        //    var allParticipants = shuffledParticipants.Participants.OrderBy(p => _random.Next()).ToList();
-
-        //    if (allParticipants.Count < 2)
-        //    {
-                
-        //        return View("Not Found");
-        //    }
-
-        //    var random = new Random();
-        //    var firstParticipantIndex = random.Next(allParticipants.Count);
-        //    int secondParticipantIndex;
-
-        //    do
-        //    {
-        //        secondParticipantIndex = random.Next(allParticipants.Count);
-        //    } while (secondParticipantIndex == firstParticipantIndex);
-
-        //    var firstParticipant = allParticipants[firstParticipantIndex];
-        //    var secondParticipant = allParticipants[secondParticipantIndex];
-
-        //    var match = new Match
-        //    {
-        //        RoundNumber = roundNumber
-        //    };
-        //}
-
         public async Task<IActionResult> Delete(int id)
         {
             var model = await _service.GetByIdAsync(id);

@@ -21,7 +21,6 @@ namespace BirthdayTekken.Data
            .WithMany()
            .HasForeignKey(m => m.WinnerId)
            .OnDelete(DeleteBehavior.Restrict);
-
         }
 
         public DbSet<Participant> Participants { get; set; }
