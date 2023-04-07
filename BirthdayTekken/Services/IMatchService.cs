@@ -15,6 +15,7 @@ namespace BirthdayTekken.Services
         Task AddRandomMatchAsync();
         Task<List<Match>> GetAllMatchesAsync();
         Task MakeTournamentLadder();
+        Task<List<Match>> GetMatchesForSelectionAsync(int roundNumber);
 
     }
 }

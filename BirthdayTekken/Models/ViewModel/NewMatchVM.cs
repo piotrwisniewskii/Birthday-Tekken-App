@@ -13,6 +13,8 @@ namespace BirthdayTekken.Models.ViewModel
         [Display(Name = "Winner")]
         public int WinnerId { get; set; }
 
+        public int MatchId { get; set; }
+
         public int RoundNumber { get; set; }
         [Required]
 

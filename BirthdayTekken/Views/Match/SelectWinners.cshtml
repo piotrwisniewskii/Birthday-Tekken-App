@@ -1,0 +1,46 @@
+﻿@using BirthdayTekken.Models.ViewModel;
+@model List<NewMatchVm>
+
+<h2>Select Winners</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No matches found for this round.</p>
+}
+else
+{
+    <form asp-action="CreateNextRound" method="post">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Round Number</th>
+                    <th scope="col">Participant 1</th>
+                    <th scope="col">Participant 2</th>
+                    <th scope="col">Winner</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>@Model[i].RoundNumber</td>
+                        <td>@Model[i].ParticipantNames[0]</td>
+                        <td>@Model[i].ParticipantNames[1]</td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="winners[@i].WinnerId" id="winner1-@i" value="@Model[i].ParticipantsIds[0]" checked>
+                                <label class="form-check-label" for="winner1-@i">@Model[i].ParticipantNames[0]</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="winners[@i].WinnerId" id="winner2-@i" value="@Model[i].ParticipantsIds[1]">
+                                <label class="form-check-label" for="winner2-@i">@Model[i].ParticipantNames[1]</label>
+                            </div>
+                            <input type="hidden" name="winners[@i].MatchId" value="@Model[i].MatchId" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Create Next Round</button>
+    </form>
+}

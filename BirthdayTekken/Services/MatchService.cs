@@ -15,26 +15,24 @@ namespace BirthdayTekken.Services
             _context = context;
         }
 
-        public async Task AddNewMatchAsync(NewMatchVm data)
+        public async Task AddNewMatchAsync(NewMatchVm newMatchVm)
         {
-            var newMatch = new Match()
+            var newMatch = new Match
             {
-                RoundNumber = data.RoundNumber,
-                WinnerId = data.WinnerId,
+                RoundNumber = newMatchVm.RoundNumber,
+                WinnerId = newMatchVm.WinnerId
             };
-            await _context.Matches.AddAsync(newMatch);
+
+            _context.Matches.Add(newMatch);
             await _context.SaveChangesAsync();
 
-            foreach (var participantId in data.ParticipantsIds)
+            var participantMatches = newMatchVm.ParticipantsIds.Select(participantId => new Participant_Match
             {
-                var newParticipantMatch = new Participant_Match()
-                {
-                    MatchId = newMatch.Id,
-                    ParticipantId = participantId
-                };
-                await _context.Participants_Matches
-                    .AddAsync(newParticipantMatch);
-            }
+                MatchId = newMatch.Id,
+                ParticipantId = participantId
+            });
+
+            _context.Participants_Matches.AddRange(participantMatches);
             await _context.SaveChangesAsync();
         }
 
@@ -147,7 +145,21 @@ namespace BirthdayTekken.Services
 
                 await AddNewMatchAsync(newMatch);
             }
+
+
         }
+
+        public async Task<List<Match>> GetMatchesForSelectionAsync(int roundNumber)
+        {
+            var matches = await _context.Matches
+                .Where(m => m.RoundNumber == roundNumber)
+                .Include(m => m.Participant_Matches)
+                .ThenInclude(pm => pm.Participant)
+                .ToListAsync();
+
+            return matches;
+        }
+
 
 
     }

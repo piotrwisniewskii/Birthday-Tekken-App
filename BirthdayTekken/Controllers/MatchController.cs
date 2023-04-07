@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Media;
+using static BirthdayTekken.Models.ViewModel.WinnerSelectionVM;
 
 namespace BirthdayTekken.Controllers
 {
@@ -65,13 +66,10 @@ namespace BirthdayTekken.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-
         public IActionResult AddRandomMatch()
         {
             return View();
         }
-
 
         [HttpPost]
         [Route("Match/AddRandomMatch")]
@@ -118,27 +116,44 @@ namespace BirthdayTekken.Controllers
             await _service.MakeTournamentLadder();
             var matches = await _service.GetAllMatchesAsync();
 
-            if (matches == null || matches.Count == 0)
-            {
-                _logger.LogInformation("No matches were retrieved from the service.");
-            }
-            else
-            {
-                _logger.LogInformation($"Retrieved {matches.Count} matches from the service.");
-            }
-
             var newMatchVms = _mapper.Map<List<NewMatchVm>>(matches);
 
-            if (newMatchVms == null || newMatchVms.Count == 0)
+            return View(newMatchVms);
+        }
+
+        public async Task<IActionResult> SelectWinners(int roundNumber)
+        {
+            var matches = await _service.GetMatchesForSelectionAsync(roundNumber);
+            var matchViewModels = _mapper.Map<List<NewMatchVm>>(matches);
+            return View(matchViewModels);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateNextRound(List<WinnerSelectionVm> winners)
+        {
+            if (winners.Count % 2 != 0)
             {
-                _logger.LogInformation("No NewMatchVm objects were created after mapping.");
-            }
-            else
-            {
-                _logger.LogInformation($"Created {newMatchVms.Count} NewMatchVm objects after mapping.");
+                throw new InvalidOperationException("The number of winners should be even.");
             }
 
-            return View(newMatchVms);
+            int numberOfMatches = winners.Count / 2;
+
+            for (int i = 0; i < numberOfMatches; i++)
+            {
+                var winner1 = winners[i * 2];
+                var winner2 = winners[i * 2 + 1];
+
+                var newMatch = new NewMatchVm()
+                {
+                    RoundNumber = 2,
+                    WinnerId = 0,
+                    ParticipantsIds = new List<int> { winner1.WinnerId, winner2.WinnerId }
+                };
+
+                await _service.AddNewMatchAsync(newMatch);
+            }
+
+            return RedirectToAction("TournamentLadder");
         }
 
 
