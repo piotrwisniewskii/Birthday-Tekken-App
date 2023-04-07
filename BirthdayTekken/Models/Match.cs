@@ -1,16 +1,19 @@
 ﻿using BirthdayTekken.Data.Base;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace BirthdayTekken.Models
 {
     public class Match : IEntityBase
     {
+        [Key]
         public int Id { get; set; }
         public int RoundNumber { get; set; }
 
-        [NotMapped]
+
         public int WinnerId { get; set; }
+
+        [ValidateNever]
         public List<Participant_Match> Participant_Matches { get; set; }
     }
 }
