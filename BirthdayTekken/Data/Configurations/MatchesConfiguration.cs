@@ -11,17 +11,21 @@ namespace BirthdayTekken.Data.Configurations
         public void Configure(EntityTypeBuilder<Participant_Match> builder)
         {
             builder
-                .HasKey(x => new {x.MatchId, x.ParticipantId });
-
-            builder
-                .HasOne(t => t.Participant)
-                .WithMany(pt => pt.Participant_Matches)
-                .HasForeignKey(t => t.ParticipantId);
+                .HasKey(x => new
+                {
+                    x.ParticipantId,
+                    x.MatchId,
+                });
 
             builder
                .HasOne(p => p.Match)
                .WithMany(pt => pt.Participant_Matches)
                .HasForeignKey(p => p.MatchId);
+
+            builder
+                .HasOne(t => t.Participant)
+                .WithMany(pt => pt.Participant_Matches)
+                .HasForeignKey(t => t.ParticipantId);
         }
     }
 }
