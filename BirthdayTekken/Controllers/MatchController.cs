@@ -113,9 +113,18 @@ namespace BirthdayTekken.Controllers
 
         public async Task<ActionResult> TournamentLadder()
         {
-            await _service.MakeTournamentLadder();
+
             var matches = await _service.GetAllMatchesAsync();
 
+            var newMatchVms = _mapper.Map<List<NewMatchVm>>(matches);
+
+            return View(newMatchVms);
+        }
+
+        public async Task<ActionResult> MakeTournamentLadder()
+        {
+            await _service.MakeTournamentLadder();
+            var matches = await _service.GetAllMatchesAsync();
             var newMatchVms = _mapper.Map<List<NewMatchVm>>(matches);
 
             return View(newMatchVms);
