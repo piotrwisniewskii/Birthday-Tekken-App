@@ -1,0 +1,27 @@
+﻿@model BirthdayTekken.Models.ViewModel.MatchResultViewModel
+
+@{
+    ViewData["Title"] = "Match Result";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>@Model.Message</p>
+
+<table>
+    <tr>
+        <th>Participant 1</th>
+        <th>Participant 2</th>
+    </tr>
+    <tr>
+        <td>@Model.Participant1.Name @Model.Participant1.Surname</td>
+        <td>@Model.Participant2.Name @Model.Participant2.Surname</td>
+    </tr>
+</table>
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+         <hr />
+         <a class="btn btn-outline-success" asp-controller="Match" asp-action="Index">Go Back To All Matches</a>
+    </div>
+</div>

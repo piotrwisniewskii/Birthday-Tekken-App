@@ -66,9 +66,10 @@ namespace BirthdayTekken.Services
 
             var response = new NewMatchDropdownsVM()
             {
-                Participants = await _context.Participants
-                .OrderBy(p => random.Next())
-                .ToListAsync()
+                Participants = _context.Participants
+                    .AsEnumerable()
+                    .OrderBy(p => random.Next())
+                    .ToList()
             };
 
             return response;
@@ -82,6 +83,38 @@ namespace BirthdayTekken.Services
                 _context.Matches.Remove(participant);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<List<Match>> GetAllMatchesAsync()
+        {
+            var matches = await _context.Matches
+                .Include(m => m.Participant_Matches)
+                .ThenInclude(pm => pm.Participant)
+                .ToListAsync();
+
+            return matches;
+        }
+
+        public async Task AddRandomMatchAsync()
+        {
+            var participants = await GetRandomizedParticipantsList();
+
+            if (participants.Participants.Count < 2)
+            {
+                throw new InvalidOperationException("There should be at least 2 participants in the database.");
+            }
+
+            var participant1 = participants.Participants[0];
+            var participant2 = participants.Participants[1];
+
+            var newMatch = new NewMatchVm()
+            {
+                RoundNumber = 1,
+                WinnerId = 0,
+                ParticipantsIds = new List<int> { participant1.Id, participant2.Id }
+            };
+
+            await AddNewMatchAsync(newMatch);
         }
     }
 }

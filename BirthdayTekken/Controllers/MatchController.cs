@@ -34,6 +34,8 @@ namespace BirthdayTekken.Controllers
             return View(model);
         }
 
+
+
         public async Task<IActionResult> Create()
         {
             var movieDropdownsData = await _service.GetNewMatchDropdownsValies();
@@ -58,6 +60,35 @@ namespace BirthdayTekken.Controllers
         }
 
 
+
+        public IActionResult AddRandomMatch()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [Route("Match/AddRandomMatch")]
+        public async Task<IActionResult> AddRandomMatchAsync()
+        {
+            try
+            {
+                await _service.AddRandomMatchAsync();
+                var participants = await _service.GetRandomizedParticipantsList();
+                var matchResultViewModel = new MatchResultViewModel
+                {
+                    Participant1 = participants.Participants[0],
+                    Participant2 = participants.Participants[1],
+                    Message = "A new match has been created between two random participants."
+                };
+                return View("MatchResult", matchResultViewModel);
+            }
+            catch (InvalidOperationException ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
         //public async Task<IActionResult> GenerateMatch(int roundNumber)
         //{
         //    var shuffledParticipants = await _service.GetNewMatchDropdownsValies();
@@ -87,15 +118,22 @@ namespace BirthdayTekken.Controllers
         //    };
         //}
 
-        [HttpPost]
-        public async Task<IActionResult> GenerateMatch(int winnerId, int loserId)
+        public async Task<IActionResult> Delete(int id)
         {
-            await _service.RemoveParticipantAsync(loserId);
-            return RedirectToAction(nameof(Index));
+            var model = await _service.GetByIdAsync(id);
+            if (model == null) return View("NotFound");
+            return View(model);
         }
 
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var model = await _service.GetByIdAsync(id);
+            if (model == null) return View("NotFound");
 
-
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
 
