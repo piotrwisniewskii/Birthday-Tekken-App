@@ -1,43 +1,30 @@
-﻿@model IEnumerable<Match>
+﻿@using BirthdayTekken.Models.ViewModel;
+@model IEnumerable<MatchViewModel>
 
 @{
-    ViewData["Title"] = "List of Matches";
+    ViewData["Title"] = "Matches";
 }
 
-<div class ="row">
-    <div class="col-md-8 offset-md-2">
-        <table class="table">
-            <thead>
-                 <tr>
-                     <th><label asp-for="First().Id"></label></th>
-                     <th><label asp-for="First().WinnerId"></label></th>
-                     <th>Actions</th>
-                 </tr>
-            </thead>
-        <tbody>
-                @foreach (var item in Model)
-                {
-                        <tr>
+<h1>Matches</h1>
 
-                            <td class="allign-middle">
-                            @item.Id
-                            </td>
-                            <td class="allign-middle">
-                            @item.WinnerId
-                            </td>
-                            <td class="allign middle">
-                                <a class="btn btn-outline-primary text-black" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
-                                <a class="btn btn-outline-info text-black"    asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details</a> |
-                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
-                            </td>
-                       </tr>
-                }
-         </tbody>
-        </table>
-    </div>
-</div>
-
-
-<form asp-controller="Match" asp-action="AddRandomMatch" method="post">
-    <input type="submit" value="Create Random Match" />
-</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Match ID</th>
+            <th>Round Number</th>
+            <th>Participant 1</th>
+            <th>Participant 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var viewModel in Model)
+        {
+            <tr>
+                <td>@viewModel.MatchId</td>
+                <td>@viewModel.RoundNumber</td>
+                <td>@viewModel.Participant1?.Name @viewModel.Participant1?.Surname</td>
+                <td>@viewModel.Participant2?.Name @viewModel.Participant2?.Surname</td>
+            </tr>
+        }
+    </tbody>
+</table>

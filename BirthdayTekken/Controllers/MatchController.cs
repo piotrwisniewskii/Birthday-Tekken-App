@@ -23,8 +23,16 @@ namespace BirthdayTekken.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = await _service.GetAllAsync(n => n.Participant_Matches);
-            return View(model);
+            var matches = await _service.GetAllAsync(n => n.Participant_Matches);
+            var matchViewModels = matches.Select(m => new MatchViewModel
+            {
+                MatchId = m.Id,
+                RoundNumber = m.RoundNumber,
+                Participant1 = m.Participant_Matches.ElementAtOrDefault(0)?.Participant,
+                Participant2 = m.Participant_Matches.ElementAtOrDefault(1)?.Participant
+            }).ToList();
+
+            return View(matchViewModels);
         }
 
         public async Task<IActionResult> Details(int id)

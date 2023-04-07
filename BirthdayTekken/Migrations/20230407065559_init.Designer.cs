@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230407061505_fix4")]
-    partial class fix4
+    [Migration("20230407065559_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,9 +33,6 @@ namespace BirthdayTekken.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("RoundNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WinnerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -1,5 +1,4 @@
-﻿
-using BirthdayTekken.Models;
+﻿using BirthdayTekken.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Reflection.Emit;
@@ -13,20 +12,18 @@ namespace BirthdayTekken.Data.Configurations
             builder.HasKey(x => new
                 {
                     x.ParticipantId,
-                    x.MatchId,
+                    x.MatchId
                 });
 
             builder
                .HasOne(p => p.Match)
                .WithMany(pt => pt.Participant_Matches)
-               .HasForeignKey(p => p.MatchId)
-               .OnDelete(DeleteBehavior.NoAction);
+               .HasForeignKey(p => p.MatchId);
 
             builder
                 .HasOne(t => t.Participant)
-                .WithMany(pt => pt.Participant_Matches)
-                .HasForeignKey(t => t.ParticipantId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .WithMany(pm => pm.Participant_Matches)
+                .HasForeignKey(t => t.ParticipantId);
         }
     }
 }

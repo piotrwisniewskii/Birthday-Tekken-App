@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayTekken.Data
 {
-    public class AppDbContext: DbContext
+    public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext>options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
         }
@@ -15,6 +15,7 @@ namespace BirthdayTekken.Data
         {
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             base.OnModelCreating(modelBuilder);
+
         }
 
         public DbSet<Participant> Participants { get; set; }

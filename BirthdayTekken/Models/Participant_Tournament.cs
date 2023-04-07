@@ -1,6 +1,4 @@
-﻿using BirthdayTekken.Models.ViewModel;
-
-namespace BirthdayTekken.Models
+﻿namespace BirthdayTekken.Models
 {
     public class Participant_Tournament
     {

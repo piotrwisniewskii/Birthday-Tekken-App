@@ -33,9 +33,6 @@ namespace BirthdayTekken.Migrations
                     b.Property<int>("RoundNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("WinnerId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Matches");
@@ -133,13 +130,13 @@ namespace BirthdayTekken.Migrations
                     b.HasOne("BirthdayTekken.Models.Match", "Match")
                         .WithMany("Participant_Matches")
                         .HasForeignKey("MatchId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BirthdayTekken.Models.Participant", "Participant")
                         .WithMany("Participant_Matches")
                         .HasForeignKey("ParticipantId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Match");

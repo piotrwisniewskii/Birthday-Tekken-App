@@ -10,6 +10,19 @@ namespace BirthdayTekken.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Matches",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoundNumber = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Matches", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Participants",
                 columns: table => new
                 {
@@ -43,20 +56,24 @@ namespace BirthdayTekken.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Matches",
+                name: "Participants_Matches",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoundNumber = table.Column<int>(type: "int", nullable: false),
-                    WinnerId = table.Column<int>(type: "int", nullable: false)
+                    MatchId = table.Column<int>(type: "int", nullable: false),
+                    ParticipantId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Matches", x => x.Id);
+                    table.PrimaryKey("PK_Participants_Matches", x => new { x.ParticipantId, x.MatchId });
                     table.ForeignKey(
-                        name: "FK_Matches_Participants_WinnerId",
-                        column: x => x.WinnerId,
+                        name: "FK_Participants_Matches_Matches_MatchId",
+                        column: x => x.MatchId,
+                        principalTable: "Matches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Participants_Matches_Participants_ParticipantId",
+                        column: x => x.ParticipantId,
                         principalTable: "Participants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -86,39 +103,10 @@ namespace BirthdayTekken.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Participants_Matches",
-                columns: table => new
-                {
-                    MatchId = table.Column<int>(type: "int", nullable: false),
-                    ParticipantId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Participants_Matches", x => new { x.MatchId, x.ParticipantId });
-                    table.ForeignKey(
-                        name: "FK_Participants_Matches_Matches_MatchId",
-                        column: x => x.MatchId,
-                        principalTable: "Matches",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Participants_Matches_Participants_ParticipantId",
-                        column: x => x.ParticipantId,
-                        principalTable: "Participants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_WinnerId",
-                table: "Matches",
-                column: "WinnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Participants_Matches_ParticipantId",
+                name: "IX_Participants_Matches_MatchId",
                 table: "Participants_Matches",
-                column: "ParticipantId");
+                column: "MatchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Participants_Tournaments_TournamentId",
@@ -138,10 +126,10 @@ namespace BirthdayTekken.Migrations
                 name: "Matches");
 
             migrationBuilder.DropTable(
-                name: "Tournaments");
+                name: "Participants");
 
             migrationBuilder.DropTable(
-                name: "Participants");
+                name: "Tournaments");
         }
     }
 }
