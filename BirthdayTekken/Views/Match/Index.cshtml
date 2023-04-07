@@ -1,5 +1,4 @@
-﻿@using BirthdayTekken.Models.ViewModel;
-@model IEnumerable<MatchViewModel>
+﻿@model List<Match>
 
 @{
     ViewData["Title"] = "Matches";
@@ -10,21 +9,34 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Match ID</th>
-            <th>Round Number</th>
-            <th>Participant 1</th>
-            <th>Participant 2</th>
+            <th>ID</th>
+            <th>Participants</th>
+            <th>Winner</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var viewModel in Model)
+        @foreach (var match in Model)
         {
             <tr>
-                <td>@viewModel.MatchId</td>
-                <td>@viewModel.RoundNumber</td>
-                <td>@viewModel.Participant1?.Name @viewModel.Participant1?.Surname</td>
-                <td>@viewModel.Participant2?.Name @viewModel.Participant2?.Surname</td>
+                <td>@match.Id</td>
+                <td>
+                    <ul>
+                        @foreach (var participantMatch in match.Participant_Matches)
+                        {
+                            <li>@participantMatch.Participant.Name</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <!-- Add action links as needed, e.g., Edit, Details, Delete -->
+                    <a asp-action="Edit" asp-route-id="@match.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@match.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@match.Id">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Add a link to create a new match -->
+<a asp-action="Create">Create New Match</a>
