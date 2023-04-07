@@ -11,7 +11,8 @@ namespace BirthdayTekken.Models
 
         public List<Participant_Match> Participant_Matches { get; set; }
 
+        [NotMapped]
         public int WinnerId { get; set; }
-        public Participant Winner { get; set; }
+
     }
 }
