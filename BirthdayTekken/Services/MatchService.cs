@@ -145,8 +145,6 @@ namespace BirthdayTekken.Services
 
                 await AddNewMatchAsync(newMatch);
             }
-
-
         }
 
         public async Task<List<Match>> GetMatchesForSelectionAsync(int roundNumber)
@@ -159,8 +157,5 @@ namespace BirthdayTekken.Services
 
             return matches;
         }
-
-
-
     }
 }
