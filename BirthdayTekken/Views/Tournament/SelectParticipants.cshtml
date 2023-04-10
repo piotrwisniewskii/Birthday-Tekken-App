@@ -1,4 +1,4 @@
-﻿@model List<BirthdayTekken.Models.Tournament>
+﻿@model Tournament
 
 @{
     ViewData["Title"] = "Select Participants";
@@ -6,20 +6,20 @@
 
 <h1>Select Participants for Tournament</h1>
 
-<h3>Tournament: @Model.FirstOrDefault()?.Name</h3>
+<h3>Tournament: @Model.Name</h3>
 
-@if (!Model.Any())
+@if (Model == null)
 {
     <p>There are no tournaments with the specified ID.</p>
 }
 else
 {
     <form method="post" asp-action="SelectParticipants">
-        <input type="hidden" name="TournamentId" value="@Model.FirstOrDefault()?.Id" />
+        <input type="hidden" name="TournamentId" value="@Model.Id" />
         <div class="form-group">
             <label>Select Participants:</label>
             <br />
-            @foreach (var participant in Model.FirstOrDefault()?.Participants_Tournaments?.Select(pt => pt.Participant))
+            @foreach (var participant in Model.Participants_Tournaments.Select(pt => pt.Participant))
             {
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="SelectedParticipants" value="@participant.Id" id="@participant.Id" />

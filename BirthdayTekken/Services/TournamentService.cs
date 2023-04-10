@@ -60,15 +60,18 @@ namespace BirthdayTekken.Services
             var tournamentDetails = await _context.Tournaments
                 .Include(am => am.Participants_Tournaments)
                 .ThenInclude(a => a.Participant)
+                .Include(m => m.Matches)
                 .FirstOrDefaultAsync(n => n.Id == id);
 
             return tournamentDetails;
         }
 
-        public async Task MakeSelectedTournamentLadder(int tournamnetId)
+        public async Task MakeSelectedTournamentLadder(int tournamnetId, List<int> selectedParticipantIds)
         {
             var tournament = await GetTournamentByIdAsync(tournamnetId);
-            var participants = tournament.Participants_Tournaments.Select(pt => pt.Participant).ToList();
+            var participants = await _context.Participants
+            .Where(p => selectedParticipantIds.Contains(p.Id))
+            .ToListAsync();
 
             if (participants.Count < 2)
             {
@@ -79,6 +82,9 @@ namespace BirthdayTekken.Services
             {
                 throw new InvalidOperationException("The number of participants should be even.");
             }
+
+            var random = new Random();
+            participants = participants.OrderBy(p => random.Next()).ToList();
 
             int numberOfMatches = participants.Count / 2;
 
@@ -121,6 +127,7 @@ namespace BirthdayTekken.Services
             _context.Participants_Matches.AddRange(participantMatches);
             await _context.SaveChangesAsync();
         }
+
 
     }
 }

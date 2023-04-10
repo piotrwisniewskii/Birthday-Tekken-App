@@ -90,16 +90,18 @@ namespace BirthdayTekken.Services
         {
             Random random = new Random();
 
+            var participants = await _context.Participants.ToListAsync();
+
             var response = new NewMatchDropdownsVM()
             {
-                Participants = _context.Participants
-                    .AsEnumerable()
+                Participants = participants
                     .OrderBy(p => random.Next())
                     .ToList()
             };
 
             return response;
         }
+
 
         public async Task RemoveParticipantAsync(int participantId)
         {

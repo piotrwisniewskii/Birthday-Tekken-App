@@ -4,6 +4,7 @@ using BirthdayTekken.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230410160804_fix2")]
+    partial class fix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,8 +35,7 @@ namespace BirthdayTekken.Migrations
                     b.Property<int>("RoundNumber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TournamentId")
-                        .IsRequired()
+                    b.Property<int>("TournamentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

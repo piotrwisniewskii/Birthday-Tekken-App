@@ -1,4 +1,5 @@
-﻿using BirthdayTekken.Models.ViewModel;
+﻿using BirthdayTekken.Models;
+using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,6 +26,7 @@ namespace BirthdayTekken.Controllers
             if (model == null) return View("NotFound");
             return View(model);
         }
+
 
         public async Task<IActionResult> Create()
         {
@@ -93,11 +95,11 @@ namespace BirthdayTekken.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> MakeSelectedTournamentLadder(int tournamentId)
+        public async Task<IActionResult> MakeSelectedTournamentLadder(int tournamentId, List<int> selectedParticipants)
         {
             try
             {
-                await _service.MakeSelectedTournamentLadder(tournamentId);
+                await _service.MakeSelectedTournamentLadder(tournamentId, selectedParticipants);
                 return RedirectToAction("TournamentLadder", new { id = tournamentId });
             }
             catch (InvalidOperationException ex)
@@ -106,15 +108,28 @@ namespace BirthdayTekken.Controllers
                 return View("Error");
             }
         }
+
+        [HttpGet]
         public async Task<IActionResult> SelectParticipants(int id)
         {
             var tournament = await _service.GetTournamentByIdAsync(id);
             if (tournament == null) return View("NotFound");
 
-            var allTournaments = await _service.GetAllAsync(n => n.Participants_Tournaments);
+            return View("SelectParticipants", tournament);
+        }
 
-            var model = allTournaments.Where(t => t.Id == id).ToList();
 
+        [HttpPost]
+        public async Task<IActionResult> SelectParticipants(int tournamentId, List<int> selectedParticipants)
+        {
+            await _service.MakeSelectedTournamentLadder(tournamentId, selectedParticipants);
+            return RedirectToAction("Round", new { id = tournamentId });
+        }
+
+        public async Task<IActionResult> Round(int id)
+        {
+            var model = await _service.GetTournamentByIdAsync(id);
+            if (model == null) return View("NotFound");
             return View(model);
         }
     }

@@ -10,6 +10,6 @@ namespace BirthdayTekken.Services
         Task<NewTournamentDropdownsVM> GetNewTournamentDropdownsValies();
         Task AddNewMatchAsync(NewMatchVm newMatchVm);
         Task AddNewTournamentAsync(NewTournamentVM data);
-        Task MakeSelectedTournamentLadder(int tournamentId);
+        Task MakeSelectedTournamentLadder(int tournamentId, List<int> selectedParticipantIds);
     }
 }

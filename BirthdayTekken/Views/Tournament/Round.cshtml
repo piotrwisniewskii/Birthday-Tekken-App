@@ -1,9 +1,5 @@
 ﻿@model Tournament
 
-@{
-    ViewData["Title"] = "tournamnet details";
-}
-
 <div class="row">
     <div class="col-md-8 offset-2">
         <div class="card mb-12">
@@ -17,14 +13,13 @@
                         </p>
                     </div>
                 </div>
-                 <div class="col-md-4">
-                    <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Bottle_cap_-_Harna%C5%9B.jpg/640px-Bottle_cap_-_Harna%C5%9B.jpg width="100%" alt="@Model.Name">
+                <div class="col-md-4">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <p class="card-text">@Model.Name</p>
                         <p class="card-text"><b>Tournament Date: </b>@Model.TournamentDate</p>
-                        <p class="card-text"><b>Winner: </b>@Model.WinnerId</p>
+
                         <p class="card-text"><b>Players Number: </b>@Model.PlayersNumber</p>
                         <p class="card-text ">
                             <b>Participants: </b>
@@ -32,10 +27,30 @@
                             <div>
                                 @foreach (var participant in Model.Participants_Tournaments)
                                 {
-                                        <div class="column text-center" style="display:inline-block">
+                                    <div class="column text-center" style="display:inline-block">
                                         <img class="border-info rounded-circle" src="@participant.Participant.ProfilePictureURL" style="max-width: 150px" />
                                         <br />
-                                        <a asp-controller="TekkenParticipants" asp-action="Details" asp-route-id="@participant.ParticipantId">@participant.Participant.Name</a>
+                                        <a asp-controller="TekkenParticipants" asp-action="Details" asp-route-id="@participant.ParticipantId">@participant.Participant.Name @participant.Participant.Surname</a>
+                                    </div>
+                                }
+                            </div>
+                        </p>
+                        <p class="card-text ">
+                            <b>Matches: </b>
+                            <hr />
+                            <div>
+                                @foreach (var match in Model.Matches)
+                                {
+                                    <div class="column text-center" style="display:inline-block">
+                                        <p><b>Round Number:</b> @match.RoundNumber</p>
+                                        <ul>
+                                            @foreach (var participantMatch in match.Participant_Matches)
+                                            {
+                                                <li>
+                                                    @participantMatch.Participant.Name @participantMatch.Participant.Surname
+                                                </li>
+                                            }
+                                        </ul>
                                     </div>
                                 }
                             </div>
