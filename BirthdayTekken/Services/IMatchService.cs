@@ -2,6 +2,7 @@
 using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
 using System.Linq.Expressions;
+using static BirthdayTekken.Models.ViewModel.WinnerSelectionVM;
 
 namespace BirthdayTekken.Services
 {
@@ -16,6 +17,7 @@ namespace BirthdayTekken.Services
         Task<List<Match>> GetAllMatchesAsync();
         Task MakeTournamentLadder();
         Task<List<Match>> GetMatchesForSelectionAsync(int roundNumber);
+        Task CreateNextRound(List<WinnerSelectionVM> CreateNextRound);
 
     }
 }

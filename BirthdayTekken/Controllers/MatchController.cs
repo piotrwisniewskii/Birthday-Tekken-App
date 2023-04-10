@@ -138,29 +138,31 @@ namespace BirthdayTekken.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateNextRound(List<WinnerSelectionVm> winners)
+        public async Task<ActionResult> CreateNextRound(List<WinnerSelectionVM> winners)
         {
-            if (winners.Count % 2 != 0)
-            {
-                throw new InvalidOperationException("The number of winners should be even.");
-            }
+            //if (winners.Count % 2 != 0)
+            //{
+            //    throw new InvalidOperationException("The number of winners should be even.");
+            //}
 
-            int numberOfMatches = winners.Count / 2;
+            //int numberOfMatches = winners.Count / 2;
 
-            for (int i = 0; i < numberOfMatches; i++)
-            {
-                var winner1 = winners[i * 2];
-                var winner2 = winners[i * 2 + 1];
+            //for (int i = 0; i < numberOfMatches; i++)
+            //{
+            //    var winner1 = winners[i * 2];
+            //    var winner2 = winners[i * 2 + 1];
 
-                var newMatch = new NewMatchVm()
-                {
-                    RoundNumber = 2,
-                    WinnerId = 0,
-                    ParticipantsIds = new List<int> { winner1.WinnerId, winner2.WinnerId }
-                };
+            //    var newMatch = new NewMatchVm()
+            //    {
+            //        RoundNumber = 2,
+            //        WinnerId = 0,
+            //        ParticipantsIds = new List<int> { winner1.WinnerId, winner2.WinnerId }
+            //    };
 
-                await _service.AddNewMatchAsync(newMatch);
-            }
+            //    await _service.AddNewMatchAsync(newMatch);
+            //}
+
+            await _service.CreateNextRound(winners);
 
             return RedirectToAction("TournamentLadder");
         }

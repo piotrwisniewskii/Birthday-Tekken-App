@@ -2,7 +2,9 @@
 using BirthdayTekken.Data.Base;
 using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static BirthdayTekken.Models.ViewModel.WinnerSelectionVM;
 
 namespace BirthdayTekken.Services
 {
@@ -34,6 +36,31 @@ namespace BirthdayTekken.Services
 
             _context.Participants_Matches.AddRange(participantMatches);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task CreateNextRound(List<WinnerSelectionVM> winnerSelections)
+        {
+            if (winnerSelections.Count % 2 != 0)
+            {
+                throw new InvalidOperationException("The number of winners should be even.");
+            }
+
+            int numberOfMatches = winnerSelections.Count / 2;
+
+            for (int i = 0; i < numberOfMatches; i++)
+            {
+                var winner1 = winnerSelections[i * 2];
+                var winner2 = winnerSelections[i * 2 + 1];
+
+                var newMatch = new NewMatchVm()
+                {
+                    RoundNumber = 2,
+                    WinnerId = 0,
+                    ParticipantsIds = new List<int> { winner1.WinnerId, winner2.WinnerId }
+                };
+
+                await AddNewMatchAsync(newMatch);
+            }
         }
 
         public async Task<Match> GetMatchByIdAsync(int id)
