@@ -22,7 +22,8 @@ namespace BirthdayTekken.Services
             var newMatch = new Match
             {
                 RoundNumber = newMatchVm.RoundNumber,
-                WinnerId = newMatchVm.WinnerId
+                WinnerId = newMatchVm.WinnerId,
+                TournamentId = newMatchVm.TournamentId,
             };
 
             _context.Matches.Add(newMatch);

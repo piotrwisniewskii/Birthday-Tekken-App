@@ -22,5 +22,6 @@ namespace BirthdayTekken.Models
         //Relationships
         [ValidateNever]
         public List<Participant_Tournament> Participants_Tournaments { get; set; }
+        public List<Match>Matches{get;set;}
     }
 }

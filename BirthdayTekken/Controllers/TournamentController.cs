@@ -1,14 +1,7 @@
-﻿using BirthdayTekken.Data;
-using BirthdayTekken.Models;
-using BirthdayTekken.Models.ViewModel;
+﻿using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Rules;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace BirthdayTekken.Controllers
 {
@@ -55,6 +48,8 @@ namespace BirthdayTekken.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
         public async Task<IActionResult> Edit(int id)
         {
             var tournamentDetails = await _service.GetTournamentByIdAsync(id);
@@ -72,8 +67,6 @@ namespace BirthdayTekken.Controllers
             var tournamentDropDownsData = await _service.GetNewTournamentDropdownsValies();
             ViewBag.Participants = new SelectList(tournamentDropDownsData.Participants, "Id", "Name", "Surname");
             return View();
-
-
         }
 
         [HttpPost]
@@ -89,6 +82,40 @@ namespace BirthdayTekken.Controllers
 
             await _service.AddNewTournamentAsync(tournament);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> TournamentLadder(int id)
+        {
+            var model = await _service.GetTournamentByIdAsync(id);
+            if (model == null) return View("NotFound");
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> MakeSelectedTournamentLadder(int tournamentId)
+        {
+            try
+            {
+                await _service.MakeSelectedTournamentLadder(tournamentId);
+                return RedirectToAction("TournamentLadder", new { id = tournamentId });
+            }
+            catch (InvalidOperationException ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+        public async Task<IActionResult> SelectParticipants(int id)
+        {
+            var tournament = await _service.GetTournamentByIdAsync(id);
+            if (tournament == null) return View("NotFound");
+
+            var allTournaments = await _service.GetAllAsync(n => n.Participants_Tournaments);
+
+            var model = allTournaments.Where(t => t.Id == id).ToList();
+
+            return View(model);
         }
     }
 }

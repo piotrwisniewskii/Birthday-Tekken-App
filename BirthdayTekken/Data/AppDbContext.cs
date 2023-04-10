@@ -16,6 +16,11 @@ namespace BirthdayTekken.Data
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Match>()
+                        .HasOne(m => m.Tournament)
+                        .WithMany(t => t.Matches)
+                        .HasForeignKey(m => m.TournamentId);
+
         }
 
         public DbSet<Participant> Participants { get; set; }

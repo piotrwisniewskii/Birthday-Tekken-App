@@ -13,5 +13,9 @@ namespace BirthdayTekken.Models
         [NotMapped]
         public int WinnerId { get; set; }
 
+        public int TournamentId { get; set; }
+        public Tournament Tournament { get; set; }
+       
+
     }
 }

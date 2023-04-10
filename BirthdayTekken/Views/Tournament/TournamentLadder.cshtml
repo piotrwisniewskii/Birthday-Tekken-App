@@ -1,0 +1,39 @@
+﻿@model List<Tournament>
+
+@{
+    ViewData["Title"] = "Matches";
+}
+
+<h1>Matches</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Participants</th>
+            <th>Winner</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tournament in Model)
+        {
+            <tr>
+                <td>@tournament.Id</td>
+                <td>
+                    <ul>
+                        @foreach (var participantMatch in tournament.Participants_Tournaments)
+                        {
+                            <li>@participantMatch.Participant.Name</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <!-- Add action links as needed, e.g., Edit, Details, Delete -->
+                    <a asp-action="Edit" asp-route-id="@tournament.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@tournament.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@tournament.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
