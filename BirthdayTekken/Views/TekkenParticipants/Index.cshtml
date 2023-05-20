@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <img src="/img/@item.ProfilePictureURL" width="100%" alt="@item.Name">
+                                <img src="@Url.Action("GetImage", "TekkenParticipants", new { id = item.Id })" width="100%" alt="@item.Name">
                             </div>
                             <div class="col-md-6">
                                 <div class="card-body">

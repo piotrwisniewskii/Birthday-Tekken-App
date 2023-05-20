@@ -12,7 +12,7 @@ namespace BirthdayTekken.Models
 
         [Display(Name = "Profile Picture")]
         [Required(ErrorMessage = "Profile Picture is required")]
-        public string ProfilePictureURL { get; set; }
+        public byte[] ProfilePicture { get; set; }
         [Required(ErrorMessage = "Please provide Name")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please provide Surname")]

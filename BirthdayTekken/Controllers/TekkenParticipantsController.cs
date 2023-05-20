@@ -3,6 +3,7 @@ using BirthdayTekken.Models;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayTekken.Controllers
@@ -35,11 +36,18 @@ namespace BirthdayTekken.Controllers
 
 
        [HttpPost]
-        public async Task<IActionResult> Create([Bind("ProfilePictureURL", "Name", "Surname","Champion")]Participant participant)
+        public async Task<IActionResult> Create([Bind("ProfilePictureURL", "Name", "Surname","Champion")]Participant participant,IFormFile ProfilePicture)
         {
             if (!ModelState.IsValid)
             {
-            return View(participant);
+                 return View(participant);
+            }
+
+            if(ProfilePicture != null)
+            {
+                using var target = new MemoryStream();
+                await ProfilePicture.CopyToAsync(target);
+                participant.ProfilePicture = target.ToArray();
             }
 
             await _service.AddAsync(participant);
@@ -55,12 +63,20 @@ namespace BirthdayTekken.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id,[Bind("Id,ProfilePictureURL", "Name", "Surname", "Champion", "TournamentsWon")] Participant participant)
+        public async Task<IActionResult> Edit(int id,[Bind("Id,ProfilePictureURL", "Name", "Surname", "Champion", "TournamentsWon")] Participant participant,IFormFile ProfilePicture)
         {
             if(!ModelState.IsValid)
             {
                 return View(participant);
             }
+
+            if(ProfilePicture != null)
+            {
+                using var target = new MemoryStream();
+                await ProfilePicture.CopyToAsync(target);
+                participant.ProfilePicture = target.ToArray();
+            }
+
             await _service.UpdateAsync(id,participant);
             return RedirectToAction(nameof(Index));
         }
@@ -82,6 +98,20 @@ namespace BirthdayTekken.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        public FileContentResult GetImage(int id)
+        {
+            var participant = _service.GetByIdAsync(id).Result;
+            if (participant != null)
+            {
+                return File(participant.ProfilePicture, "image/jpeg");
+            }
+            else
+            {
+                return null;
+            }
+        }
 
     }
 }
