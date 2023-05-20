@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayTekken.Controllers
 {
-    public class TekkenParticipantsController : Controller
+    public class ParticipantsController : Controller
     {
         private readonly IParticipantService _service;
-        public TekkenParticipantsController(IParticipantService service)
+        public ParticipantsController(IParticipantService service)
         {
             _service = service;
         }
@@ -35,24 +35,25 @@ namespace BirthdayTekken.Controllers
         }
 
 
-       [HttpPost]
-        public async Task<IActionResult> Create([Bind("ProfilePictureURL", "Name", "Surname","Champion")]Participant participant,IFormFile ProfilePicture)
+        [HttpPost]
+        public async Task<IActionResult> Create(Participant participant)
         {
             if (!ModelState.IsValid)
             {
-                 return View(participant);
+                return View(participant);
             }
 
-            if(ProfilePicture != null)
+            if (participant.ProfilePictureFile != null)
             {
-                using var target = new MemoryStream();
-                await ProfilePicture.CopyToAsync(target);
-                participant.ProfilePicture = target.ToArray();
+                using var memoryStream = new MemoryStream();
+                await participant.ProfilePictureFile.CopyToAsync(memoryStream);
+                participant.ProfilePicture = memoryStream.ToArray();
             }
 
             await _service.AddAsync(participant);
             return RedirectToAction(nameof(Index));
         }
+
 
 
         public async Task<IActionResult> Edit(int id)
@@ -63,18 +64,18 @@ namespace BirthdayTekken.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id,[Bind("Id,ProfilePictureURL", "Name", "Surname", "Champion", "TournamentsWon")] Participant participant,IFormFile ProfilePicture)
+        public async Task<IActionResult> Edit(int id, Participant participant)
         {
             if(!ModelState.IsValid)
             {
                 return View(participant);
             }
 
-            if(ProfilePicture != null)
+            if (participant.ProfilePictureFile != null)
             {
-                using var target = new MemoryStream();
-                await ProfilePicture.CopyToAsync(target);
-                participant.ProfilePicture = target.ToArray();
+                using var memoryStream = new MemoryStream();
+                await participant.ProfilePictureFile.CopyToAsync(memoryStream);
+                participant.ProfilePicture = memoryStream.ToArray();
             }
 
             await _service.UpdateAsync(id,participant);
