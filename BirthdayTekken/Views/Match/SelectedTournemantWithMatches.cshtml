@@ -1,53 +1,41 @@
 ﻿@model TournamentMatchesViewModel
 
-<div class="row">
-    <div class="col-md-8 offset-2">
+<div class="row justify-content-center">
+    <div class="col-md-8">
         <div class="card mb-12">
-            <div class="row g-0">
-                <div class="col-md-12">
-                    <div class="card-header text-white bg-info">
-                        <h5 class="card-title">
-                            Matches for Selected Tournament
-                        </h5>
-                    </div>
+            <div class="card-header text-white bg-info">
+                <h5 class="card-title text-center">
+                    Matches for Selected Tournament
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-center"><b>Tournament Date:</b> @Model.SelectedTournament.TournamentDate</p>
+                <h5 class="card-title text-center"><b>Matches:</b></h5>
+                <hr />
+                <div class="d-flex justify-content-around flex-wrap">
+                    @foreach (var match in Model.Matches)
+{
+    <div class="card text-center mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Round @match.RoundNumber</h5>
+            <p class="card-text">Tournament ID: @match.TournamentId</p>
+            <ul class="list-group list-group-flush">
+                @foreach (var participantId in match.ParticipantsIds)
+                {
+                    <li class="list-group-item">
+                        @match.ParticipantNames[match.ParticipantsIds.IndexOf(participantId)]
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
                 </div>
-
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <p class="card-text"><b>Tournament Date: </b>@Model.SelectedTournament.TournamentDate</p>
-
-                        <p class="card-text ">
-                            <b>Matches: </b>
-                            <hr />
-                            <div>
-                                @foreach (var match in Model.Matches)
-                                {
-                                    <div class="column text-center" style="display:inline-block">
-                                        <p><b>Round Number:</b> @match.RoundNumber</p>
-                                        <ul>
-                                            @foreach (var participantName in match.ParticipantNames)
-                                            {
-                                                <li>
-                                                    @participantName
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
-                                }
-                            </div>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="card-footer">
-                        <p class="card-text">
-                            <a class="btn btn-outline-primary float-right" asp-action="Index">
-                                Back to List
-                            </a>
-                        </p>
-                    </div>
-                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a class="btn btn-outline-primary" asp-action="Index">
+                    Back to List
+                </a>
             </div>
         </div>
     </div>

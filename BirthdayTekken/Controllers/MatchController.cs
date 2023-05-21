@@ -14,18 +14,21 @@ namespace BirthdayTekken.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<TournamentController> _logger;
         private readonly ITournamentService _tournamentService;
+        private readonly IParticipantService _participantService;
 
         public MatchController(Random random,
             IMatchService service,
             IMapper mapper,
             ILogger<TournamentController> logger,
-            ITournamentService tournamentService)
+            ITournamentService tournamentService,
+            IParticipantService participantService)
         {
             _random = random;
             _service = service;
             _mapper = mapper;
             _logger = logger;
             _tournamentService = tournamentService;
+            _participantService = participantService;
         }
 
         public async Task<IActionResult> Index()
@@ -128,13 +131,11 @@ namespace BirthdayTekken.Controllers
             return View(tournamentMatchesViewModel);
         }
 
-
         public async Task<ActionResult> MakeTournamentLadder()
         {
             await _service.MakeTournamentLadder();
             var matches = await _service.GetAllMatchesAsync();
             var newMatchVms = _mapper.Map<List<NewMatchVm>>(matches);
-
             return View(newMatchVms);
         }
 
@@ -153,19 +154,21 @@ namespace BirthdayTekken.Controllers
             return RedirectToAction("TournamentLadder");
         }
 
-        public async Task<IActionResult> SelectedTournemantWithMatches(int id)
+        public async Task<IActionResult> SelectedTournemantWithMatches(int selectedTournamentId)
         {
-            var tournament = await _tournamentService.GetByIdAsync(id);
-            var matches = _mapper.Map<List<NewMatchVm>>(tournament.Matches);
+            var tournament = await _tournamentService.GetTournamentByIdAsync(selectedTournamentId);
+            var matches = await _service.GetMatchesByTournamentIdAsync(selectedTournamentId);
+            var matchesVm = _mapper.Map<List<NewMatchVm>>(matches);
+
             var viewModel = new TournamentMatchesViewModel
             {
                 SelectedTournamentId = tournament.Id,
                 SelectedTournament = tournament,
-                Matches = matches
+                Matches = matchesVm
             };
+
             return View(viewModel);
         }
-
 
     }
 }

@@ -14,6 +14,8 @@ namespace BirthdayTekken.Models
         public int WinnerId { get; set; }
 
         public int? TournamentId { get; set; }
+
+        [ForeignKey("TournamentId")]
         public Tournament Tournament { get; set; }
 
 

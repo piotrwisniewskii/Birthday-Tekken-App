@@ -9,8 +9,8 @@
 
 <form asp-action="SelectedTournemantWithMatches" method="post">
     <div>
-        <label for="SelectedTournament">Select a tournament:</label>
-        <select id="SelectedTournamentId" asp-for="SelectedTournamentId" asp-items="@Model.TournamentList">
+        <label for="SelectedTournamentId">Select a tournament:</label>
+        <select id="SelectedTournamentId" name="selectedTournamentId" asp-items="@Model.TournamentList">
             <option value="">-- Select a Tournament --</option>
         </select>
     </div>
@@ -18,3 +18,5 @@
         <input type="submit" value="Show Matches" />
     </div>
 </form>
+
+

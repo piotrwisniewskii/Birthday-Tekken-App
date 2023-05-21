@@ -33,11 +33,14 @@ namespace BirthdayTekken.Services
             {
                 MatchId = newMatch.Id,
                 ParticipantId = participantId
-            });
+            }).ToList();
+
+            newMatch.Participant_Matches = participantMatches;
 
             _context.Participants_Matches.AddRange(participantMatches);
             await _context.SaveChangesAsync();
         }
+
 
         public async Task CreateNextRound(List<WinnerSelectionVM> winnerSelections)
         {
@@ -187,5 +190,17 @@ namespace BirthdayTekken.Services
 
             return matches;
         }
+
+        public async Task<List<Match>> GetMatchesByTournamentIdAsync(int tournamentId)
+        {
+            var matches = await _context.Matches
+                .Where(m => m.TournamentId == tournamentId)
+                .Include(m => m.Participant_Matches)
+                .ThenInclude(pm => pm.Participant)
+                .ToListAsync();
+
+            return matches;
+        }
+
     }
 }
