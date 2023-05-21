@@ -1,5 +1,5 @@
 ﻿@using BirthdayTekken.Models.ViewModel;
-@model List<NewMatchVm>
+@model TournamentMatchesViewModel
 
 @{
     ViewBag.Title = "Tournament Ladder";
@@ -7,32 +7,14 @@
 
 <h2>Tournament Ladder</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Round Number</th>
-            <th scope="col">Participant 1</th>
-            <th scope="col">Participant 2</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var match in Model)
-        {
-            <tr>
-                <td>@match.RoundNumber</td>
-                <td>@match.ParticipantNames[0]</td>
-                <td>@match.ParticipantNames[1]</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
-
-
-<a asp-controller="Match" asp-action="SelectWinners" asp-route-roundNumber="1">Select Winners for Round 1</a>
-<a asp-controller="Match" asp-action="SelectWinners" asp-route-roundNumber="2">Select Winners for Round 2</a>
-<a asp-controller="Match" asp-action="SelectWinners" asp-route-roundNumber="3">Select Winners for Round 3</a>
- 
-
-<a asp-controller="Match" asp-action="MakeTournamentLadder">Make New Ladder</a>
+<form asp-action="SelectedTournemantWithMatches" method="post">
+    <div>
+        <label for="SelectedTournament">Select a tournament:</label>
+        <select id="SelectedTournamentId" asp-for="SelectedTournamentId" asp-items="@Model.TournamentList">
+            <option value="">-- Select a Tournament --</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Show Matches" />
+    </div>
+</form>

@@ -2,15 +2,17 @@
 using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
 
-public class MappingProfile : Profile
+public class AutoMapperProfile : Profile
 {
-    public MappingProfile()
+    public AutoMapperProfile()
     {
         CreateMap<Match, NewMatchVm>()
-    .ForMember(dest => dest.MatchId, opt => opt.MapFrom(src => src.Id))
-    .ForMember(dest => dest.ParticipantNames, opt => opt.MapFrom(src => src.Participant_Matches.Select(pm => pm.Participant.Name + " " + pm.Participant.Surname).ToList()))
-    .ForMember(dest => dest.ParticipantsIds, opt => opt.MapFrom(src => src.Participant_Matches.Select(pm => pm.ParticipantId).ToList()))
-    .ForMember(dest => dest.TournamentId, opt => opt.MapFrom(src => src.TournamentId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.RoundNumber, opt => opt.MapFrom(src => src.RoundNumber))
+            .ForMember(dest => dest.ParticipantsIds, opt => opt.MapFrom(src => src.Participant_Matches.Select(p => p.ParticipantId)))
+            .ForMember(dest => dest.ParticipantNames, opt => opt.MapFrom(src => src.Participant_Matches.Select(p => p.Participant.Name)));
 
+        CreateMap<Tournament, TournamentMatchesViewModel>()
+            .ForMember(dest => dest.Matches, opt => opt.MapFrom(src => src.Matches));
     }
 }

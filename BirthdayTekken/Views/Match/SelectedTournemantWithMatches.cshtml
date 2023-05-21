@@ -1,0 +1,54 @@
+﻿@model TournamentMatchesViewModel
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <div class="card mb-12">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-header text-white bg-info">
+                        <h5 class="card-title">
+                            Matches for Selected Tournament
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p class="card-text"><b>Tournament Date: </b>@Model.SelectedTournament.TournamentDate</p>
+
+                        <p class="card-text ">
+                            <b>Matches: </b>
+                            <hr />
+                            <div>
+                                @foreach (var match in Model.Matches)
+                                {
+                                    <div class="column text-center" style="display:inline-block">
+                                        <p><b>Round Number:</b> @match.RoundNumber</p>
+                                        <ul>
+                                            @foreach (var participantName in match.ParticipantNames)
+                                            {
+                                                <li>
+                                                    @participantName
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card-footer">
+                        <p class="card-text">
+                            <a class="btn btn-outline-primary float-right" asp-action="Index">
+                                Back to List
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

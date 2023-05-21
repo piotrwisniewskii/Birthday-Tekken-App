@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,19 @@ namespace BirthdayTekken.Controllers
         private readonly Random _random;
         private readonly IMapper _mapper;
         private readonly ILogger<TournamentController> _logger;
+        private readonly ITournamentService _tournamentService;
 
-        public MatchController(Random random, IMatchService service,IMapper mapper, ILogger<TournamentController> logger)
+        public MatchController(Random random,
+            IMatchService service,
+            IMapper mapper,
+            ILogger<TournamentController> logger,
+            ITournamentService tournamentService)
         {
             _random = random;
             _service = service;
             _mapper = mapper;
             _logger = logger;
+            _tournamentService = tournamentService;
         }
 
         public async Task<IActionResult> Index()
@@ -27,6 +34,7 @@ namespace BirthdayTekken.Controllers
             ViewBag.Matches = matches.ToList();
             return View(matches);
         }
+
 
         public async Task<IActionResult> Details(int id)
         {
@@ -107,13 +115,19 @@ namespace BirthdayTekken.Controllers
 
         public async Task<ActionResult> TournamentLadder()
         {
-
             var matches = await _service.GetAllMatchesAsync();
+            var tournaments = await _tournamentService.GetAllAsync();
 
             var newMatchVms = _mapper.Map<List<NewMatchVm>>(matches);
+            var tournamentMatchesViewModel = new TournamentMatchesViewModel
+            {
+                AllTournaments = _mapper.Map<List<Tournament>>(tournaments),
+                Matches = newMatchVms
+            };
 
-            return View(newMatchVms);
+            return View(tournamentMatchesViewModel);
         }
+
 
         public async Task<ActionResult> MakeTournamentLadder()
         {
@@ -134,31 +148,22 @@ namespace BirthdayTekken.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateNextRound(List<WinnerSelectionVM> winners)
         {
-            //if (winners.Count % 2 != 0)
-            //{
-            //    throw new InvalidOperationException("The number of winners should be even.");
-            //}
-
-            //int numberOfMatches = winners.Count / 2;
-
-            //for (int i = 0; i < numberOfMatches; i++)
-            //{
-            //    var winner1 = winners[i * 2];
-            //    var winner2 = winners[i * 2 + 1];
-
-            //    var newMatch = new NewMatchVm()
-            //    {
-            //        RoundNumber = 2,
-            //        WinnerId = 0,
-            //        ParticipantsIds = new List<int> { winner1.WinnerId, winner2.WinnerId }
-            //    };
-
-            //    await _service.AddNewMatchAsync(newMatch);
-            //}
-
             await _service.CreateNextRound(winners);
 
             return RedirectToAction("TournamentLadder");
+        }
+
+        public async Task<IActionResult> SelectedTournemantWithMatches(int id)
+        {
+            var tournament = await _tournamentService.GetByIdAsync(id);
+            var matches = _mapper.Map<List<NewMatchVm>>(tournament.Matches);
+            var viewModel = new TournamentMatchesViewModel
+            {
+                SelectedTournamentId = tournament.Id,
+                SelectedTournament = tournament,
+                Matches = matches
+            };
+            return View(viewModel);
         }
 
 
