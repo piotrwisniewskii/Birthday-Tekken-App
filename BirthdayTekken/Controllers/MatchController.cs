@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
-using BirthdayTekken.Data;
-using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Media;
-using static BirthdayTekken.Models.ViewModel.WinnerSelectionVM;
 
 namespace BirthdayTekken.Controllers
 {

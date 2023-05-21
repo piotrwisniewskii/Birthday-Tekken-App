@@ -32,7 +32,7 @@
                                 @foreach (var participant in Model.Participants_Tournaments)
                                 {
                                         <div class="column text-center" style="display:inline-block">
-                                        <img class="border-info rounded-circle" src="@participant.Participant.ProfilePicture" style="max-width: 150px" />
+                                        <img src="@Url.Action("GetImage", "Participants", new { id = participant.Participant.Id })" width="100%" alt="@participant.Participant.Name">
                                         <br />
                                         <a asp-controller="TekkenParticipants" asp-action="Details" asp-route-id="@participant.ParticipantId">@participant.Participant.Name</a>
                                     </div>

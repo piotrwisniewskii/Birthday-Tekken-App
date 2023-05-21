@@ -17,11 +17,11 @@
                 <div class="form-group text-center">
                     <img id="ProfilePicturePreview" class="border-info rounder-circle" style="max-width: 150px"/>
                 </div>
-                <div class="form-check group">
-                    <label asp-for="ProfilePicture" class="control-label"></label>
-                    <input asp-for="ProfilePicture" class="form-control" />
-                    <span asp-validation-for="ProfilePicture" class="text-danger"></span>
-                </div>
+        <div class="form-group text-center">
+    <img id="ProfilePicturePreview" class="border-info rounder-circle"
+         style="max-width: 150px"
+         src="@Url.Action("GetImage", "Participants", new { id = Model.Id })" />
+</div>
                 <div class="form-check group">
                     <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control" />
@@ -55,15 +55,17 @@
     </div>
 </div>
 
-@section Scripts{ 
-            <script>
-                $(document).ready(function () {
-                    var output = document.getElementById('ProfilePicturePreview');
-                    output.src = $("#ProfilePictureURL").val();
-                })
-                $("#ProfilePictureURL").on("change", function () {
-                    var output = document.getElementById('ProfilePicturePreview');
-                    output.src = $(this).val();
-                })
-            </script>
+@section Scripts{
+        <script>
+                const pictureInput = document.getElementById('ProfilePictureFile');
+                const pictureElement = document.getElementById('ProfilePicturePreview');
+
+                pictureInput.addEventListener('change', function() {
+                    const fileReader = new FileReader();
+                    fileReader.onload = function(e) {
+                        pictureElement.src = e.target.result;
+                    };
+                    fileReader.readAsDataURL(pictureInput.files[0]);
+                });
+        </script>
 }

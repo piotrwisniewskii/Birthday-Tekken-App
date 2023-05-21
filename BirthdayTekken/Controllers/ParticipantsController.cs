@@ -1,10 +1,6 @@
-﻿using BirthdayTekken.Data;
-using BirthdayTekken.Models;
+﻿using BirthdayTekken.Models;
 using BirthdayTekken.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
-using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayTekken.Controllers
 {
