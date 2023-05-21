@@ -17,8 +17,6 @@ namespace BirthdayTekken.Models
         [Required]
         public int WinnerId { get; set; }
         [Required]
-        public int PlayersNumber { get; set; }
-
         //Relationships
         [ValidateNever]
         public List<Participant_Tournament> Participants_Tournaments { get; set; }

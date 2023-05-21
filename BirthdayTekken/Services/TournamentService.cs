@@ -24,7 +24,6 @@ namespace BirthdayTekken.Services
                 Name = data.Name,
                 TournamentDate = data.TournamentDate,
                 WinnerId = data.WinnerId,
-                PlayersNumber = data.PlayersNumber,
             };
             await _context.Tournaments.AddAsync(newTournament);
 

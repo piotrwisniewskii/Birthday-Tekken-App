@@ -84,14 +84,12 @@ namespace BirthdayTekken.Data
                             Name = "Piotr's Birthday",
                             TournamentDate = DateTime.Now,
                             WinnerId = 1,
-                            PlayersNumber = 8
                         },
                         new Tournament()
                         {
                             Name = "Party At Mazury",
                             TournamentDate = DateTime.Now.AddDays(-10),
                             WinnerId = 2,
-                            PlayersNumber = 16
                         },
                 });
                     context.SaveChanges();

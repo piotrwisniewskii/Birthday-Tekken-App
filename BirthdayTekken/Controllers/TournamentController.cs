@@ -62,7 +62,6 @@ namespace BirthdayTekken.Controllers
                 Id = tournamentDetails.Id,
                 Name = tournamentDetails.Name,
                 TournamentDate = tournamentDetails.TournamentDate,
-                PlayersNumber = tournamentDetails.PlayersNumber,
                 ParticipantsIds = tournamentDetails.Participants_Tournaments.Select(n => n.ParticipantId).ToList(),
             };
 
