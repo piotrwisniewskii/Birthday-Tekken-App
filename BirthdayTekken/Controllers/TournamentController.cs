@@ -13,7 +13,6 @@ namespace BirthdayTekken.Controllers
         {
             _service = service;
         }
-        // GET: TournamentController
         public async Task<IActionResult> Index()
         {
             var model = await _service.GetAllAsync(n=>n.Participants_Tournaments);
@@ -122,14 +121,8 @@ namespace BirthdayTekken.Controllers
         public async Task<IActionResult> SelectParticipants(int tournamentId, List<int> selectedParticipants)
         {
             await _service.MakeSelectedTournamentLadder(tournamentId, selectedParticipants);
-            return RedirectToAction("Round", new { id = tournamentId });
+            return RedirectToAction("SelectedTournemantWithMatches", "Match", new { selectedTournamentId = tournamentId });
         }
 
-        public async Task<IActionResult> Round(int id)
-        {
-            var model = await _service.GetTournamentByIdAsync(id);
-            if (model == null) return View("NotFound");
-            return View(model);
-        }
     }
 }

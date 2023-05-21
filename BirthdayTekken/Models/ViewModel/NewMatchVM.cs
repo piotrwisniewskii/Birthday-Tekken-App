@@ -8,7 +8,6 @@ namespace BirthdayTekken.Models.ViewModel
     {
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
 
         [Display(Name = "Winner")]
         public int WinnerId { get; set; }

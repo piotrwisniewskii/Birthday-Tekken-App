@@ -1,37 +1,34 @@
-﻿@model Tournament
-
-@{
-    ViewData["Title"] = "tournamnet details";
-}
-
-<div class="row">
+﻿<div class="row">
     <div class="col-md-8 offset-2">
         <div class="card mb-12">
             <div class="row g-0">
                 <div class="col-md-12">
                     <div class="card-header text-white bg-info">
                         <p class="card-text">
-                            <h5 class="card-title">
+                            <h5 class="card-title text-center">
                                 @Model.Name
                             </h5>
+                            <a class="btn btn-danger text-center" asp-action="SelectParticipants" asp-route-id="@Model.Id">
+                                Select Players for the tournament
+                            </a>
                         </p>
                     </div>
                 </div>
-                 <div class="col-md-4">
-                    <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Bottle_cap_-_Harna%C5%9B.jpg/640px-Bottle_cap_-_Harna%C5%9B.jpg width="100%" alt="@Model.Name">
+                <div class="col-md-4">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Bottle_cap_-_Harna%C5%9B.jpg/640px-Bottle_cap_-_Harna%C5%9B.jpg" width="100%" alt="@Model.Name">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <p class="card-text">@Model.Name</p>
                         <p class="card-text"><b>Tournament Date: </b>@Model.TournamentDate</p>
                         <p class="card-text"><b>Winner: </b>@Model.WinnerId</p>
-                        <p class="card-text ">
+                        <p class="card-text">
                             <b>Participants: </b>
                             <hr />
                             <div>
                                 @foreach (var participant in Model.Participants_Tournaments)
                                 {
-                                        <div class="column text-center" style="display:inline-block">
+                                    <div class="column text-center" style="display:inline-block">
                                         <img src="@Url.Action("GetImage", "Participants", new { id = participant.Participant.Id })" width="100%" alt="@participant.Participant.Name">
                                         <br />
                                         <a asp-controller="TekkenParticipants" asp-action="Details" asp-route-id="@participant.ParticipantId">@participant.Participant.Name</a>
@@ -52,18 +49,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="col-md-12">
-    <div class="card-footer">
-        <p class="card-text">
-            <a class="btn btn-outline-primary float-left" asp-action="SelectParticipants" asp-route-id="@Model.Id">
-                Select Players for tournament
-            </a>
-            <a class="btn btn-outline-primary float-right" asp-action="Index">
-                Back to List
-            </a>
-        </p>
     </div>
 </div>

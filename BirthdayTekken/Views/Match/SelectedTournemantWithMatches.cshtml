@@ -9,31 +9,30 @@
                 </h5>
             </div>
             <div class="card-body">
-                <p class="card-text text-center"><b>Tournament Date:</b> @Model.SelectedTournament.TournamentDate</p>
+                <p class="card-text text-center"><b>Tournament Name:</b> @Model.SelectedTournament.Name</p>
                 <h5 class="card-title text-center"><b>Matches:</b></h5>
                 <hr />
                 <div class="d-flex justify-content-around flex-wrap">
                     @foreach (var match in Model.Matches)
-{
-    <div class="card text-center mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Round @match.RoundNumber</h5>
-            <p class="card-text">Tournament ID: @match.TournamentId</p>
-            <ul class="list-group list-group-flush">
-                @foreach (var participantId in match.ParticipantsIds)
-                {
-                    <li class="list-group-item">
-                        @match.ParticipantNames[match.ParticipantsIds.IndexOf(participantId)]
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
-}
+                    {
+                        <div class="card text-center mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Round @match.RoundNumber</h5>
+                                <ul class="list-group list-group-flush">
+                                    @for (var i = 0; i < match.ParticipantsIds.Count; i++)
+                                    {
+                                        <li class="list-group-item">
+                                            @match.ParticipantNames[i]
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
             <div class="card-footer text-center">
-                <a class="btn btn-outline-primary" asp-action="Index">
+                <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Tournament">
                     Back to List
                 </a>
             </div>
