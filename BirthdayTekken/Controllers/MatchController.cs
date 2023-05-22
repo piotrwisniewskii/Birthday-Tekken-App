@@ -122,47 +122,39 @@ namespace BirthdayTekken.Controllers
             var matches = await _service.GetMatchesForSelectionAsync(roundNumber);
             var matchViewModels = _mapper.Map<List<NewMatchVm>>(matches);
 
+            var winners = matches.Select(m => new WinnerSelectionVM { MatchId = m.Id }).ToList();
+
             var viewModel = new TournamentMatchesViewModel
             {
                 Matches = matchViewModels,
-                Winners = matches.Select(m => new WinnerSelectionVM { MatchId = m.Id }).ToList()
+                Winners = winners,
+                RoundNumber = roundNumber
             };
 
             return View(viewModel);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateNextRound(List<WinnerSelectionVM> winnerSelections, int roundNumber)
-        {
-            try
-            {
-                await _service.CreateNextRound(winnerSelections, roundNumber);
-            }
-            catch (Exception ex)
-            {
-                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-            }
-
-            return RedirectToAction("SelectedTournemantWithMatches", new { roundNumber = roundNumber + 1 });
-        }
-
-
 
         public async Task<IActionResult> SelectedTournemantWithMatches(int selectedTournamentId)
         {
             var tournament = await _tournamentService.GetTournamentByIdAsync(selectedTournamentId);
-            var matches = await _service.GetMatchesByTournamentIdAsync(selectedTournamentId);
-            var matchesVm = _mapper.Map<List<NewMatchVm>>(matches);
+            var roundNumber = await _service.GetCurrentRoundNumber(selectedTournamentId);
 
-            var viewModel = new TournamentMatchesViewModel
-            {
-                SelectedTournamentId = tournament.Id,
-                SelectedTournament = tournament,
-                Matches = matchesVm
-            };
-
-            return View(viewModel);
+            return RedirectToAction("SelectWinners", new { tournamentId = selectedTournamentId, roundNumber });
         }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNextRound(TournamentMatchesViewModel viewModel)
+        {
+
+            await _service.CreateNextRound(viewModel.Winners, viewModel.RoundNumber);
+
+
+            return RedirectToAction("SelectedTournemantWithMatches", new { selectedTournamentId = viewModel.SelectedTournamentId, roundNumber = viewModel.RoundNumber + 1 });
+
+        }
+
 
     }
 }

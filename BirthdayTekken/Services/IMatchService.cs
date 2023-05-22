@@ -17,8 +17,7 @@ namespace BirthdayTekken.Services
         Task<List<Match>> GetMatchesForSelectionAsync(int roundNumber);
         Task CreateNextRound(List<WinnerSelectionVM> winnerSelections, int roundnumber);
         Task<List<Match>> GetMatchesByTournamentIdAsync(int tournamentId);
-
-        Task<int?> GetLatestRoundNumber(int matchId);
+        Task<int> GetCurrentRoundNumber(int tournamentId);
 
     }
 }

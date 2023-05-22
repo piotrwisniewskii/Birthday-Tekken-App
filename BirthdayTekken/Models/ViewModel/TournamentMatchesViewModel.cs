@@ -4,7 +4,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class TournamentMatchesViewModel
 {
-    public List<Tournament> AllTournaments { get; set; }
+    private List<Tournament> _allTournaments;
+
+    public List<Tournament> AllTournaments
+    {
+        get => _allTournaments ?? new List<Tournament>();
+        set => _allTournaments = value;
+    }
+
     public SelectList TournamentList => new SelectList(AllTournaments, "Id", "Name");
     public int SelectedTournamentId { get; set; }
 
@@ -12,6 +19,4 @@ public class TournamentMatchesViewModel
     public List<NewMatchVm> Matches { get; set; }
     public List<WinnerSelectionVM> Winners { get; set; }
     public int RoundNumber { get; set; }
-
-
 }

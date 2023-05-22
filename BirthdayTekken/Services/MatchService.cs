@@ -144,16 +144,6 @@ namespace BirthdayTekken.Services
             return matches;
         }
 
-        public async Task<int?> GetLatestRoundNumber(int matchId)
-        {
-            var match = await GetMatchByIdAsync(matchId);
-
-                var latestRound = await _context.Matches
-                .Where(m => m.TournamentId == match.TournamentId)
-                .MaxAsync(m => (int?)m.RoundNumber);
-
-            return latestRound;
-        }
 
         public async Task CreateNextRound(List<WinnerSelectionVM> winnerSelections, int roundNumber)
         {
@@ -166,6 +156,12 @@ namespace BirthdayTekken.Services
 
             var winnerPairs = new List<(int, int)>();
 
+            for (int i = 0; i < winnerIds.Count; i += 2)
+            {
+                var pair = (winnerIds[i], winnerIds[i + 1]);
+                winnerPairs.Add(pair);
+            }
+
             foreach (var pair in winnerPairs)
             {
                 var newMatch = new NewMatchVm
@@ -177,5 +173,22 @@ namespace BirthdayTekken.Services
                 await AddNewMatchAsync(newMatch);
             }
         }
+
+        public async Task<int> GetCurrentRoundNumber(int tournamentId)
+        {
+            var matches = await GetMatchesByTournamentIdAsync(tournamentId);
+
+            if (!matches.Any())
+            {
+                // No matches found, return the initial round number (e.g., 1)
+                return 1;
+            }
+
+            var highestRoundNumber = matches.Max(m => m.RoundNumber);
+
+            return highestRoundNumber;
+        }
+
+
     }
 }
