@@ -1,0 +1,41 @@
+﻿@using BirthdayTekken.Models.ViewModel;
+@model List<NewMatchVm>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mb-12">
+            <div class="card-header text-white bg-info">
+                <h5 class="card-title text-center">
+                    Matches for Round @Model[0].RoundNumber
+                </h5>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-center"><b>Matches:</b></h5>
+                <hr />
+                <div class="d-flex justify-content-around flex-wrap">
+                    @foreach (var match in Model)
+                    {
+                        <div class="card text-center mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Match @match.Id</h5>
+                                <ul class="list-group list-group-flush">
+                                    @for (var i = 0; i < match.ParticipantsIds.Count; i++)
+                                    {
+                                        <li class="list-group-item">
+                                            @match.ParticipantNames[i]
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a class="btn btn-outline-primary" asp-action="SelectWinners" asp-controller="Match" asp-route-roundNumber="@Model[0].RoundNumber">
+                    Select Winners
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

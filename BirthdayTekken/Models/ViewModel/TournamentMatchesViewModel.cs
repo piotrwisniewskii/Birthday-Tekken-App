@@ -10,8 +10,8 @@ public class TournamentMatchesViewModel
 
     public Tournament SelectedTournament { get; set; }
     public List<NewMatchVm> Matches { get; set; }
-
-    public  IEnumerable<Participant> Participants { get; set; }
+    public List<WinnerSelectionVM> Winners { get; set; }
+    public int RoundNumber { get; set; }
 
 
 }

@@ -41,32 +41,6 @@ namespace BirthdayTekken.Services
             _context.Participants_Matches.AddRange(participantMatches);
             await _context.SaveChangesAsync();
         }
-
-        public async Task CreateNextRound(List<WinnerSelectionVM> winnerSelections,int roundnumber)
-        {
-            if (winnerSelections.Count % 2 != 0)
-            {
-                throw new InvalidOperationException("The number of winners should be even.");
-            }
-
-            int numberOfMatches = winnerSelections.Count / 2;
-
-            for (int i = 0; i < numberOfMatches; i++)
-            {
-                var winner1 = winnerSelections[i * 2];
-                var winner2 = winnerSelections[i * 2 + 1];
-
-                var newMatch = new NewMatchVm()
-                {
-                    RoundNumber = roundnumber + 1,
-                    WinnerId = 0,
-                    ParticipantsIds = new List<int> { winner1.WinnerId, winner2.WinnerId }
-                };
-
-                await AddNewMatchAsync(newMatch);
-            }
-        }
-
         public async Task<Match> GetMatchByIdAsync(int id)
         {
             var matchDetails = await _context.Matches
@@ -170,9 +144,38 @@ namespace BirthdayTekken.Services
             return matches;
         }
 
-        public Task CreateNextRound(List<WinnerSelectionVM> CreateNextRound)
+        public async Task<int?> GetLatestRoundNumber(int matchId)
         {
-            throw new NotImplementedException();
+            var match = await GetMatchByIdAsync(matchId);
+
+                var latestRound = await _context.Matches
+                .Where(m => m.TournamentId == match.TournamentId)
+                .MaxAsync(m => (int?)m.RoundNumber);
+
+            return latestRound;
+        }
+
+        public async Task CreateNextRound(List<WinnerSelectionVM> winnerSelections, int roundNumber)
+        {
+
+            var winnerIds = winnerSelections.Select(ws => ws.WinnerId).ToList();
+            if (winnerIds.Count % 2 != 0)
+            {
+                throw new Exception("The number of winners must be even to create the next round.");
+            }
+
+            var winnerPairs = new List<(int, int)>();
+
+            foreach (var pair in winnerPairs)
+            {
+                var newMatch = new NewMatchVm
+                {
+                    RoundNumber = roundNumber + 1,
+                    ParticipantsIds = new List<int> { pair.Item1, pair.Item2 }
+                };
+
+                await AddNewMatchAsync(newMatch);
+            }
         }
     }
 }

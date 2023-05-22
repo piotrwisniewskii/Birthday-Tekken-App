@@ -4,6 +4,7 @@ using BirthdayTekken.Models.ViewModel;
 using BirthdayTekken.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 
 namespace BirthdayTekken.Controllers
 {
@@ -120,16 +121,32 @@ namespace BirthdayTekken.Controllers
         {
             var matches = await _service.GetMatchesForSelectionAsync(roundNumber);
             var matchViewModels = _mapper.Map<List<NewMatchVm>>(matches);
-            return View(matchViewModels);
+
+            var viewModel = new TournamentMatchesViewModel
+            {
+                Matches = matchViewModels,
+                Winners = matches.Select(m => new WinnerSelectionVM { MatchId = m.Id }).ToList()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateNextRound(List<WinnerSelectionVM> winners)
+        public async Task<IActionResult> CreateNextRound(List<WinnerSelectionVM> winnerSelections, int roundNumber)
         {
-            await _service.CreateNextRound(winners);
+            try
+            {
+                await _service.CreateNextRound(winnerSelections, roundNumber);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
 
-            return RedirectToAction("TournamentLadder");
+            return RedirectToAction("SelectedTournemantWithMatches", new { roundNumber = roundNumber + 1 });
         }
+
+
 
         public async Task<IActionResult> SelectedTournemantWithMatches(int selectedTournamentId)
         {
