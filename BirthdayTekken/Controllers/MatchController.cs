@@ -76,29 +76,6 @@ namespace BirthdayTekken.Controllers
             return View();
         }
 
-        [HttpPost]
-        [Route("Match/AddRandomMatch")]
-        public async Task<IActionResult> AddRandomMatchAsync()
-        {
-            try
-            {
-                await _service.AddRandomMatchAsync();
-                var participants = await _service.GetRandomizedParticipantsList();
-                var matchResultViewModel = new MatchResultViewModel
-                {
-                    Participant1 = participants.Participants[0],
-                    Participant2 = participants.Participants[1],
-                    Message = "A new match has been created between two random participants."
-                };
-                return View("MatchResult", matchResultViewModel);
-            }
-            catch (InvalidOperationException ex)
-            {
-                ViewBag.ErrorMessage = ex.Message;
-                return View("Error");
-            }
-        }
-
         public async Task<IActionResult> Delete(int id)
         {
             var model = await _service.GetByIdAsync(id);

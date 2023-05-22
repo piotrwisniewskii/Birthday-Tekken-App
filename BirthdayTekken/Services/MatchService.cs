@@ -4,6 +4,7 @@ using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using static BirthdayTekken.Models.ViewModel.WinnerSelectionVM;
 
 namespace BirthdayTekken.Services
@@ -41,8 +42,7 @@ namespace BirthdayTekken.Services
             await _context.SaveChangesAsync();
         }
 
-
-        public async Task CreateNextRound(List<WinnerSelectionVM> winnerSelections)
+        public async Task CreateNextRound(List<WinnerSelectionVM> winnerSelections,int roundnumber)
         {
             if (winnerSelections.Count % 2 != 0)
             {
@@ -58,7 +58,7 @@ namespace BirthdayTekken.Services
 
                 var newMatch = new NewMatchVm()
                 {
-                    RoundNumber = 2,
+                    RoundNumber = roundnumber + 1,
                     WinnerId = 0,
                     ParticipantsIds = new List<int> { winner1.WinnerId, winner2.WinnerId }
                 };
@@ -105,17 +105,6 @@ namespace BirthdayTekken.Services
             return response;
         }
 
-
-        public async Task RemoveParticipantAsync(int participantId)
-        {
-            var participant = await _context.Matches.FindAsync(participantId);
-            if (participant != null)
-            {
-                _context.Matches.Remove(participant);
-                await _context.SaveChangesAsync();
-            }
-        }
-
         public async Task<List<Match>> GetAllMatchesAsync()
         {
             var matches = await _context.Matches
@@ -126,27 +115,6 @@ namespace BirthdayTekken.Services
             return matches;
         }
 
-        public async Task AddRandomMatchAsync()
-        {
-            var participants = await GetRandomizedParticipantsList();
-
-            if (participants.Participants.Count < 2)
-            {
-                throw new InvalidOperationException("There should be at least 2 participants in the database.");
-            }
-
-            var participant1 = participants.Participants[0];
-            var participant2 = participants.Participants[1];
-
-            var newMatch = new NewMatchVm()
-            {
-                RoundNumber = 1,
-                WinnerId = 0,
-                ParticipantsIds = new List<int> { participant1.Id, participant2.Id }
-            };
-
-            await AddNewMatchAsync(newMatch);
-        }
 
         public async Task MakeTournamentLadder()
         {
@@ -202,5 +170,9 @@ namespace BirthdayTekken.Services
             return matches;
         }
 
+        public Task CreateNextRound(List<WinnerSelectionVM> CreateNextRound)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
