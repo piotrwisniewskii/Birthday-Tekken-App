@@ -14,8 +14,6 @@ public class TournamentMatchesViewModel
 
     public SelectList TournamentList => new SelectList(AllTournaments, "Id", "Name");
     public int SelectedTournamentId { get; set; }
-
-    public Tournament SelectedTournament { get; set; }
     public List<NewMatchVm> Matches { get; set; }
     public List<WinnerSelectionVM> Winners { get; set; }
     public int RoundNumber { get; set; }

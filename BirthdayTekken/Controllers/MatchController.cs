@@ -117,7 +117,7 @@ namespace BirthdayTekken.Controllers
             return View(newMatchVms);
         }
 
-        public async Task<IActionResult> SelectWinners(int roundNumber)
+        public async Task<IActionResult> SelectWinners(int tournamentId,int roundNumber)
         {
             var matches = await _service.GetMatchesForSelectionAsync(roundNumber);
             var matchViewModels = _mapper.Map<List<NewMatchVm>>(matches);
@@ -128,7 +128,8 @@ namespace BirthdayTekken.Controllers
             {
                 Matches = matchViewModels,
                 Winners = winners,
-                RoundNumber = roundNumber
+                RoundNumber = roundNumber,
+                SelectedTournamentId = tournamentId,
             };
 
             return View(viewModel);
