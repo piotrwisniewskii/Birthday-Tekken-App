@@ -4,5 +4,6 @@
     {
             public int MatchId { get; set; }
             public int WinnerId { get; set; }
+            public int TournamentId { get; set; }
     }
 }

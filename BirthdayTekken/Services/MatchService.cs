@@ -147,6 +147,12 @@ namespace BirthdayTekken.Services
 
         public async Task CreateNextRound(List<WinnerSelectionVM> winnerSelections, int roundNumber)
         {
+            if (!winnerSelections.Any())
+            {
+                throw new Exception("No winners provided to create the next round.");
+            }
+
+            var tournamentId = winnerSelections.First().TournamentId;
 
             var winnerIds = winnerSelections.Select(ws => ws.WinnerId).ToList();
             if (winnerIds.Count % 2 != 0)
@@ -166,13 +172,16 @@ namespace BirthdayTekken.Services
             {
                 var newMatch = new NewMatchVm
                 {
+                    TournamentId = tournamentId,
                     RoundNumber = roundNumber + 1,
                     ParticipantsIds = new List<int> { pair.Item1, pair.Item2 }
+
                 };
 
                 await AddNewMatchAsync(newMatch);
             }
         }
+
 
         public async Task<int> GetCurrentRoundNumber(int tournamentId)
         {

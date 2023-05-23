@@ -49,28 +49,28 @@ namespace BirthdayTekken.Controllers
 
 
 
-        public async Task<IActionResult> Create()
-        {
-            var movieDropdownsData = await _service.GetNewMatchDropdownsValies();
-            ViewBag.Participants = new SelectList(movieDropdownsData.Participants, "Id", "Name", "Surname");
-            return View();
-        }
+        //public async Task<IActionResult> Create()
+        //{
+        //    var movieDropdownsData = await _service.GetNewMatchDropdownsValies();
+        //    ViewBag.Participants = new SelectList(movieDropdownsData.Participants, "Id", "Name", "Surname");
+        //    return View();
+        //}
 
 
-        [HttpPost]
-        public async Task<IActionResult> Create(NewMatchVm match)
-        {
-            if (!ModelState.IsValid)
-            {
-                var matchDropDownValues = await _service.GetNewMatchDropdownsValies();
+        //[HttpPost]
+        //public async Task<IActionResult> Create(NewMatchVm match)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        var matchDropDownValues = await _service.GetNewMatchDropdownsValies();
 
-                ViewBag.Participants = new SelectList(matchDropDownValues.Participants, "Id", "Name", "Surname");
-                return View(match);
-            }
+        //        ViewBag.Participants = new SelectList(matchDropDownValues.Participants, "Id", "Name", "Surname");
+        //        return View(match);
+        //    }
 
-            await _service.AddNewMatchAsync(match);
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _service.AddNewMatchAsync(match);
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         public IActionResult AddRandomMatch()
         {
