@@ -189,7 +189,6 @@ namespace BirthdayTekken.Services
 
             if (!matches.Any())
             {
-                // No matches found, return the initial round number (e.g., 1)
                 return 1;
             }
 
