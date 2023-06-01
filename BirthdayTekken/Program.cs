@@ -12,7 +12,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IParticipantService, ParticipantService>();
 builder.Services.AddTransient<ITournamentService, TournamentService>();
 builder.Services.AddTransient<IMatchService, MatchService>();
-builder.Services.AddTransient<Random>();
 builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 
