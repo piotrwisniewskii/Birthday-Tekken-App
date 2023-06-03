@@ -2,10 +2,7 @@
 using BirthdayTekken.Data.Base;
 using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using static BirthdayTekken.Models.ViewModel.WinnerSelectionVM;
 
 namespace BirthdayTekken.Services
 {

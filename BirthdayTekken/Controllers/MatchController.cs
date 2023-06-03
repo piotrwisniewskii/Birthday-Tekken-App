@@ -11,20 +11,18 @@ namespace BirthdayTekken.Controllers
     public class MatchController : Controller
     {
         private readonly IMatchService _service;
-        private readonly Random _random;
         private readonly IMapper _mapper;
         private readonly ILogger<TournamentController> _logger;
         private readonly ITournamentService _tournamentService;
         private readonly IParticipantService _participantService;
 
-        public MatchController(Random random,
+        public MatchController(
             IMatchService service,
             IMapper mapper,
             ILogger<TournamentController> logger,
             ITournamentService tournamentService,
             IParticipantService participantService)
         {
-            _random = random;
             _service = service;
             _mapper = mapper;
             _logger = logger;
