@@ -60,28 +60,17 @@ namespace BirthdayTekken.Services
             var tournamentId = winnerSelections.First().TournamentId;
 
             var winners = winnerSelections.Select(ws => ws.WinnerId).ToList();
-            if (winners.Count % 2 != 0)
-            {
-                if (winners.Last() == winners.First())
-                {
-                    winners.RemoveAt(winners.Count - 1);
-                }
-                else
-                {
-                    winners.Add(winners.First());
-                }
-            }
+
 
             var random = new Random();
-            var shuffledWinners = winners.OrderBy(w => random.Next()).ToList();
 
             var matches = new List<NewMatchVm>();
 
-            while (shuffledWinners.Count > 1)
+            while (winners.Count > 1)
             {
-                var participant1 = shuffledWinners[0];
-                var participant2 = shuffledWinners[1];
-                shuffledWinners.RemoveRange(0, 2);
+                var participant1 = winners[0];
+                var participant2 = winners[1];
+                winners.RemoveRange(0, 2);
 
                 var newMatch = new NewMatchVm
                 {
@@ -93,10 +82,10 @@ namespace BirthdayTekken.Services
                 matches.Add(newMatch);
             }
 
-            if (shuffledWinners.Count == 1)
+            if (winners.Count == 1)
             {
                 // Participant receives a bye round by playing against themselves
-                var participant = shuffledWinners[0];
+                var participant = winners[0];
                 var byeMatch = new NewMatchVm
                 {
                     TournamentId = tournamentId,
