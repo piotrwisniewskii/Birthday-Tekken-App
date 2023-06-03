@@ -38,12 +38,17 @@ namespace BirthdayTekken.Controllers
         }
 
 
+
         public async Task<IActionResult> Details(int id)
         {
-            var model = await _service.GetMatchByIdAsync(id);
+            var model = await _service.GetByIdAsync(id, m => m.Participant_Matches.Select(pm => pm.Participant));
+
             if (model == null) return View("NotFound");
             return View(model);
         }
+
+
+
 
         public async Task<IActionResult> Delete(int id)
         {

@@ -16,16 +16,6 @@ namespace BirthdayTekken.Services
             _context = context;
             _matchRepo = matchRepo;
         }
-
-        public async Task<Match> GetMatchByIdAsync(int id)
-        {
-            var matchDetails = await _context.Matches
-                .Include(am => am.Participant_Matches)
-                .ThenInclude(a => a.Participant)
-                .FirstOrDefaultAsync(n => n.Id == id);
-
-            return matchDetails;
-        }
         public async Task<List<Match>> GetAllMatchesAsync()
         {
             var matches = await _context.Matches

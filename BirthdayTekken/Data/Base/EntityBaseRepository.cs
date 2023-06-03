@@ -19,6 +19,12 @@ namespace BirthdayTekken.Data.Base
         }
 
         public async Task<T> GetByIdAsync(int id) => await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
+        public async Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includeProperties)
+        {
+            var query = _context.Set<T>().AsQueryable();
+            query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+            return await query.FirstOrDefaultAsync(entity => entity.Id == id);
+        }
 
         public async Task UpdateAsync(int id, T entity)
         {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BirthdayTekken.Migrations
 {
-    public partial class DBfix : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -86,30 +86,6 @@ namespace BirthdayTekken.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ParticipantTournament",
-                columns: table => new
-                {
-                    ParticipantsId = table.Column<int>(type: "int", nullable: false),
-                    TournamentsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ParticipantTournament", x => new { x.ParticipantsId, x.TournamentsId });
-                    table.ForeignKey(
-                        name: "FK_ParticipantTournament_Participants_ParticipantsId",
-                        column: x => x.ParticipantsId,
-                        principalTable: "Participants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ParticipantTournament_Tournaments_TournamentsId",
-                        column: x => x.TournamentsId,
-                        principalTable: "Tournaments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Participants_Matches",
                 columns: table => new
                 {
@@ -158,11 +134,6 @@ namespace BirthdayTekken.Migrations
                 name: "IX_Participants_Tournaments_TournamentId",
                 table: "Participants_Tournaments",
                 column: "TournamentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ParticipantTournament_TournamentsId",
-                table: "ParticipantTournament",
-                column: "TournamentsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -172,9 +143,6 @@ namespace BirthdayTekken.Migrations
 
             migrationBuilder.DropTable(
                 name: "Participants_Tournaments");
-
-            migrationBuilder.DropTable(
-                name: "ParticipantTournament");
 
             migrationBuilder.DropTable(
                 name: "Matches");

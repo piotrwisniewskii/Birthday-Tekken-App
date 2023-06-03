@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirthdayTekken.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230415132646_initi")]
-    partial class initi
+    [Migration("20230603135744_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,12 +35,13 @@ namespace BirthdayTekken.Migrations
                     b.Property<int>("RoundNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("WinnerId")
+                    b.Property<int?>("TournamentId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WinnerId");
+                    b.HasIndex("TournamentId");
 
                     b.ToTable("Matches");
                 });
@@ -60,9 +61,9 @@ namespace BirthdayTekken.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfilePictureURL")
+                    b.Property<byte[]>("ProfilePicture")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -78,15 +79,20 @@ namespace BirthdayTekken.Migrations
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Match", b =>
                 {
-                    b.Property<int>("MatchId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ParticipantId")
                         .HasColumnType("int");
 
-                    b.HasKey("MatchId", "ParticipantId");
+                    b.Property<int>("MatchId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ParticipantId");
+                    b.Property<int?>("TournamentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ParticipantId", "MatchId");
+
+                    b.HasIndex("MatchId");
+
+                    b.HasIndex("TournamentId");
 
                     b.ToTable("Participants_Matches");
                 });
@@ -118,9 +124,6 @@ namespace BirthdayTekken.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PlayersNumber")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("TournamentDate")
                         .HasColumnType("datetime2");
 
@@ -134,13 +137,13 @@ namespace BirthdayTekken.Migrations
 
             modelBuilder.Entity("BirthdayTekken.Models.Match", b =>
                 {
-                    b.HasOne("BirthdayTekken.Models.Participant", "Winner")
-                        .WithMany()
-                        .HasForeignKey("WinnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("BirthdayTekken.Models.Tournament", "Tournament")
+                        .WithMany("Matches")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Winner");
+                    b.Navigation("Tournament");
                 });
 
             modelBuilder.Entity("BirthdayTekken.Models.Participant_Match", b =>
@@ -156,6 +159,10 @@ namespace BirthdayTekken.Migrations
                         .HasForeignKey("ParticipantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BirthdayTekken.Models.Tournament", null)
+                        .WithMany("Participant_Matches")
+                        .HasForeignKey("TournamentId");
 
                     b.Navigation("Match");
 
@@ -195,6 +202,10 @@ namespace BirthdayTekken.Migrations
 
             modelBuilder.Entity("BirthdayTekken.Models.Tournament", b =>
                 {
+                    b.Navigation("Matches");
+
+                    b.Navigation("Participant_Matches");
+
                     b.Navigation("Participants_Tournaments");
                 });
 #pragma warning restore 612, 618
