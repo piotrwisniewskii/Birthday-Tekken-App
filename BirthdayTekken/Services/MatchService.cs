@@ -9,35 +9,14 @@ namespace BirthdayTekken.Services
     public class MatchService : EntityBaseRepository<Match>, IMatchService
     {
         private readonly AppDbContext _context;
+        private readonly IMatchRepository _matchRepo;
 
-        public MatchService(AppDbContext context) : base(context)
+        public MatchService(AppDbContext context, IMatchRepository matchRepo ) : base(context)
         {
             _context = context;
+            _matchRepo = matchRepo;
         }
 
-        public async Task AddNewMatchAsync(NewMatchVm newMatchVm)
-        {
-            var newMatch = new Match
-            {
-                RoundNumber = newMatchVm.RoundNumber,
-                WinnerId = newMatchVm.WinnerId,
-                TournamentId = newMatchVm.TournamentId,
-            };
-
-            _context.Matches.Add(newMatch);
-            await _context.SaveChangesAsync();
-
-            var participantMatches = newMatchVm.ParticipantsIds.Select(participantId => new Participant_Match
-            {
-                MatchId = newMatch.Id,
-                ParticipantId = participantId
-            }).ToList();
-
-            newMatch.Participant_Matches = participantMatches;
-
-            _context.Participants_Matches.AddRange(participantMatches);
-            await _context.SaveChangesAsync();
-        }
         public async Task<Match> GetMatchByIdAsync(int id)
         {
             var matchDetails = await _context.Matches
@@ -114,7 +93,7 @@ namespace BirthdayTekken.Services
 
                 };
 
-                await AddNewMatchAsync(newMatch);
+                await _matchRepo.AddNewMatchAsync(newMatch);
             }
         }
 

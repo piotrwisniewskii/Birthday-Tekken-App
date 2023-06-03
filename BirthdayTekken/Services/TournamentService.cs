@@ -2,21 +2,19 @@
 using BirthdayTekken.Data.Base;
 using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace BirthdayTekken.Services
 {
     public class TournamentService : EntityBaseRepository<Tournament>, ITournamentService
     {
         private readonly AppDbContext _context;
-        public TournamentService(AppDbContext context) : base(context)
+        private readonly IMatchRepository _matchRepo;
+        public TournamentService(AppDbContext context, IMatchRepository matchRepo) : base(context)
         {
             _context = context;
+            _matchRepo = matchRepo;
         }
-
         public async Task AddNewTournamentAsync(NewTournamentVM data)
         {
             var newTournament = new Tournament()
@@ -100,34 +98,9 @@ namespace BirthdayTekken.Services
                     ParticipantsIds = new List<int> { participant1.Id, participant2.Id }
                 };
 
-                await AddNewMatchAsync(newMatch);
+                await _matchRepo.AddNewMatchAsync(newMatch);
             }
         }
-
-        public async Task AddNewMatchAsync(NewMatchVm newMatchVm)
-        {
-            var newMatch = new Match
-            {
-                RoundNumber = newMatchVm.RoundNumber,
-                WinnerId = newMatchVm.WinnerId,
-                TournamentId = newMatchVm.TournamentId,
-
-            };
-
-            _context.Matches.Add(newMatch);
-            await _context.SaveChangesAsync();
-
-            var participantMatches = newMatchVm.ParticipantsIds.Select(participantId => new Participant_Match
-            {
-                MatchId = newMatch.Id,
-                ParticipantId = participantId
-            });
-
-            _context.Participants_Matches.AddRange(participantMatches);
-            await _context.SaveChangesAsync();
-        }
-
-
     }
 }
 

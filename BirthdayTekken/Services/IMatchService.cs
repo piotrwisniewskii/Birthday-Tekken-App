@@ -9,7 +9,6 @@ namespace BirthdayTekken.Services
     public interface IMatchService : IEntityBaseRepository<Match>
     {
         Task<Match> GetMatchByIdAsync(int id);
-        Task AddNewMatchAsync(NewMatchVm data);
         Task<List<Match>> GetAllMatchesAsync();
         Task<List<Match>> GetMatchesForSelectionAsync(int roundNumber);
         Task CreateNextRound(List<WinnerSelectionVM> winnerSelections, int roundnumber);

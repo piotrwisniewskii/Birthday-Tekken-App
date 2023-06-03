@@ -1,4 +1,5 @@
 using BirthdayTekken.Data;
+using BirthdayTekken.Data.Base;
 using BirthdayTekken.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -12,6 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IParticipantService, ParticipantService>();
 builder.Services.AddTransient<ITournamentService, TournamentService>();
 builder.Services.AddTransient<IMatchService, MatchService>();
+builder.Services.AddTransient<IMatchRepository, MatchRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 

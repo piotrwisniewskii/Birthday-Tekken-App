@@ -46,5 +46,6 @@ namespace BirthdayTekken.Data.Base
             return await query.ToListAsync();
 
         }
+
     }
 }
