@@ -65,7 +65,7 @@ namespace BirthdayTekken.Controllers
         public async Task<ActionResult> TournamentLadder()
         {
             var matches = await _service.GetAllMatchesAsync();
-            var tournaments = await _tournamentService.GetAllAsync();
+            var tournaments = await _tournamentService.GetAllAsync(n=>n.Participants_Tournaments);
 
             var newMatchVms = _mapper.Map<List<NewMatchVm>>(matches);
             var tournamentMatchesViewModel = new TournamentMatchesViewModel
@@ -75,14 +75,6 @@ namespace BirthdayTekken.Controllers
             };
 
             return View(tournamentMatchesViewModel);
-        }
-
-        public async Task<ActionResult> MakeTournamentLadder()
-        {
-            await _service.MakeTournamentLadder();
-            var matches = await _service.GetAllMatchesAsync();
-            var newMatchVms = _mapper.Map<List<NewMatchVm>>(matches);
-            return View(newMatchVms);
         }
 
         public async Task<IActionResult> SelectWinners(int tournamentId,int roundNumber)
