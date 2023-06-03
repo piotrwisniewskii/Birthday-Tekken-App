@@ -22,7 +22,9 @@ namespace BirthdayTekken.Data.Base
 
             await AddAsync(newMatch);
 
-            var participantMatches = newMatchVm.ParticipantsIds.Select(participantId => new Participant_Match
+            var participantIds = newMatchVm.ParticipantsIds.Distinct().ToList();
+
+            var participantMatches = participantIds.Select(participantId => new Participant_Match
             {
                 MatchId = newMatch.Id,
                 ParticipantId = participantId
@@ -35,5 +37,6 @@ namespace BirthdayTekken.Data.Base
 
             await _context.SaveChangesAsync();
         }
+
     }
 }

@@ -59,34 +59,59 @@ namespace BirthdayTekken.Services
 
             var tournamentId = winnerSelections.First().TournamentId;
 
-            var winnerIds = winnerSelections.Select(ws => ws.WinnerId).ToList();
-            if (winnerIds.Count % 2 != 0)
+            var winners = winnerSelections.Select(ws => ws.WinnerId).ToList();
+            if (winners.Count % 2 != 0)
             {
-                throw new Exception("The number of winners must be even to create the next round.");
+                if (winners.Last() == winners.First())
+                {
+                    winners.RemoveAt(winners.Count - 1);
+                }
+                else
+                {
+                    winners.Add(winners.First());
+                }
             }
 
-            var winnerPairs = new List<(int, int)>();
+            var random = new Random();
+            var shuffledWinners = winners.OrderBy(w => random.Next()).ToList();
 
-            for (int i = 0; i < winnerIds.Count; i += 2)
-            {
-                var pair = (winnerIds[i], winnerIds[i + 1]);
-                winnerPairs.Add(pair);
-            }
+            var matches = new List<NewMatchVm>();
 
-            foreach (var pair in winnerPairs)
+            while (shuffledWinners.Count > 1)
             {
+                var participant1 = shuffledWinners[0];
+                var participant2 = shuffledWinners[1];
+                shuffledWinners.RemoveRange(0, 2);
+
                 var newMatch = new NewMatchVm
                 {
                     TournamentId = tournamentId,
                     RoundNumber = roundNumber + 1,
-                    ParticipantsIds = new List<int> { pair.Item1, pair.Item2 }
-
+                    ParticipantsIds = new List<int> { participant1, participant2 }
                 };
 
-                await _matchRepo.AddNewMatchAsync(newMatch);
+                matches.Add(newMatch);
+            }
+
+            if (shuffledWinners.Count == 1)
+            {
+                // Participant receives a bye round by playing against themselves
+                var participant = shuffledWinners[0];
+                var byeMatch = new NewMatchVm
+                {
+                    TournamentId = tournamentId,
+                    RoundNumber = roundNumber + 1,
+                    ParticipantsIds = new List<int> { participant, participant }
+                };
+
+                matches.Add(byeMatch);
+            }
+
+            foreach (var match in matches)
+            {
+                await _matchRepo.AddNewMatchAsync(match);
             }
         }
-
 
         public async Task<int> GetCurrentRoundNumber(int tournamentId)
         {

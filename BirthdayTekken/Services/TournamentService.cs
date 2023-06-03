@@ -78,12 +78,13 @@ namespace BirthdayTekken.Services
             var random = new Random();
             participants = participants.OrderBy(p => random.Next()).ToList();
 
-            int numberOfMatches = participants.Count / 2;
+            var matches = new List<NewMatchVm>();
 
-            for (int i = 0; i < numberOfMatches; i++)
+            while (participants.Count > 1)
             {
-                var participant1 = participants[i * 2];
-                var participant2 = participants[i * 2 + 1];
+                var participant1 = participants[0];
+                var participant2 = participants[1];
+                participants.RemoveRange(0, 2);
 
                 var newMatch = new NewMatchVm()
                 {
@@ -93,28 +94,29 @@ namespace BirthdayTekken.Services
                     ParticipantsIds = new List<int> { participant1.Id, participant2.Id }
                 };
 
-                await _matchRepo.AddNewMatchAsync(newMatch);
+                matches.Add(newMatch);
             }
 
-            if (participants.Count % 2 != 0)
+            if (participants.Count == 1)
             {
-                var byeParticipant = participants.Last();
-
+                // Participant receives a bye round
                 var byeMatch = new NewMatchVm()
                 {
                     RoundNumber = 1,
-                    WinnerId = byeParticipant.Id,
+                    WinnerId = 0,
                     TournamentId = tournamentId,
-                    ParticipantsIds = new List<int> { byeParticipant.Id, byeParticipant.Id }
+                    ParticipantsIds = new List<int> { participants[0].Id, participants[0].Id }
                 };
 
-                await _matchRepo.AddNewMatchAsync(byeMatch);
+                matches.Add(byeMatch);
+            }
 
-                participants.Remove(byeParticipant);
+            foreach (var match in matches)
+            {
+                await _matchRepo.AddNewMatchAsync(match);
             }
         }
-
-
     }
+
 }
 
