@@ -63,21 +63,16 @@ namespace BirthdayTekken.Services
             return tournamentDetails;
         }
 
-        public async Task MakeSelectedTournamentLadder(int tournamnetId, List<int> selectedParticipantIds)
+        public async Task MakeSelectedTournamentLadder(int tournamentId, List<int> selectedParticipantIds)
         {
-            var tournament = await GetTournamentByIdAsync(tournamnetId);
+            var tournament = await GetTournamentByIdAsync(tournamentId);
             var participants = await _context.Participants
-            .Where(p => selectedParticipantIds.Contains(p.Id))
-            .ToListAsync();
+                .Where(p => selectedParticipantIds.Contains(p.Id))
+                .ToListAsync();
 
             if (participants.Count < 2)
             {
                 throw new InvalidOperationException("There should be at least 2 participants in the database.");
-            }
-
-            if (participants.Count % 2 != 0)
-            {
-                throw new InvalidOperationException("The number of participants should be even.");
             }
 
             var random = new Random();
@@ -94,13 +89,32 @@ namespace BirthdayTekken.Services
                 {
                     RoundNumber = 1,
                     WinnerId = 0,
-                    TournamentId = tournamnetId,
+                    TournamentId = tournamentId,
                     ParticipantsIds = new List<int> { participant1.Id, participant2.Id }
                 };
 
                 await _matchRepo.AddNewMatchAsync(newMatch);
             }
+
+            if (participants.Count % 2 != 0)
+            {
+                var byeParticipant = participants.Last();
+
+                var byeMatch = new NewMatchVm()
+                {
+                    RoundNumber = 1,
+                    WinnerId = byeParticipant.Id,
+                    TournamentId = tournamentId,
+                    ParticipantsIds = new List<int> { byeParticipant.Id, byeParticipant.Id }
+                };
+
+                await _matchRepo.AddNewMatchAsync(byeMatch);
+
+                participants.Remove(byeParticipant);
+            }
         }
+
+
     }
 }
 
