@@ -1,8 +1,5 @@
 ﻿using BirthdayTekken.Enums;
 using BirthdayTekken.Models;
-using BirthdayTekken.Models.ViewModel;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
 
 namespace BirthdayTekken.Data
 {

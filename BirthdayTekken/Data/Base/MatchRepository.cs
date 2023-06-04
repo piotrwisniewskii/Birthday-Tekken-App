@@ -1,5 +1,6 @@
 ﻿using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace BirthdayTekken.Data.Base
 {
@@ -24,10 +25,12 @@ namespace BirthdayTekken.Data.Base
 
             var participantIds = newMatchVm.ParticipantsIds.Distinct().ToList();
 
-            var participantMatches = participantIds.Select(participantId => new Participant_Match
+            var participants = await _context.Participants.Where(p => participantIds.Contains(p.Id)).ToListAsync();
+
+            var participantMatches = participants.Select(participant => new Participant_Match
             {
                 MatchId = newMatch.Id,
-                ParticipantId = participantId
+                ParticipantId = participant.Id
             }).ToList();
 
             foreach (var participantMatch in participantMatches)
@@ -37,6 +40,7 @@ namespace BirthdayTekken.Data.Base
 
             await _context.SaveChangesAsync();
         }
+
 
     }
 }

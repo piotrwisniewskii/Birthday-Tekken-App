@@ -119,8 +119,10 @@ namespace BirthdayTekken.Controllers
         {
 
             await _service.CreateNextRound(viewModel.Winners, viewModel.RoundNumber);
-
-
+            if (viewModel.Winners.Count == 1)
+            {
+                return View("Winner");
+            }
             return RedirectToAction("SelectedTournemantWithMatches", new { selectedTournamentId = viewModel.SelectedTournamentId, roundNumber = viewModel.RoundNumber + 1 });
 
         }
