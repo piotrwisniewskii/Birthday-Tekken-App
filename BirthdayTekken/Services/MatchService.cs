@@ -75,15 +75,16 @@ namespace BirthdayTekken.Services
 
             if (winners.Count % 2 != 0)
             {
-                var winner = winners[0];
+                var byeRandom = new Random();
+                var byeWinner = byeRandom.Next(winners.Count);
                 var byeMatch = new NewMatchVm()
                 {
                     TournamentId = tournamentId,
                     RoundNumber = roundNumber + 1,
-                    ParticipantsIds = new List<int> { winner, winner }
+                    ParticipantsIds = new List<int> { byeWinner, byeWinner }
                 };
 
-                winners.Remove(winners[0]);
+                winners.Remove(byeWinner);
                 matches.Add(byeMatch);
             }
 
