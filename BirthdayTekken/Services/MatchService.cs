@@ -26,6 +26,13 @@ namespace BirthdayTekken.Services
             return matches;
         }
 
+        public async Task DeleteAll()
+        {
+             _context.Matches.RemoveRange(_context.Matches);
+            await _context.SaveChangesAsync();
+
+        }
+
 
         public async Task<List<Match>> GetMatchesForSelectionAsync(int roundNumber)
         {
@@ -66,6 +73,21 @@ namespace BirthdayTekken.Services
 
             var matches = new List<NewMatchVm>();
 
+            if (winners.Count % 2 != 0)
+            {
+                var winner = winners[0];
+                var byeMatch = new NewMatchVm()
+                {
+                    TournamentId = tournamentId,
+                    RoundNumber = roundNumber + 1,
+                    ParticipantsIds = new List<int> { winner, winner }
+                };
+
+                winners.Remove(winners[0]);
+                matches.Add(byeMatch);
+            }
+
+
             while (winners.Count > 1)
             {
                 var participant1 = winners[0];
@@ -80,19 +102,6 @@ namespace BirthdayTekken.Services
                 };
 
                 matches.Add(newMatch);
-            }
-
-            if (winners.Count == 1)
-            {
-                var participant = winners[0];
-                var byeMatch = new NewMatchVm
-                {
-                    TournamentId = tournamentId,
-                    RoundNumber = roundNumber + 1,
-                    ParticipantsIds = new List<int> { participant, participant }
-                };
-
-                matches.Add(byeMatch);
             }
 
             foreach (var match in matches)

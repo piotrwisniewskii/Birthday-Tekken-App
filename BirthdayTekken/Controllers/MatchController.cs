@@ -47,8 +47,12 @@ namespace BirthdayTekken.Controllers
             return View(model);
         }
 
-
-
+        [HttpPost]
+        public async Task<IActionResult> DeleteAll()
+        {
+            await _service.DeleteAll();
+            return RedirectToAction("Index");
+        }
 
         public async Task<IActionResult> Delete(int id)
         {

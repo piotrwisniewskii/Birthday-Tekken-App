@@ -1,8 +1,6 @@
 ﻿using BirthdayTekken.Data.Base;
 using BirthdayTekken.Models;
 using BirthdayTekken.Models.ViewModel;
-using System.Linq.Expressions;
-using static BirthdayTekken.Models.ViewModel.WinnerSelectionVM;
 
 namespace BirthdayTekken.Services
 {
@@ -13,6 +11,7 @@ namespace BirthdayTekken.Services
         Task CreateNextRound(List<WinnerSelectionVM> winnerSelections, int roundnumber);
         Task<List<Match>> GetMatchesByTournamentIdAsync(int tournamentId);
         Task<int> GetCurrentRoundNumber(int tournamentId);
+        Task DeleteAll();
 
     }
 }
