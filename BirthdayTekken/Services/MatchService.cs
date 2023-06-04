@@ -84,7 +84,6 @@ namespace BirthdayTekken.Services
 
             if (winners.Count == 1)
             {
-                // Participant receives a bye round by playing against themselves
                 var participant = winners[0];
                 var byeMatch = new NewMatchVm
                 {

@@ -80,6 +80,20 @@ namespace BirthdayTekken.Services
 
             var matches = new List<NewMatchVm>();
 
+            if (participants.Count % 2 != 0)
+            {
+                var byeMatch = new NewMatchVm()
+                {
+                    RoundNumber = 1,
+                    WinnerId = 0,
+                    TournamentId = tournamentId,
+                    ParticipantsIds = new List<int> { participants[0].Id, participants[0].Id }
+                };
+
+                participants.Remove(participants[0]);
+                matches.Add(byeMatch);
+            }
+
             while (participants.Count > 1)
             {
                 var participant1 = participants[0];
@@ -97,19 +111,6 @@ namespace BirthdayTekken.Services
                 matches.Add(newMatch);
             }
 
-            if (participants.Count == 1)
-            {
-                // Participant receives a bye round
-                var byeMatch = new NewMatchVm()
-                {
-                    RoundNumber = 1,
-                    WinnerId = 0,
-                    TournamentId = tournamentId,
-                    ParticipantsIds = new List<int> { participants[0].Id, participants[0].Id }
-                };
-
-                matches.Add(byeMatch);
-            }
 
             foreach (var match in matches)
             {
