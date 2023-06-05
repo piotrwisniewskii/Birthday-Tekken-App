@@ -68,7 +68,6 @@ namespace BirthdayTekken.Services
 
             var winners = winnerSelections.Select(ws => ws.WinnerId).ToList();
 
-
             var random = new Random();
 
             var matches = new List<NewMatchVm>();
@@ -81,19 +80,17 @@ namespace BirthdayTekken.Services
                 {
                     TournamentId = tournamentId,
                     RoundNumber = roundNumber + 1,
-                    ParticipantsIds = new List<int> { byeWinner, byeWinner }
+                    ParticipantsIds = new List<int> { winners[byeWinner], winners[byeWinner] }
                 };
 
-                winners.Remove(byeWinner);
+                winners.RemoveAt(byeWinner);
                 matches.Add(byeMatch);
             }
 
-
-            while (winners.Count > 1)
+            for (int i = 0; i < winners.Count; i += 2)
             {
-                var participant1 = winners[0];
-                var participant2 = winners[1];
-                winners.RemoveRange(0, 2);
+                var participant1 = winners[i];
+                var participant2 = i + 1 < winners.Count ? winners[i + 1] : participant1;
 
                 var newMatch = new NewMatchVm
                 {
@@ -110,6 +107,7 @@ namespace BirthdayTekken.Services
                 await _matchRepo.AddNewMatchAsync(match);
             }
         }
+
 
         public async Task<int> GetCurrentRoundNumber(int tournamentId)
         {
